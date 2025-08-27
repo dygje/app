@@ -41,7 +41,7 @@
   }
 
   .material-card-interactive:active {
-    @apply shadow-md translate-y-0 scale-98;
+    @apply shadow-md translate-y-0 scale-95;
   }
 
   /* Material Design FAB (Floating Action Button) */
