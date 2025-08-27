@@ -251,25 +251,19 @@ const AutomationSettings = ({ telegramConfig, onConfigUpdate }) => {
                 </div>
               </div>
 
-              {/* Auto Cleanup */}
-              <div>
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="auto_cleanup"
-                    checked={automationConfig.auto_cleanup_blacklist}
-                    onChange={(e) => setAutomationConfig({
-                      ...automationConfig,
-                      auto_cleanup_blacklist: e.target.checked
-                    })}
-                    className="mr-3"
-                  />
+              {/* Blacklist Auto Cleanup - Always Active (Info Only) */}
+              <div className="border border-blue-200 bg-blue-50 rounded-lg p-4">
+                <div className="flex items-center space-x-3">
+                  <div className="flex-shrink-0">
+                    <span className="text-blue-600 text-xl">ℹ️</span>
+                  </div>
                   <div>
-                    <label htmlFor="auto_cleanup" className="form-label mb-0">
+                    <h4 className="text-sm font-medium text-blue-900 mb-1">
                       Auto Cleanup Blacklist
-                    </label>
-                    <p className="text-sm text-gray-600">
-                      Otomatis membersihkan blacklist yang sudah kedaluwarsa
+                    </h4>
+                    <p className="text-sm text-blue-700">
+                      Pembersihan otomatis blacklist selalu aktif untuk menjaga performa sistem. 
+                      Grup yang diblokir sementara akan otomatis dihapus setelah expired.
                     </p>
                   </div>
                 </div>
