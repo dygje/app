@@ -89,7 +89,7 @@ function App() {
           onLogout={handleLogout}
         />
         
-        <main className="flex-1 p-6">
+        <main className="flex-1 md:ml-0 pt-16 md:pt-0">
           <Routes>
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
             <Route 
