@@ -265,8 +265,22 @@ test_plan:
   test_all: true
   test_priority: "high_first"
 
+  - task: "Fix Authentication Error Handling"
+    implemented: true
+    working: false  # needs testing
+    file: "server.py, TelegramSetup.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "Fixed 'Invalid or expired phone code' issue by separating PhoneCodeInvalidError and PhoneCodeExpiredError handling in backend. Improved notification system in frontend with better positioning, enhanced UX, auto-dismiss timing, and specific error actions. Added better validation for phone codes."
+
 agent_communication:
   - agent: "main"
     message: "🎉 DEVELOPMENT COMPLETE: All requested features implemented successfully! 1) ✅ Migrated Pyrogram→Telethon (53/53 backend tests passed), 2) ✅ Simplified group management with auto-detection, 3) ✅ Bulk import TXT/CSV support, 4) ✅ Mobile-optimized UI for Android browsers, 5) ✅ Dashboard authentication guidance, 6) ✅ Removed blacklist settings (auto-active), 7) ✅ Converted to English with official Telegram logo. Ready for final testing!"
   - agent: "testing"
     message: "✅ BACKEND TESTING COMPLETE: All 53 tests passed (100% success rate). Telethon migration successful - all API endpoints working correctly. New simplified group management with auto-parsing working perfectly for all identifier formats (@username, t.me/links, group IDs, invite links). Bulk import handles mixed formats excellently. Auto-cleanup blacklist enforcement working as required. Backend is fully functional and ready for frontend development."
+  - agent: "main"
+    message: "🔧 BUG FIX COMPLETE: Fixed authentication error 'Invalid or expired phone code padahal kode baru' by implementing separate error handling for PhoneCodeInvalidError and PhoneCodeExpiredError. Enhanced notification system with better positioning, clearer messages, action buttons, and smart auto-dismiss timing. Ready for testing to confirm fix works correctly."
