@@ -56,7 +56,7 @@ const GroupManager = () => {
 
   const handleBulkSubmit = async () => {
     if (!bulkText.trim()) {
-      alert('Silakan masukkan data grup terlebih dahulu.');
+      alert('Please enter group data first.');
       return;
     }
 
