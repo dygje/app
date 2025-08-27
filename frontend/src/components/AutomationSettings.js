@@ -163,7 +163,7 @@ const AutomationSettings = ({ telegramConfig, onConfigUpdate }) => {
         <div className="space-y-6">
           <div className="bg-white rounded-lg shadow-md p-6 card-shadow">
             <h3 className="text-xl font-semibold text-gray-900 mb-4">
-              Konfigurasi Automation
+              Automation Configuration
             </h3>
             
             <form onSubmit={handleAutomationUpdate} className="space-y-6">
