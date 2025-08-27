@@ -340,15 +340,17 @@ const TelegramSetup = ({ onAuthSuccess }) => {
 
           {/* Step 2: Phone Code Verification */}
           {step === 'phone-code' && (
-            <form onSubmit={handlePhoneCodeSubmit} className="space-y-4">
-              <div className="text-center mb-4">
-                <p className="text-sm text-gray-600">
-                  Code sent to <span className="font-medium">{config.phone_number}</span>
+            <form onSubmit={handlePhoneCodeSubmit} className="space-y-6">
+              <div className="text-center">
+                <p className="text-sm text-gray-600 mb-1">
+                  Code sent to
+                </p>
+                <p className="text-sm font-medium text-gray-900">
+                  {config.phone_number}
                 </p>
               </div>
 
               <div>
-                <label className="form-label">Verification Code</label>
                 <input
                   type="text"
                   value={phoneCode}
@@ -356,71 +358,57 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                     const numericCode = e.target.value.replace(/\D/g, '');
                     setPhoneCode(numericCode);
                   }}
-                  className={`form-input text-center text-lg tracking-widest ${
-                    phoneCode.length >= 5 ? 'border-green-300 bg-green-50' : ''
-                  }`}
-                  placeholder="12345"
+                  className="w-full text-center text-2xl tracking-[0.5em] font-mono border-2 border-gray-200 rounded-lg py-4 focus:border-blue-500 focus:outline-none transition-colors"
+                  placeholder="_ _ _ _ _"
                   maxLength="6"
+                  autoFocus
                   required
                 />
-                <div className="flex justify-between items-center mt-1">
-                  <div className="flex items-center space-x-2">
-                    <p className="text-xs text-gray-500">
-                      Check your Telegram app
-                    </p>
-                    {phoneCode && (
-                      <span className={`text-xs px-2 py-0.5 rounded-full ${
-                        phoneCode.length >= 5 ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
-                      }`}>
-                        {phoneCode.length}/5+
-                      </span>
-                    )}
-                  </div>
+                <div className="flex justify-between items-center mt-3">
+                  <span className="text-xs text-gray-500">
+                    Enter 5-digit code
+                  </span>
                   <button
                     type="button"
                     onClick={handleRequestNewCode}
                     disabled={loading}
-                    className="text-xs text-blue-600 hover:text-blue-800 underline disabled:opacity-50"
+                    className="text-xs text-blue-600 hover:text-blue-800 font-medium disabled:opacity-50"
                   >
                     Resend code
                   </button>
                 </div>
               </div>
 
-              <div className="flex space-x-3 pt-2">
-                <button
-                  type="button"
-                  onClick={handleBack}
-                  className="btn btn-outline flex-1"
-                  disabled={loading}
-                >
-                  Back
-                </button>
-                
-                {loading && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setLoading(false);
-                      setNotification({ type: '', message: '', show: false });
-                    }}
-                    className="btn btn-secondary"
-                    title="Reset if stuck"
-                  >
-                    Reset
-                  </button>
-                )}
-                
+              <div className="space-y-3">
                 <button
                   type="submit"
-                  disabled={loading || !phoneCode || phoneCode.length < 5}
-                  className={`btn btn-primary flex-1 ${loading ? 'loading' : ''} ${
-                    (!phoneCode || phoneCode.length < 5) && !loading ? 'opacity-50 cursor-not-allowed' : ''
+                  disabled={loading || phoneCode.length < 5}
+                  className={`w-full py-3 px-4 rounded-lg font-medium text-white transition-all ${
+                    loading || phoneCode.length < 5
+                      ? 'bg-gray-300 cursor-not-allowed'
+                      : 'bg-blue-500 hover:bg-blue-600 active:bg-blue-700'
                   }`}
                 >
-                  {loading && <div className="spinner"></div>}
-                  {loading ? 'Verifying...' : 
-                   (!phoneCode || phoneCode.length < 5) ? `Enter Code (${phoneCode ? phoneCode.length : 0}/5)` : 'Verify'}
+                  {loading ? (
+                    <div className="flex items-center justify-center space-x-2">
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span>Verifying...</span>
+                    </div>
+                  ) : (
+                    'Verify Code'
+                  )}
+                </button>
+                
+                <button
+                  type="button"
+                  onClick={() => {
+                    resetState();
+                    setStep('config');
+                    setPhoneCode('');
+                  }}
+                  className="w-full py-3 px-4 rounded-lg font-medium text-gray-600 border border-gray-200 hover:bg-gray-50 transition-colors"
+                >
+                  Back
                 </button>
               </div>
             </form>
