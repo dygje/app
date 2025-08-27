@@ -223,130 +223,60 @@ const TelegramSetup = ({ onAuthSuccess }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="max-w-md w-full">
-        <div className="bg-white rounded-2xl shadow-xl p-8 relative">
-          {/* Header with Telegram Logo */}
-          <div className="text-center mb-6">
-            <div className="mx-auto w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mb-4 shadow-lg">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="white">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="max-w-sm w-full">
+        <div className="bg-white rounded-2xl shadow-lg p-6">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <div className="mx-auto w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mb-4">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
                 <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
               </svg>
             </div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-1">{getStepTitle()}</h1>
-            <p className="text-gray-600 text-sm">{getStepDescription()}</p>
+            <h1 className="text-xl font-semibold text-gray-900 mb-2">{getStepTitle()}</h1>
+            <p className="text-sm text-gray-600">{getStepDescription()}</p>
           </div>
 
-          {/* Progress Indicator */}
-          <div className="flex items-center justify-center mb-6">
-            <div className="flex items-center space-x-2">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-colors ${
-                step === 'config' ? 'bg-blue-500 text-white' : 
-                (step === 'phone-code' || step === '2fa') ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-500'
-              }`}>
-                {(step === 'phone-code' || step === '2fa') ? '✓' : '1'}
-              </div>
-              <div className={`w-12 h-1 transition-colors ${
-                step === 'phone-code' || step === '2fa' ? 'bg-green-500' : 'bg-gray-200'
-              }`}></div>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-colors ${
-                step === 'phone-code' ? 'bg-blue-500 text-white' : 
-                step === '2fa' ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-500'
-              }`}>
-                {step === '2fa' ? '✓' : '2'}
-              </div>
-              <div className={`w-12 h-1 transition-colors ${step === '2fa' ? 'bg-green-500' : 'bg-gray-200'}`}></div>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-colors ${
-                step === '2fa' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-500'
-              }`}>
-                3
-              </div>
+          {/* Progress Bar */}
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-medium text-gray-600">Step {step === 'config' ? '1' : step === 'phone-code' ? '2' : '3'} of 3</span>
+              <span className="text-xs text-gray-500">
+                {step === 'config' ? '33%' : step === 'phone-code' ? '67%' : '100%'}
+              </span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2">
+              <div 
+                className="bg-blue-500 h-2 rounded-full transition-all duration-300" 
+                style={{
+                  width: step === 'config' ? '33%' : step === 'phone-code' ? '67%' : '100%'
+                }}
+              ></div>
             </div>
           </div>
 
-          {/* Enhanced Notification System - Fixed positioning and improved UX */}
+          {/* Notification */}
           {notification.show && (
-            <div className={`mb-6 p-4 rounded-xl border-l-4 shadow-sm transition-all duration-300 transform ${
-              notification.type === 'error' ? 'bg-red-50 border-l-red-400 border-red-200' :
-              notification.type === 'success' ? 'bg-green-50 border-l-green-400 border-green-200' :
-              notification.type === 'info' ? 'bg-blue-50 border-l-blue-400 border-blue-200' :
-              'bg-gray-50 border-l-gray-400 border-gray-200'
-            } ${notification.show ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}>
-              <div className="flex items-start space-x-3">
-                <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-sm font-bold ${
-                  notification.type === 'error' ? 'bg-red-500' :
-                  notification.type === 'success' ? 'bg-green-500' :
-                  notification.type === 'info' ? 'bg-blue-500' : 'bg-gray-500'
-                }`}>
-                  {notification.type === 'error' ? '!' :
-                   notification.type === 'success' ? '✓' :
-                   notification.type === 'info' ? 'i' : '?'}
-                </div>
-                
-                <div className="flex-1 min-w-0">
-                  <div className={`text-sm font-semibold ${
+            <div className={`mb-6 p-4 rounded-lg border-l-4 ${
+              notification.type === 'error' ? 'bg-red-50 border-l-red-400' :
+              notification.type === 'success' ? 'bg-green-50 border-l-green-400' :
+              'bg-blue-50 border-l-blue-400'
+            }`}>
+              <div className="flex items-start justify-between">
+                <div className="flex-1">
+                  <p className={`text-sm font-medium ${
                     notification.type === 'error' ? 'text-red-800' :
                     notification.type === 'success' ? 'text-green-800' :
-                    notification.type === 'info' ? 'text-blue-800' : 'text-gray-800'
-                  }`}>
-                    {notification.type === 'error' ? 'Authentication Error' :
-                     notification.type === 'success' ? 'Success' :
-                     notification.type === 'info' ? 'Information' : 'Notice'}
-                  </div>
-                  <p className={`text-sm mt-1 ${
-                    notification.type === 'error' ? 'text-red-700' :
-                    notification.type === 'success' ? 'text-green-700' :
-                    notification.type === 'info' ? 'text-blue-700' : 'text-gray-700'
+                    'text-blue-800'
                   }`}>
                     {notification.message}
                   </p>
-                  
-                  {/* Enhanced action buttons for error cases */}
-                  {notification.type === 'error' && step === 'phone-code' && (
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {notification.message.includes('expired') && (
-                        <button
-                          onClick={handleRequestNewCode}
-                          disabled={loading}
-                          className="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                        >
-                          {loading ? (
-                            <>
-                              <div className="w-3 h-3 border border-blue-500 border-t-transparent rounded-full animate-spin mr-2"></div>
-                              Sending...
-                            </>
-                          ) : (
-                            'Request New Code'
-                          )}
-                        </button>
-                      )}
-                      {notification.message.includes('incorrect') && (
-                        <button
-                          onClick={() => {
-                            setPhoneCode('');
-                            setNotification({ ...notification, show: false });
-                          }}
-                          className="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-md text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors"
-                        >
-                          Clear & Retry
-                        </button>
-                      )}
-                    </div>
-                  )}
                 </div>
-                
                 <button
                   onClick={() => setNotification({ ...notification, show: false })}
-                  className={`flex-shrink-0 p-1 rounded-md transition-colors ${
-                    notification.type === 'error' ? 'text-red-400 hover:text-red-600 hover:bg-red-100' :
-                    notification.type === 'success' ? 'text-green-400 hover:text-green-600 hover:bg-green-100' :
-                    notification.type === 'info' ? 'text-blue-400 hover:text-blue-600 hover:bg-blue-100' :
-                    'text-gray-400 hover:text-gray-600 hover:bg-gray-100'
-                  }`}
+                  className="text-gray-400 hover:text-gray-600 ml-3"
                 >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
+                  ×
                 </button>
               </div>
             </div>
