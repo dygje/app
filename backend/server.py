@@ -442,8 +442,14 @@ async def verify_auth_code(auth_request: AuthRequest):
             await client.disconnect()
             return {"message": "2FA password required", "requires_2fa": True}
     
-    except (PhoneCodeInvalidError, PhoneCodeExpiredError) as e:
-        raise HTTPException(status_code=400, detail="Invalid or expired phone code")
+    except PhoneCodeInvalidError as e:
+        logging.error(f"Invalid phone code: {e}")
+        raise HTTPException(status_code=400, detail="The verification code you entered is incorrect. Please check the code in your Telegram app and try again.")
+    except PhoneCodeExpiredError as e:
+        logging.error(f"Expired phone code: {e}")
+        # Clean up expired temp auth
+        await db.temp_auth.delete_one({"phone_number": config.phone_number})
+        raise HTTPException(status_code=400, detail="The verification code has expired. Please request a new code to continue.")
     except Exception as e:
         logging.error(f"Failed to verify auth code: {e}")
         raise HTTPException(status_code=400, detail=f"Failed to verify auth code: {str(e)}")
