@@ -153,7 +153,7 @@ const GroupManager = () => {
       await loadGroups();
     } catch (error) {
       console.error('Failed to toggle group status:', error);
-      alert('Gagal mengubah status grup.');
+      alert('Failed to change group status.');
     }
   };
 
