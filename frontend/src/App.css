@@ -33,15 +33,15 @@
 @layer components {
   /* Enhanced Card Hover Effects */
   .material-card-interactive {
-    @apply material-card-filled cursor-pointer transition-all duration-300;
+    @apply bg-white rounded-xl shadow-sm hover:shadow-md cursor-pointer transition-all duration-300;
   }
 
   .material-card-interactive:hover {
-    @apply shadow-elevation-4 -translate-y-1;
+    @apply shadow-lg -translate-y-1;
   }
 
   .material-card-interactive:active {
-    @apply shadow-elevation-2 translate-y-0 scale-98;
+    @apply shadow-md translate-y-0 scale-98;
   }
 
   /* Material Design FAB (Floating Action Button) */
