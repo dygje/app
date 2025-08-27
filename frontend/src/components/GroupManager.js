@@ -183,7 +183,7 @@ const GroupManager = () => {
   const getGroupTypeLabel = (type) => {
     switch (type) {
       case 'username': return 'Username';
-      case 'invite_link': return 'Link Undangan';
+      case 'invite_link': return 'Invite Link';
       case 'group_id': return 'Group ID';
       default: return 'Unknown';
     }
@@ -238,7 +238,7 @@ const GroupManager = () => {
               <span className="text-lg md:text-xl">👥</span>
             </div>
             <div className="ml-3">
-              <p className="text-xs md:text-sm font-medium text-gray-600">Total Grup</p>
+              <p className="text-xs md:text-sm font-medium text-gray-600">Total Groups</p>
               <p className="text-lg md:text-xl font-bold text-gray-900">{groups.length}</p>
             </div>
           </div>
@@ -250,7 +250,7 @@ const GroupManager = () => {
               <span className="text-lg md:text-xl">✅</span>
             </div>
             <div className="ml-3">
-              <p className="text-xs md:text-sm font-medium text-gray-600">Grup Aktif</p>
+              <p className="text-xs md:text-sm font-medium text-gray-600">Active Groups</p>
               <p className="text-lg md:text-xl font-bold text-gray-900">
                 {groups.filter(g => g.is_active).length}
               </p>
@@ -264,7 +264,7 @@ const GroupManager = () => {
               <span className="text-lg md:text-xl">⏸️</span>
             </div>
             <div className="ml-3">
-              <p className="text-xs md:text-sm font-medium text-gray-600">Nonaktif</p>
+              <p className="text-xs md:text-sm font-medium text-gray-600">Inactive</p>
               <p className="text-lg md:text-xl font-bold text-gray-900">
                 {groups.filter(g => !g.is_active).length}
               </p>
@@ -277,13 +277,13 @@ const GroupManager = () => {
       {groups.length === 0 ? (
         <div className="bg-white rounded-lg shadow-md p-6 md:p-8 text-center">
           <span className="text-4xl md:text-6xl mb-4 block">👥</span>
-          <h3 className="text-lg md:text-xl font-medium text-gray-900 mb-2">Belum Ada Grup</h3>
-          <p className="text-gray-600 mb-4 text-sm md:text-base">Tambahkan grup pertama Anda untuk memulai automation</p>
+          <h3 className="text-lg md:text-xl font-medium text-gray-900 mb-2">No Groups Yet</h3>
+          <p className="text-gray-600 mb-4 text-sm md:text-base">Add your first group to start automation</p>
           <button
             onClick={() => setShowModal(true)}
             className="btn btn-primary text-sm md:text-base"
           >
-            Tambah Grup Pertama
+            Add First Group
           </button>
         </div>
       ) : (
@@ -305,7 +305,7 @@ const GroupManager = () => {
                     </div>
                   </div>
                   <span className={`badge text-xs ${group.is_active ? 'badge-success' : 'badge-error'}`}>
-                    {group.is_active ? 'Aktif' : 'Nonaktif'}
+                    {group.is_active ? 'Active' : 'Inactive'}
                   </span>
                 </div>
                 
@@ -322,13 +322,13 @@ const GroupManager = () => {
                 
                 <div className="flex items-center justify-between">
                   <p className="text-xs text-gray-500">
-                    {new Date(group.created_at).toLocaleDateString('id-ID')}
+                    {new Date(group.created_at).toLocaleDateString()}
                   </p>
                   <div className="flex space-x-2">
                     <button
                       onClick={() => handleToggleActive(group)}
                       className={`btn btn-sm ${group.is_active ? 'btn-secondary' : 'btn-success'}`}
-                      title={group.is_active ? 'Nonaktifkan' : 'Aktifkan'}
+                      title={group.is_active ? 'Deactivate' : 'Activate'}
                     >
                       {group.is_active ? '⏸️' : '▶️'}
                     </button>
@@ -342,7 +342,7 @@ const GroupManager = () => {
                     <button
                       onClick={() => handleDelete(group.id)}
                       className="btn btn-sm btn-danger"
-                      title="Hapus"
+                      title="Delete"
                     >
                       🗑️
                     </button>
@@ -358,22 +358,22 @@ const GroupManager = () => {
               <thead className="bg-gray-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Grup
+                    Group
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Identifier
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Tipe
+                    Type
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Status
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Ditambahkan
+                    Added
                   </th>
                   <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Aksi
+                    Actions
                   </th>
                 </tr>
               </thead>
@@ -405,18 +405,18 @@ const GroupManager = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`badge ${group.is_active ? 'badge-success' : 'badge-error'}`}>
-                        {group.is_active ? 'Aktif' : 'Nonaktif'}
+                        {group.is_active ? 'Active' : 'Inactive'}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {new Date(group.created_at).toLocaleDateString('id-ID')}
+                      {new Date(group.created_at).toLocaleDateString()}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <div className="flex items-center justify-end space-x-2">
                         <button
                           onClick={() => handleToggleActive(group)}
                           className={`btn btn-sm ${group.is_active ? 'btn-secondary' : 'btn-success'}`}
-                          title={group.is_active ? 'Nonaktifkan' : 'Aktifkan'}
+                          title={group.is_active ? 'Deactivate' : 'Activate'}
                         >
                           {group.is_active ? '⏸️' : '▶️'}
                         </button>
@@ -430,7 +430,7 @@ const GroupManager = () => {
                         <button
                           onClick={() => handleDelete(group.id)}
                           className="btn btn-sm btn-danger"
-                          title="Hapus"
+                          title="Delete"
                         >
                           🗑️
                         </button>
@@ -450,26 +450,26 @@ const GroupManager = () => {
           <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                {editingGroup ? 'Edit Grup' : 'Tambah Grup Baru'}
+                {editingGroup ? 'Edit Group' : 'Add New Group'}
               </h2>
               
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label className="form-label">Link/Username/ID Grup</label>
+                  <label className="form-label">Group Link/Username/ID</label>
                   <textarea
                     value={formData.group_identifier}
                     onChange={(e) => setFormData({...formData, group_identifier: e.target.value})}
                     className="form-input resize-none"
                     rows={3}
-                    placeholder="Contoh:
-@namagrup
-https://t.me/namagrup
+                    placeholder="Examples:
+@groupname
+https://t.me/groupname
 -1001234567890
 https://t.me/joinchat/xyz"
                     required
                   />
                   <p className="text-xs text-gray-500 mt-1">
-                    Sistem akan otomatis mendeteksi tipe grup dan membuat nama
+                    System will automatically detect group type and generate name
                   </p>
                 </div>
 
@@ -482,7 +482,7 @@ https://t.me/joinchat/xyz"
                     className="mr-2"
                   />
                   <label htmlFor="is_active" className="text-sm text-gray-700">
-                    Aktifkan grup ini untuk automation
+                    Enable this group for automation
                   </label>
                 </div>
 
@@ -492,7 +492,7 @@ https://t.me/joinchat/xyz"
                     onClick={handleCloseModal}
                     className="btn btn-outline flex-1"
                   >
-                    Batal
+                    Cancel
                   </button>
                   <button
                     type="submit"
@@ -500,7 +500,7 @@ https://t.me/joinchat/xyz"
                     className={`btn btn-primary flex-1 ${actionLoading ? 'loading' : ''}`}
                   >
                     {actionLoading && <div className="spinner"></div>}
-                    {actionLoading ? 'Menyimpan...' : 'Simpan'}
+                    {actionLoading ? 'Saving...' : 'Save'}
                   </button>
                 </div>
               </form>
@@ -515,12 +515,12 @@ https://t.me/joinchat/xyz"
           <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                Import Bulk Grup
+                Bulk Import Groups
               </h2>
               
               <div className="space-y-4">
                 <div>
-                  <label className="form-label">Impor dari File</label>
+                  <label className="form-label">Import from File</label>
                   <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
                     <input
                       ref={fileInputRef}
@@ -534,30 +534,30 @@ https://t.me/joinchat/xyz"
                       onClick={() => fileInputRef.current?.click()}
                       className="btn btn-outline text-sm"
                     >
-                      📁 Pilih File
+                      📁 Choose File
                     </button>
                   </div>
                   <p className="text-xs text-gray-500 mt-1">
-                    Format yang didukung: TXT (satu grup per baris) atau CSV (kolom pertama)
+                    Supported formats: TXT (one group per line) or CSV (first column)
                   </p>
                 </div>
 
                 <div>
-                  <label className="form-label">Atau Masukkan Manual</label>
+                  <label className="form-label">Or Enter Manually</label>
                   <textarea
                     value={bulkText}
                     onChange={(e) => setBulkText(e.target.value)}
                     className="form-input resize-none"
                     rows={10}
-                    placeholder="Masukkan satu grup per baris:
+                    placeholder="Enter one group per line:
 
-@gruppertama
-https://t.me/grupkedua
+@firstgroup
+https://t.me/secondgroup
 -1001234567890
 https://t.me/joinchat/xyz"
                   />
                   <p className="text-xs text-gray-500 mt-1">
-                    Satu grup per baris. Format yang didukung: username, link Telegram, group ID, atau invite link
+                    One group per line. Supported formats: username, Telegram link, group ID, or invite link
                   </p>
                 </div>
 
@@ -567,7 +567,7 @@ https://t.me/joinchat/xyz"
                     onClick={handleCloseBulkModal}
                     className="btn btn-outline flex-1"
                   >
-                    Batal
+                    Cancel
                   </button>
                   <button
                     type="button"
@@ -576,7 +576,7 @@ https://t.me/joinchat/xyz"
                     className={`btn btn-primary flex-1 ${bulkLoading ? 'loading' : ''}`}
                   >
                     {bulkLoading && <div className="spinner"></div>}
-                    {bulkLoading ? 'Mengimpor...' : 'Import Grup'}
+                    {bulkLoading ? 'Importing...' : 'Import Groups'}
                   </button>
                 </div>
               </div>
