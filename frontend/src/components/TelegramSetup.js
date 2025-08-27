@@ -215,10 +215,12 @@ const TelegramSetup = ({ onAuthSuccess }) => {
   };
 
   const handleRequestNewCode = async () => {
-    setLoading(true);
+    // Reset loading state first
+    setLoading(false);
     setNotification({ type: '', message: '', show: false });
-
+    
     try {
+      setLoading(true);
       await axios.post('/telegram/send-code');
       showNotification('success', 'New verification code sent to your phone number');
       setPhoneCode('');
