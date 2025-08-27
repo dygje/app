@@ -218,14 +218,14 @@ const GroupManager = () => {
             className="btn btn-secondary btn-hover-scale text-sm px-4 py-2"
           >
             <span className="mr-2">📥</span>
-            Import Bulk
+            Bulk Import
           </button>
           <button
             onClick={() => setShowModal(true)}
             className="btn btn-primary btn-hover-scale text-sm px-4 py-2"
           >
             <span className="mr-2">➕</span>
-            Tambah Grup
+            Add Group
           </button>
         </div>
       </div>
