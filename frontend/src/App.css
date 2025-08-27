@@ -33,7 +33,7 @@
 @layer components {
   /* Enhanced Card Hover Effects */
   .material-card-interactive {
-    @apply material-card-filled cursor-pointer transition-all duration-material-medium2;
+    @apply material-card-filled cursor-pointer transition-all duration-300;
   }
 
   .material-card-interactive:hover {
