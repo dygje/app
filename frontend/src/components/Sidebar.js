@@ -187,7 +187,7 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, onLogout }) => {
                 className="w-full p-3 text-red-600 hover:bg-red-50 active:bg-red-100 rounded-lg transition-colors font-medium flex items-center justify-center space-x-2 btn"
               >
                 <span>🚪</span>
-                <span>Keluar</span>
+                <span>Logout</span>
               </button>
               <div className="text-xs text-gray-400 text-center">
                 v2.0.0 - Telegram Automation
