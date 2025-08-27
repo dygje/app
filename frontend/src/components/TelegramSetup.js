@@ -68,19 +68,16 @@ const TelegramSetup = ({ onAuthSuccess }) => {
 
       showNotification('success', 'Configuration saved. Sending verification code...');
       
-      // Send authentication code after short delay
+      // Send authentication code
       setTimeout(async () => {
         try {
           await axios.post('/telegram/send-code');
-          showNotification('success', 'Verification code sent to your phone number');
-          setTimeout(() => {
-            setStep('phone-code');
-          }, 1500);
+          showNotification('success', 'Verification code sent to your phone');
+          setTimeout(() => setStep('phone-code'), 1000);
         } catch (err) {
           console.error('Send code error:', err);
           const errorMsg = err.response?.data?.detail || 'Failed to send verification code';
           showNotification('error', errorMsg);
-          setLoading(false);
         }
       }, 1000);
       
@@ -93,6 +90,7 @@ const TelegramSetup = ({ onAuthSuccess }) => {
         errorMsg = err.response.data.detail;
       }
       showNotification('error', errorMsg);
+    } finally {
       setLoading(false);
     }
   };
@@ -144,6 +142,8 @@ const TelegramSetup = ({ onAuthSuccess }) => {
       return;
     }
 
+    if (loading) return;
+
     setLoading(true);
     setNotification({ type: '', message: '', show: false });
 
@@ -152,24 +152,18 @@ const TelegramSetup = ({ onAuthSuccess }) => {
         password: twoFAPassword
       });
       
-      showNotification('success', 'Authentication successful! Redirecting...');
-      setTimeout(() => {
-        onAuthSuccess();
-      }, 2000);
+      showNotification('success', 'Authentication successful!');
+      setTimeout(() => onAuthSuccess(), 1500);
     } catch (err) {
       console.error('2FA error:', err);
       let errorMsg = 'Invalid 2FA password';
       
       if (err.response?.data?.detail) {
-        const detail = err.response.data.detail;
-        if (detail.includes('invalid')) {
-          errorMsg = 'Invalid 2FA password. Please check and try again.';
-        } else {
-          errorMsg = detail;
-        }
+        errorMsg = err.response.data.detail;
       }
       
       showNotification('error', errorMsg);
+    } finally {
       setLoading(false);
     }
   };
@@ -186,14 +180,14 @@ const TelegramSetup = ({ onAuthSuccess }) => {
   };
 
   const handleRequestNewCode = async () => {
-    // Reset loading state first
-    setLoading(false);
+    if (loading) return;
+    
+    setLoading(true);
     setNotification({ type: '', message: '', show: false });
     
     try {
-      setLoading(true);
       await axios.post('/telegram/send-code');
-      showNotification('success', 'New verification code sent to your phone number');
+      showNotification('success', 'New verification code sent');
       setPhoneCode('');
     } catch (err) {
       console.error('Resend code error:', err);
