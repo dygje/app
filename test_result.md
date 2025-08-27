@@ -268,15 +268,18 @@ test_plan:
 
   - task: "Fix Authentication Error Handling"
     implemented: true
-    working: false  # needs testing
+    working: true
     file: "server.py, TelegramSetup.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: false
         agent: "main"
         comment: "Fixed 'Invalid or expired phone code' issue by separating PhoneCodeInvalidError and PhoneCodeExpiredError handling in backend. Improved notification system in frontend with better positioning, enhanced UX, auto-dismiss timing, and specific error actions. Added better validation for phone codes."
+      - working: true
+        agent: "testing"
+        comment: "✅ PASSED: Authentication error handling fix verified successfully. Confirmed separate error handling for PhoneCodeInvalidError ('The verification code you entered is incorrect...') vs PhoneCodeExpiredError ('The verification code has expired...'). Temp auth cleanup implemented for expired codes. All 61 backend tests passed (100% success rate). The fix properly addresses the original 'Invalid or expired phone code padahal kode baru' issue by providing specific, actionable error messages."
 
 agent_communication:
   - agent: "main"
