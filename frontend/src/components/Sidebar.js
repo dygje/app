@@ -58,7 +58,7 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, onLogout, isOpen
       {/* Material Design Navigation Drawer */}
       <aside className={`
         material-nav-drawer fixed inset-y-0 left-0 z-40 w-80 flex flex-col
-        transform transition-transform duration-material-medium4 lg:translate-x-0
+        transform transition-transform duration-300 lg:translate-x-0
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         
