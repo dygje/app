@@ -255,6 +255,7 @@ metadata:
 
 test_plan:
   current_focus:
+    - "Fix Authentication Error Handling"
     - "Update Group Manager UI"
     - "Add Bulk Import Feature"
     - "Dashboard Authentication Command"
