@@ -238,7 +238,7 @@
 }
 
 .material-disabled {
-  @apply opacity-38 cursor-not-allowed pointer-events-none;
+  @apply opacity-50 cursor-not-allowed pointer-events-none;
 }
 
 .material-hidden {
