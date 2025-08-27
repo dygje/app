@@ -261,37 +261,89 @@ const TelegramSetup = ({ onAuthSuccess }) => {
             </div>
           </div>
 
-          {/* Smart Notification System */}
+          {/* Enhanced Notification System - Fixed positioning and improved UX */}
           {notification.show && (
-            <div className={`mb-4 p-3 rounded-lg border transition-all duration-300 ${
-              notification.type === 'error' ? 'bg-red-50 border-red-200 text-red-700' :
-              notification.type === 'success' ? 'bg-green-50 border-green-200 text-green-700' :
-              notification.type === 'info' ? 'bg-blue-50 border-blue-200 text-blue-700' :
-              'bg-gray-50 border-gray-200 text-gray-700'
-            }`}>
-              <div className="flex items-start">
-                <span className="mr-2 text-lg">
-                  {notification.type === 'error' ? '⚠️' :
-                   notification.type === 'success' ? '✅' :
-                   notification.type === 'info' ? 'ℹ️' : '📢'}
-                </span>
-                <div className="flex-1">
-                  <p className="text-sm font-medium">{notification.message}</p>
-                  {notification.type === 'error' && step === 'phone-code' && notification.message.includes('expired') && (
-                    <button
-                      onClick={handleRequestNewCode}
-                      disabled={loading}
-                      className="mt-2 text-xs text-blue-600 hover:text-blue-800 underline"
-                    >
-                      Request new code
-                    </button>
+            <div className={`mb-6 p-4 rounded-xl border-l-4 shadow-sm transition-all duration-300 transform ${
+              notification.type === 'error' ? 'bg-red-50 border-l-red-400 border-red-200' :
+              notification.type === 'success' ? 'bg-green-50 border-l-green-400 border-green-200' :
+              notification.type === 'info' ? 'bg-blue-50 border-l-blue-400 border-blue-200' :
+              'bg-gray-50 border-l-gray-400 border-gray-200'
+            } ${notification.show ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}>
+              <div className="flex items-start space-x-3">
+                <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-sm font-bold ${
+                  notification.type === 'error' ? 'bg-red-500' :
+                  notification.type === 'success' ? 'bg-green-500' :
+                  notification.type === 'info' ? 'bg-blue-500' : 'bg-gray-500'
+                }`}>
+                  {notification.type === 'error' ? '!' :
+                   notification.type === 'success' ? '✓' :
+                   notification.type === 'info' ? 'i' : '?'}
+                </div>
+                
+                <div className="flex-1 min-w-0">
+                  <div className={`text-sm font-semibold ${
+                    notification.type === 'error' ? 'text-red-800' :
+                    notification.type === 'success' ? 'text-green-800' :
+                    notification.type === 'info' ? 'text-blue-800' : 'text-gray-800'
+                  }`}>
+                    {notification.type === 'error' ? 'Authentication Error' :
+                     notification.type === 'success' ? 'Success' :
+                     notification.type === 'info' ? 'Information' : 'Notice'}
+                  </div>
+                  <p className={`text-sm mt-1 ${
+                    notification.type === 'error' ? 'text-red-700' :
+                    notification.type === 'success' ? 'text-green-700' :
+                    notification.type === 'info' ? 'text-blue-700' : 'text-gray-700'
+                  }`}>
+                    {notification.message}
+                  </p>
+                  
+                  {/* Enhanced action buttons for error cases */}
+                  {notification.type === 'error' && step === 'phone-code' && (
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {notification.message.includes('expired') && (
+                        <button
+                          onClick={handleRequestNewCode}
+                          disabled={loading}
+                          className="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        >
+                          {loading ? (
+                            <>
+                              <div className="w-3 h-3 border border-blue-500 border-t-transparent rounded-full animate-spin mr-2"></div>
+                              Sending...
+                            </>
+                          ) : (
+                            'Request New Code'
+                          )}
+                        </button>
+                      )}
+                      {notification.message.includes('incorrect') && (
+                        <button
+                          onClick={() => {
+                            setPhoneCode('');
+                            setNotification({ ...notification, show: false });
+                          }}
+                          className="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-md text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors"
+                        >
+                          Clear & Retry
+                        </button>
+                      )}
+                    </div>
                   )}
                 </div>
+                
                 <button
                   onClick={() => setNotification({ ...notification, show: false })}
-                  className="ml-2 text-gray-400 hover:text-gray-600"
+                  className={`flex-shrink-0 p-1 rounded-md transition-colors ${
+                    notification.type === 'error' ? 'text-red-400 hover:text-red-600 hover:bg-red-100' :
+                    notification.type === 'success' ? 'text-green-400 hover:text-green-600 hover:bg-green-100' :
+                    notification.type === 'info' ? 'text-blue-400 hover:text-blue-600 hover:bg-blue-100' :
+                    'text-gray-400 hover:text-gray-600 hover:bg-gray-100'
+                  }`}
                 >
-                  ×
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
                 </button>
               </div>
             </div>
