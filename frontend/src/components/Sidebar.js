@@ -68,7 +68,7 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, onLogout }) => {
       {/* Mobile Menu Button */}
       <button
         data-mobile-menu-button
-        className="md:hidden fixed top-4 left-4 z-50 bg-white shadow-md rounded-lg p-2 border border-gray-200"
+        className="md:hidden fixed top-4 left-4 z-50 bg-white shadow-md rounded-lg p-3 border border-gray-200 btn"
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
       >
         {isMobileMenuOpen ? (
@@ -80,7 +80,7 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, onLogout }) => {
 
       {/* Mobile Backdrop */}
       {isMobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-40" />
+        <div className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-40 modal-backdrop" />
       )}
 
       {/* Sidebar */}
@@ -95,95 +95,103 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, onLogout }) => {
       `}>
         {/* Header */}
         <div className="p-4 border-b border-gray-200">
-        <div className="flex items-center justify-between">
-          {!isCollapsed && (
-            <div>
-              <h1 className="text-xl font-bold text-gray-800">Telegram Auto</h1>
-              <p className="text-sm text-gray-500">Automation System</p>
-            </div>
-          )}
-          <button
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-            title={isCollapsed ? 'Expand' : 'Collapse'}
-          >
-            {isCollapsed ? '→' : '←'}
-          </button>
+          <div className="flex items-center justify-between">
+            {!isCollapsed && (
+              <div>
+                <h1 className="text-xl font-bold text-gray-800">Telegram Auto</h1>
+                <p className="text-sm text-gray-500">Automation System</p>
+              </div>
+            )}
+            <button
+              onClick={() => setIsCollapsed(!isCollapsed)}
+              className="hidden md:block p-2 rounded-lg hover:bg-gray-100 transition-colors btn-sm"
+              title={isCollapsed ? 'Expand' : 'Collapse'}
+            >
+              {isCollapsed ? '→' : '←'}
+            </button>
+          </div>
         </div>
-      </div>
 
-      {/* User Info */}
-      {!isCollapsed && telegramConfig && (
-        <div className="p-4 border-b border-gray-200">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-              <span className="text-blue-600 font-semibold">
-                {telegramConfig.phone_number ? telegramConfig.phone_number.slice(-2) : 'TG'}
-              </span>
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-gray-900 truncate">
-                {telegramConfig.phone_number || 'Unknown'}
-              </p>
-              <div className="flex items-center">
-                <span className="status-dot status-online"></span>
-                <span className="text-xs text-gray-500">Terhubung</span>
+        {/* User Info */}
+        {!isCollapsed && telegramConfig && (
+          <div className="p-4 border-b border-gray-200">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                <span className="text-blue-600 font-semibold">
+                  {telegramConfig.phone_number ? telegramConfig.phone_number.slice(-2) : 'TG'}
+                </span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-gray-900 truncate">
+                  {telegramConfig.phone_number || 'Unknown'}
+                </p>
+                <div className="flex items-center space-x-1">
+                  <span className="status-dot status-online"></span>
+                  <span className="text-xs text-gray-500 ml-1">Terhubung</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Navigation Menu */}
-      <nav className="flex-1 p-4">
-        <ul className="space-y-2">
-          {menuItems.map((item) => {
-            const isActive = location.pathname === item.path;
-            return (
-              <li key={item.id}>
-                <button
-                  onClick={() => handleMenuClick(item)}
-                  className={`sidebar-item w-full text-left p-3 flex items-center space-x-3 ${isActive ? 'active' : ''}`}
-                  title={isCollapsed ? item.name : ''}
-                >
-                  <span className="text-lg">{item.icon}</span>
-                  {!isCollapsed && (
-                    <span className="font-medium">{item.name}</span>
-                  )}
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      </nav>
+        {/* Navigation Menu */}
+        <nav className="flex-1 p-4">
+          <ul className="space-y-2">
+            {menuItems.map((item) => {
+              const isActive = location.pathname === item.path;
+              return (
+                <li key={item.id}>
+                  <button
+                    onClick={() => handleMenuClick(item)}
+                    className={`
+                      w-full text-left p-3 flex items-center space-x-3 rounded-lg transition-colors font-medium
+                      ${isActive 
+                        ? 'bg-blue-100 text-blue-900 border-l-4 border-blue-600' 
+                        : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                      }
+                      btn
+                    `}
+                    title={isCollapsed ? item.name : ''}
+                  >
+                    <span className="text-lg flex-shrink-0">{item.icon}</span>
+                    {!isCollapsed && (
+                      <span className="truncate">{item.name}</span>
+                    )}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
 
-      {/* Footer */}
-      <div className="p-4 border-t border-gray-200">
-        {!isCollapsed && (
-          <div className="space-y-2">
+        {/* Footer */}
+        <div className="p-4 border-t border-gray-200">
+          {!isCollapsed && (
+            <div className="space-y-3">
+              <button
+                onClick={onLogout}
+                className="w-full p-3 text-red-600 hover:bg-red-50 active:bg-red-100 rounded-lg transition-colors font-medium flex items-center justify-center space-x-2 btn"
+              >
+                <span>🚪</span>
+                <span>Keluar</span>
+              </button>
+              <div className="text-xs text-gray-400 text-center">
+                v2.0.0 - Telegram Automation
+              </div>
+            </div>
+          )}
+          {isCollapsed && (
             <button
               onClick={onLogout}
-              className="w-full p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors text-sm font-medium flex items-center justify-center space-x-2"
+              className="w-full p-3 text-red-600 hover:bg-red-50 active:bg-red-100 rounded-lg transition-colors flex justify-center btn"
+              title="Keluar"
             >
-              <span>🚪</span>
-              <span>Keluar</span>
+              🚪
             </button>
-            <div className="text-xs text-gray-400 text-center">
-              v1.0.0 - Telegram Automation
-            </div>
-          </div>
-        )}
-        {isCollapsed && (
-          <button
-            onClick={onLogout}
-            className="w-full p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors flex justify-center"
-            title="Keluar"
-          >
-            🚪
-          </button>
-        )}
-      </div>
-    </aside>
+          )}
+        </div>
+      </aside>
+    </>
   );
 };
 
