@@ -25,22 +25,19 @@ const TelegramSetup = ({ onAuthSuccess }) => {
   // Auto-dismiss notifications with smart timing
   useEffect(() => {
     if (notification.show) {
+      // Success messages auto-dismiss after 3 seconds
+      // Error messages auto-dismiss after 8 seconds (giving user time to read and act)
+      // Info messages auto-dismiss after 5 seconds
+      const delay = notification.type === 'success' ? 3000 : 
+                   notification.type === 'error' ? 8000 : 5000;
+      
       const timer = setTimeout(() => {
-        // Success messages auto-dismiss after 3 seconds
-        // Error messages auto-dismiss after 8 seconds (giving user time to read)
-        // Info messages auto-dismiss after 5 seconds
-        const delay = notification.type === 'success' ? 3000 : 
-                     notification.type === 'error' ? 8000 : 5000;
-        
-        if (Date.now() - notificationStartTime >= delay) {
-          setNotification({ ...notification, show: false });
-        }
-      }, notification.type === 'success' ? 3000 : 
-         notification.type === 'error' ? 8000 : 5000);
+        setNotification({ ...notification, show: false });
+      }, delay);
       
       return () => clearTimeout(timer);
     }
-  }, [notification]);
+  }, [notification.show, notification.type]);
 
   // Clear notifications when step changes
   useEffect(() => {
