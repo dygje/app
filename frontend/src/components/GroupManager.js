@@ -74,13 +74,13 @@ const GroupManager = () => {
       setBulkText('');
       
       if (response.data.length > 0) {
-        alert(`Berhasil menambahkan ${response.data.length} grup baru.`);
+        alert(`Successfully added ${response.data.length} new groups.`);
       } else {
-        alert('Tidak ada grup baru yang ditambahkan. Mungkin semua grup sudah ada.');
+        alert('No new groups were added. All groups may already exist.');
       }
     } catch (error) {
       console.error('Failed to bulk import groups:', error);
-      alert('Gagal mengimpor grup. Silakan coba lagi.');
+      alert('Failed to import groups. Please try again.');
     } finally {
       setBulkLoading(false);
     }
