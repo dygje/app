@@ -4,10 +4,7 @@ import axios from 'axios';
 const TelegramSetup = ({ onAuthSuccess }) => {
   const [step, setStep] = useState('config'); // config, phone-code, 2fa
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
   const [notification, setNotification] = useState({ type: '', message: '', show: false });
-  const [notificationStartTime, setNotificationStartTime] = useState(Date.now());
   
   // Configuration step
   const [config, setConfig] = useState({
@@ -22,14 +19,17 @@ const TelegramSetup = ({ onAuthSuccess }) => {
   // 2FA step
   const [twoFAPassword, setTwoFAPassword] = useState('');
 
-  // Auto-dismiss notifications with smart timing
+  // Reset loading state on step change
+  useEffect(() => {
+    setLoading(false);
+    setNotification({ type: '', message: '', show: false });
+  }, [step]);
+
+  // Auto-dismiss notifications
   useEffect(() => {
     if (notification.show) {
-      // Success messages auto-dismiss after 3 seconds
-      // Error messages auto-dismiss after 8 seconds (giving user time to read and act)
-      // Info messages auto-dismiss after 5 seconds
       const delay = notification.type === 'success' ? 3000 : 
-                   notification.type === 'error' ? 8000 : 5000;
+                   notification.type === 'error' ? 6000 : 4000;
       
       const timer = setTimeout(() => {
         setNotification({ ...notification, show: false });
@@ -39,19 +39,13 @@ const TelegramSetup = ({ onAuthSuccess }) => {
     }
   }, [notification.show, notification.type]);
 
-  // Clear notifications when step changes
-  useEffect(() => {
-    setError('');
-    setSuccess('');
-    setNotification({ type: '', message: '', show: false });
-  }, [step]);
-
   const showNotification = (type, message) => {
-    setNotificationStartTime(Date.now());
     setNotification({ type, message, show: true });
-    // Clear old state
-    setError('');
-    setSuccess('');
+  };
+
+  const resetState = () => {
+    setLoading(false);
+    setNotification({ type: '', message: '', show: false });
   };
 
   const handleConfigSubmit = async (e) => {
