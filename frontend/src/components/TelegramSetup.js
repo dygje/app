@@ -478,11 +478,14 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                 </button>
                 <button
                   type="submit"
-                  disabled={loading || phoneCode.length < 5}
-                  className={`btn btn-primary flex-1 ${loading ? 'loading' : ''}`}
+                  disabled={loading || !phoneCode || phoneCode.length < 5}
+                  className={`btn btn-primary flex-1 ${loading ? 'loading' : ''} ${
+                    (!phoneCode || phoneCode.length < 5) && !loading ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
                 >
                   {loading && <div className="spinner"></div>}
-                  {loading ? 'Verifying...' : 'Verify'}
+                  {loading ? 'Verifying...' : 
+                   (!phoneCode || phoneCode.length < 5) ? `Enter Code (${phoneCode ? phoneCode.length : 0}/5)` : 'Verify'}
                 </button>
               </div>
             </form>
