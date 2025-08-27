@@ -221,21 +221,21 @@ code {
   .elevation-24 { @apply shadow-elevation-24; }
 
   /* Material Design Typography Classes */
-  .text-display-large { @apply text-display-large font-normal; }
-  .text-display-medium { @apply text-display-medium font-normal; }
-  .text-display-small { @apply text-display-small font-normal; }
-  .text-headline-large { @apply text-headline-large font-normal; }
-  .text-headline-medium { @apply text-headline-medium font-normal; }
-  .text-headline-small { @apply text-headline-small font-normal; }
-  .text-title-large { @apply text-title-large font-normal; }
-  .text-title-medium { @apply text-title-medium; }
-  .text-title-small { @apply text-title-small; }
-  .text-label-large { @apply text-label-large; }
-  .text-label-medium { @apply text-label-medium; }
-  .text-label-small { @apply text-label-small; }
-  .text-body-large { @apply text-body-large font-normal; }
-  .text-body-medium { @apply text-body-medium font-normal; }
-  .text-body-small { @apply text-body-small font-normal; }
+  .text-display-large { font-size: 57px; line-height: 64px; letter-spacing: -0.25px; font-weight: normal; }
+  .text-display-medium { font-size: 45px; line-height: 52px; letter-spacing: 0; font-weight: normal; }
+  .text-display-small { font-size: 36px; line-height: 44px; letter-spacing: 0; font-weight: normal; }
+  .text-headline-large { font-size: 32px; line-height: 40px; letter-spacing: 0; font-weight: normal; }
+  .text-headline-medium { font-size: 28px; line-height: 36px; letter-spacing: 0; font-weight: normal; }
+  .text-headline-small { font-size: 24px; line-height: 32px; letter-spacing: 0; font-weight: normal; }
+  .text-title-large { font-size: 22px; line-height: 28px; letter-spacing: 0; font-weight: normal; }
+  .text-title-medium { font-size: 16px; line-height: 24px; letter-spacing: 0.15px; font-weight: 500; }
+  .text-title-small { font-size: 14px; line-height: 20px; letter-spacing: 0.1px; font-weight: 500; }
+  .text-label-large { font-size: 14px; line-height: 20px; letter-spacing: 0.1px; font-weight: 500; }
+  .text-label-medium { font-size: 12px; line-height: 16px; letter-spacing: 0.5px; font-weight: 500; }
+  .text-label-small { font-size: 11px; line-height: 16px; letter-spacing: 0.5px; font-weight: 500; }
+  .text-body-large { font-size: 16px; line-height: 24px; letter-spacing: 0.15px; font-weight: normal; }
+  .text-body-medium { font-size: 14px; line-height: 20px; letter-spacing: 0.25px; font-weight: normal; }
+  .text-body-small { font-size: 12px; line-height: 16px; letter-spacing: 0.4px; font-weight: normal; }
 
   /* Material Design Ripple Effect */
   .material-ripple {
