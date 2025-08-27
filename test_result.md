@@ -255,6 +255,7 @@ metadata:
 
 test_plan:
   current_focus:
+    - "Redesign Authentication UI to Modern Best Practice"
     - "Fix Authentication Error Handling"
     - "Update Group Manager UI"
     - "Add Bulk Import Feature"
