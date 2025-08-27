@@ -48,78 +48,44 @@ const GroupManager = () => {
       handleCloseModal();
     } catch (error) {
       console.error('Failed to save group:', error);
-      alert('Failed to save group. Please try again.');
+      alert(editingGroup ? 'Failed to update group' : 'Failed to create group');
     } finally {
       setActionLoading(false);
     }
   };
 
-  const handleBulkSubmit = async () => {
-    if (!bulkText.trim()) {
-      alert('Please enter group data first.');
-      return;
-    }
+  const handleBulkSubmit = async (e) => {
+    e.preventDefault();
+    if (!bulkText.trim()) return;
 
     setBulkLoading(true);
     try {
-      const groups = bulkText
-        .split('\n')
+      const identifiers = bulkText.split('\n')
         .map(line => line.trim())
         .filter(line => line.length > 0);
 
-      const response = await axios.post('/groups/bulk', { groups });
-      
+      await axios.post('/groups/bulk', { identifiers });
       await loadGroups();
       setShowBulkModal(false);
       setBulkText('');
-      
-      if (response.data.length > 0) {
-        alert(`Successfully added ${response.data.length} new groups.`);
-      } else {
-        alert('No new groups were added. All groups may already exist.');
-      }
+      alert(`Successfully imported ${identifiers.length} groups`);
     } catch (error) {
       console.error('Failed to bulk import groups:', error);
-      alert('Failed to import groups. Please try again.');
+      alert('Failed to import groups. Please check the format and try again.');
     } finally {
       setBulkLoading(false);
     }
   };
 
-  const handleFileImport = (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const content = e.target.result;
-      
-      if (file.name.toLowerCase().endsWith('.csv')) {
-        // Parse CSV - assume first column contains group identifiers
-        const lines = content.split('\n');
-        const groupIdentifiers = [];
-        
-        for (let i = 0; i < lines.length; i++) {
-          const line = lines[i].trim();
-          if (line) {
-            // Handle CSV format - take first column (could be comma or semicolon separated)
-            const columns = line.split(/[,;]/);
-            if (columns[0] && columns[0].trim()) {
-              groupIdentifiers.push(columns[0].trim());
-            }
-          }
-        }
-        
-        setBulkText(groupIdentifiers.join('\n'));
-      } else {
-        // Treat as TXT file - one group per line
-        setBulkText(content);
-      }
-    };
-    
-    reader.readAsText(file);
-    // Reset file input
-    event.target.value = '';
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setBulkText(event.target.result);
+      };
+      reader.readAsText(file);
+    }
   };
 
   const handleEdit = (group) => {
@@ -132,9 +98,7 @@ const GroupManager = () => {
   };
 
   const handleDelete = async (groupId) => {
-    if (!window.confirm('Are you sure you want to delete this group?')) {
-      return;
-    }
+    if (!window.confirm('Are you sure you want to delete this group?')) return;
 
     try {
       await axios.delete(`/groups/${groupId}`);
@@ -145,59 +109,44 @@ const GroupManager = () => {
     }
   };
 
-  const handleToggleActive = async (group) => {
-    try {
-      await axios.put(`/groups/${group.id}`, {
-        is_active: !group.is_active
-      });
-      await loadGroups();
-    } catch (error) {
-      console.error('Failed to toggle group status:', error);
-      alert('Failed to change group status.');
-    }
-  };
-
   const handleCloseModal = () => {
     setShowModal(false);
     setEditingGroup(null);
-    setFormData({
-      group_identifier: '',
-      is_active: true
-    });
-  };
-
-  const handleCloseBulkModal = () => {
-    setShowBulkModal(false);
-    setBulkText('');
+    setFormData({ group_identifier: '', is_active: true });
+    setActionLoading(false);
   };
 
   const getGroupTypeIcon = (type) => {
     switch (type) {
-      case 'username': return '👤';
-      case 'invite_link': return '🔗';
-      case 'group_id': return '🔢';
-      default: return '📱';
-    }
-  };
-
-  const getGroupTypeLabel = (type) => {
-    switch (type) {
-      case 'username': return 'Username';
-      case 'invite_link': return 'Invite Link';
-      case 'group_id': return 'Group ID';
-      default: return 'Unknown';
+      case 'username': return 'alternate_email';
+      case 'group_id': return 'numbers';
+      case 'invite_link': return 'link';
+      default: return 'group';
     }
   };
 
   if (loading) {
     return (
-      <div className="p-4 md:p-6">
-        <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded w-1/4 mb-6"></div>
-          <div className="space-y-4">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-gray-200 h-24 rounded-lg"></div>
-            ))}
+      <div className="space-y-6">
+        <div className="material-fade-in">
+          <div className="mb-6">
+            <div className="h-8 bg-surface-200 rounded-md w-48 mb-2 animate-pulse"></div>
+            <div className="h-4 bg-surface-100 rounded w-64 animate-pulse"></div>
+          </div>
+          
+          <div className="material-card-filled p-6 animate-pulse">
+            <div className="space-y-4">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="flex items-center space-x-4">
+                  <div className="h-10 w-10 bg-surface-200 rounded-full"></div>
+                  <div className="flex-1 space-y-2">
+                    <div className="h-4 bg-surface-200 rounded w-1/2"></div>
+                    <div className="h-3 bg-surface-100 rounded w-1/4"></div>
+                  </div>
+                  <div className="h-8 w-16 bg-surface-200 rounded"></div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -205,302 +154,271 @@ const GroupManager = () => {
   }
 
   return (
-    <div className="p-4 md:p-6 fade-in">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6 space-y-4 md:space-y-0">
+    <div className="space-y-8 material-fade-in">
+      {/* Material Design Header */}
+      <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Manage Groups</h1>
-          <p className="text-gray-600">Add and manage target groups for automation</p>
+          <h1 className="text-headline-medium text-surface-900 font-normal mb-2">
+            Group Management
+          </h1>
+          <p className="text-body-large text-surface-600">
+            Manage target groups for your automation system
+          </p>
         </div>
-        <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
+
+        <div className="flex items-center space-x-4">
+          {/* Bulk Import Button */}
           <button
             onClick={() => setShowBulkModal(true)}
-            className="btn btn-secondary btn-hover-scale text-sm px-4 py-2"
+            className="material-button-outlined"
           >
-            <span className="mr-2">📥</span>
+            <span className="material-icons mr-2">upload_file</span>
             Bulk Import
           </button>
+
+          {/* Add Group Button */}
           <button
             onClick={() => setShowModal(true)}
-            className="btn btn-primary btn-hover-scale text-sm px-4 py-2"
+            className="material-button-filled"
           >
-            <span className="mr-2">➕</span>
+            <span className="material-icons mr-2">add</span>
             Add Group
           </button>
         </div>
       </div>
 
-      {/* Statistics */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-6">
-        <div className="bg-white rounded-lg shadow-md p-4 card-shadow">
-          <div className="flex items-center">
-            <div className="p-2 bg-blue-100 rounded-full">
-              <span className="text-lg md:text-xl">👥</span>
+      {/* Material Design Stats Cards */}
+      <div className="material-grid material-grid-cols-3">
+        <div className="material-card-elevated p-6">
+          <div className="flex items-center space-x-4">
+            <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+              <span className="material-icons text-primary-700 text-xl">groups</span>
             </div>
-            <div className="ml-3">
-              <p className="text-xs md:text-sm font-medium text-gray-600">Total Groups</p>
-              <p className="text-lg md:text-xl font-bold text-gray-900">{groups.length}</p>
+            <div>
+              <h3 className="text-title-large font-medium text-surface-900">
+                {groups.length}
+              </h3>
+              <p className="text-body-medium text-surface-600">Total Groups</p>
             </div>
           </div>
         </div>
-        
-        <div className="bg-white rounded-lg shadow-md p-4 card-shadow">
-          <div className="flex items-center">
-            <div className="p-2 bg-green-100 rounded-full">
-              <span className="text-lg md:text-xl">✅</span>
+
+        <div className="material-card-elevated p-6">
+          <div className="flex items-center space-x-4">
+            <div className="w-12 h-12 bg-success-100 rounded-full flex items-center justify-center">
+              <span className="material-icons text-success-700 text-xl">check_circle</span>
             </div>
-            <div className="ml-3">
-              <p className="text-xs md:text-sm font-medium text-gray-600">Active Groups</p>
-              <p className="text-lg md:text-xl font-bold text-gray-900">
+            <div>
+              <h3 className="text-title-large font-medium text-surface-900">
                 {groups.filter(g => g.is_active).length}
-              </p>
+              </h3>
+              <p className="text-body-medium text-surface-600">Active Groups</p>
             </div>
           </div>
         </div>
-        
-        <div className="bg-white rounded-lg shadow-md p-4 card-shadow sm:col-span-2 lg:col-span-1">
-          <div className="flex items-center">
-            <div className="p-2 bg-red-100 rounded-full">
-              <span className="text-lg md:text-xl">⏸️</span>
+
+        <div className="material-card-elevated p-6">
+          <div className="flex items-center space-x-4">
+            <div className="w-12 h-12 bg-warning-100 rounded-full flex items-center justify-center">
+              <span className="material-icons text-warning-700 text-xl">pause_circle</span>
             </div>
-            <div className="ml-3">
-              <p className="text-xs md:text-sm font-medium text-gray-600">Inactive</p>
-              <p className="text-lg md:text-xl font-bold text-gray-900">
+            <div>
+              <h3 className="text-title-large font-medium text-surface-900">
                 {groups.filter(g => !g.is_active).length}
-              </p>
+              </h3>
+              <p className="text-body-medium text-surface-600">Inactive Groups</p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Groups List */}
-      {groups.length === 0 ? (
-        <div className="bg-white rounded-lg shadow-md p-6 md:p-8 text-center">
-          <span className="text-4xl md:text-6xl mb-4 block">👥</span>
-          <h3 className="text-lg md:text-xl font-medium text-gray-900 mb-2">No Groups Yet</h3>
-          <p className="text-gray-600 mb-4 text-sm md:text-base">Add your first group to start automation</p>
-          <button
-            onClick={() => setShowModal(true)}
-            className="btn btn-primary text-sm md:text-base"
-          >
-            Add First Group
-          </button>
+      {/* Material Design Groups List */}
+      <div className="material-card-elevated">
+        <div className="px-6 py-4 border-b border-surface-200">
+          <div className="flex items-center justify-between">
+            <h2 className="text-title-large font-medium text-surface-900">
+              Groups ({groups.length})
+            </h2>
+            <div className="flex items-center space-x-2">
+              <span className="material-icons text-surface-500 text-lg">search</span>
+              <span className="text-body-medium text-surface-500">Search coming soon</span>
+            </div>
+          </div>
         </div>
-      ) : (
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
-          {/* Mobile Card View */}
-          <div className="md:hidden">
+
+        {groups.length === 0 ? (
+          <div className="text-center py-12">
+            <div className="w-16 h-16 bg-surface-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="material-icons text-surface-500 text-2xl">group_add</span>
+            </div>
+            <h3 className="text-title-medium text-surface-900 mb-2">No groups yet</h3>
+            <p className="text-body-medium text-surface-600 mb-6">
+              Start by adding your first Telegram group or importing multiple groups at once
+            </p>
+            <div className="flex items-center justify-center space-x-4">
+              <button
+                onClick={() => setShowModal(true)}
+                className="material-button-filled"
+              >
+                <span className="material-icons mr-2">add</span>
+                Add First Group
+              </button>
+              <button
+                onClick={() => setShowBulkModal(true)}
+                className="material-button-outlined"
+              >
+                <span className="material-icons mr-2">upload_file</span>
+                Bulk Import
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="divide-y divide-surface-100">
             {groups.map((group) => (
-              <div key={group.id} className="border-b border-gray-200 p-4">
-                <div className="flex items-start justify-between mb-2">
-                  <div className="flex items-center space-x-2 flex-1 min-w-0">
-                    <span className="text-lg">{getGroupTypeIcon(group.group_type)}</span>
-                    <div className="min-w-0 flex-1">
-                      <p className="font-medium text-gray-900 truncate">
-                        {group.parsed_name}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        {getGroupTypeLabel(group.group_type)}
-                      </p>
+              <div
+                key={group.id}
+                className="material-list-item p-6 hover:bg-surface-50 transition-colors"
+              >
+                <div className="flex items-center space-x-4 flex-1">
+                  {/* Group Type Icon */}
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                    group.is_active ? 'bg-primary-100' : 'bg-surface-100'
+                  }`}>
+                    <span className={`material-icons ${
+                      group.is_active ? 'text-primary-700' : 'text-surface-500'
+                    }`}>
+                      {getGroupTypeIcon(group.group_type)}
+                    </span>
+                  </div>
+
+                  {/* Group Info */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center space-x-3 mb-1">
+                      <h3 className="text-title-small font-medium text-surface-900 truncate">
+                        {group.parsed_name || 'Unknown Group'}
+                      </h3>
+                      <div className={`material-badge-${group.is_active ? 'success' : 'warning'}`}>
+                        {group.is_active ? 'Active' : 'Inactive'}
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center space-x-4 text-body-small text-surface-600">
+                      <span className="flex items-center">
+                        <span className="material-icons text-xs mr-1">category</span>
+                        {group.group_type}
+                      </span>
+                      <span className="flex items-center">
+                        <span className="material-icons text-xs mr-1">link</span>
+                        {group.group_identifier}
+                      </span>
                     </div>
                   </div>
-                  <span className={`badge text-xs ${group.is_active ? 'badge-success' : 'badge-error'}`}>
-                    {group.is_active ? 'Active' : 'Inactive'}
-                  </span>
-                </div>
-                
-                <div className="mb-2">
-                  <p className="text-xs text-gray-600 break-all">
-                    {group.group_identifier}
-                  </p>
-                  {group.resolved_id && (
-                    <p className="text-xs text-gray-400">
-                      ID: {group.resolved_id}
-                    </p>
-                  )}
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <p className="text-xs text-gray-500">
-                    {new Date(group.created_at).toLocaleDateString()}
-                  </p>
-                  <div className="flex space-x-2">
-                    <button
-                      onClick={() => handleToggleActive(group)}
-                      className={`btn btn-sm ${group.is_active ? 'btn-secondary' : 'btn-success'}`}
-                      title={group.is_active ? 'Deactivate' : 'Activate'}
-                    >
-                      {group.is_active ? '⏸️' : '▶️'}
-                    </button>
+
+                  {/* Actions */}
+                  <div className="flex items-center space-x-2">
                     <button
                       onClick={() => handleEdit(group)}
-                      className="btn btn-sm btn-outline"
-                      title="Edit"
+                      className="material-button-text p-2"
+                      title="Edit Group"
                     >
-                      ✏️
+                      <span className="material-icons text-lg">edit</span>
                     </button>
+                    
                     <button
                       onClick={() => handleDelete(group.id)}
-                      className="btn btn-sm btn-danger"
-                      title="Delete"
+                      className="material-button-text p-2 text-error-600 hover:bg-error-50"
+                      title="Delete Group"
                     >
-                      🗑️
+                      <span className="material-icons text-lg">delete</span>
                     </button>
                   </div>
                 </div>
               </div>
             ))}
           </div>
+        )}
+      </div>
 
-          {/* Desktop Table View */}
-          <div className="hidden md:block overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Group
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Identifier
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Type
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Added
-                  </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {groups.map((group) => (
-                  <tr key={group.id} className="table-row">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <span className="text-xl mr-3">{getGroupTypeIcon(group.group_type)}</span>
-                        <div className="text-sm font-medium text-gray-900">
-                          {group.parsed_name}
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="text-sm text-gray-900 break-all max-w-xs">
-                        {group.group_identifier}
-                      </div>
-                      {group.resolved_id && (
-                        <div className="text-xs text-gray-500">
-                          ID: {group.resolved_id}
-                        </div>
-                      )}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                        {getGroupTypeLabel(group.group_type)}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`badge ${group.is_active ? 'badge-success' : 'badge-error'}`}>
-                        {group.is_active ? 'Active' : 'Inactive'}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {new Date(group.created_at).toLocaleDateString()}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <div className="flex items-center justify-end space-x-2">
-                        <button
-                          onClick={() => handleToggleActive(group)}
-                          className={`btn btn-sm ${group.is_active ? 'btn-secondary' : 'btn-success'}`}
-                          title={group.is_active ? 'Deactivate' : 'Activate'}
-                        >
-                          {group.is_active ? '⏸️' : '▶️'}
-                        </button>
-                        <button
-                          onClick={() => handleEdit(group)}
-                          className="btn btn-sm btn-outline"
-                          title="Edit"
-                        >
-                          ✏️
-                        </button>
-                        <button
-                          onClick={() => handleDelete(group.id)}
-                          className="btn btn-sm btn-danger"
-                          title="Delete"
-                        >
-                          🗑️
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
-
-      {/* Add/Edit Modal */}
+      {/* Material Design Add/Edit Group Modal */}
       {showModal && (
-        <div className="fixed inset-0 modal-backdrop flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                {editingGroup ? 'Edit Group' : 'Add New Group'}
-              </h2>
-              
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label className="form-label">Group Link/Username/ID</label>
-                  <textarea
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 material-dialog-backdrop">
+          <div className="material-dialog w-full max-w-md material-scale-in">
+            <div className="px-6 py-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-title-large font-medium text-surface-900">
+                  {editingGroup ? 'Edit Group' : 'Add New Group'}
+                </h2>
+                <button
+                  onClick={handleCloseModal}
+                  className="material-button-text p-2 -mr-2"
+                >
+                  <span className="material-icons">close</span>
+                </button>
+              </div>
+
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="material-textfield">
+                  <input
+                    type="text"
                     value={formData.group_identifier}
                     onChange={(e) => setFormData({...formData, group_identifier: e.target.value})}
-                    className="form-input resize-none"
-                    rows={3}
-                    placeholder="Examples:
-@groupname
-https://t.me/groupname
--1001234567890
-https://t.me/joinchat/xyz"
+                    className="material-textfield-input peer"
+                    placeholder=" "
                     required
                   />
-                  <p className="text-xs text-gray-500 mt-1">
-                    System will automatically detect group type and generate name
-                  </p>
+                  <label className="material-textfield-label">
+                    Group Identifier
+                  </label>
                 </div>
 
-                <div className="flex items-center">
+                <div className="flex items-center space-x-3">
                   <input
                     type="checkbox"
                     id="is_active"
                     checked={formData.is_active}
                     onChange={(e) => setFormData({...formData, is_active: e.target.checked})}
-                    className="mr-2"
+                    className="w-4 h-4 text-primary-600 bg-surface-100 border-surface-300 rounded focus:ring-primary-500"
                   />
-                  <label htmlFor="is_active" className="text-sm text-gray-700">
-                    Enable this group for automation
+                  <label htmlFor="is_active" className="text-body-medium text-surface-700">
+                    Active group (will receive messages)
                   </label>
                 </div>
 
-                <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 pt-4">
+                <div className="material-card-outlined bg-primary-50 p-4 rounded-lg">
+                  <div className="flex items-start space-x-3">
+                    <span className="material-icons text-primary-600 text-lg mt-0.5">info</span>
+                    <div>
+                      <h4 className="text-title-small font-medium text-primary-800 mb-1">
+                        Supported Formats
+                      </h4>
+                      <div className="text-body-small text-primary-700 space-y-1">
+                        <p>• @username (public groups/channels)</p>
+                        <p>• https://t.me/groupname</p>
+                        <p>• -1001234567890 (group ID)</p>
+                        <p>• https://t.me/joinchat/xxx (invite links)</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-end space-x-3">
                   <button
                     type="button"
                     onClick={handleCloseModal}
-                    className="btn btn-outline flex-1"
+                    className="material-button-outlined"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={actionLoading}
-                    className={`btn btn-primary flex-1 ${actionLoading ? 'loading' : ''}`}
+                    className={`material-button-filled ${actionLoading ? 'material-loading' : ''}`}
                   >
-                    {actionLoading && <div className="spinner"></div>}
-                    {actionLoading ? 'Saving...' : 'Save'}
+                    {actionLoading && <div className="material-spinner mr-2" />}
+                    <span className="material-icons mr-2">
+                      {editingGroup ? 'save' : 'add'}
+                    </span>
+                    {editingGroup ? 'Update' : 'Add Group'}
                   </button>
                 </div>
               </form>
@@ -509,81 +427,109 @@ https://t.me/joinchat/xyz"
         </div>
       )}
 
-      {/* Bulk Import Modal */}
+      {/* Material Design Bulk Import Modal */}
       {showBulkModal && (
-        <div className="fixed inset-0 modal-backdrop flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                Bulk Import Groups
-              </h2>
-              
-              <div className="space-y-4">
-                <div>
-                  <label className="form-label">Import from File</label>
-                  <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 material-dialog-backdrop">
+          <div className="material-dialog w-full max-w-2xl material-scale-in">
+            <div className="px-6 py-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-title-large font-medium text-surface-900">
+                  Bulk Import Groups
+                </h2>
+                <button
+                  onClick={() => setShowBulkModal(false)}
+                  className="material-button-text p-2 -mr-2"
+                >
+                  <span className="material-icons">close</span>
+                </button>
+              </div>
+
+              <form onSubmit={handleBulkSubmit} className="space-y-6">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <label className="text-body-large font-medium text-surface-900">
+                      Import Method
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => fileInputRef.current?.click()}
+                      className="material-button-outlined"
+                    >
+                      <span className="material-icons mr-2">upload</span>
+                      Upload File
+                    </button>
                     <input
                       ref={fileInputRef}
                       type="file"
                       accept=".txt,.csv"
-                      onChange={handleFileImport}
-                      className="form-input file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                      onChange={handleFileUpload}
+                      className="hidden"
                     />
-                    <button
-                      type="button"
-                      onClick={() => fileInputRef.current?.click()}
-                      className="btn btn-outline text-sm"
-                    >
-                      📁 Choose File
-                    </button>
                   </div>
-                  <p className="text-xs text-gray-500 mt-1">
-                    Supported formats: TXT (one group per line) or CSV (first column)
-                  </p>
+
+                  <div className="material-textfield">
+                    <textarea
+                      value={bulkText}
+                      onChange={(e) => setBulkText(e.target.value)}
+                      className="material-textfield-input peer min-h-48 resize-vertical"
+                      placeholder=" "
+                      required
+                    />
+                    <label className="material-textfield-label">
+                      Group Identifiers (one per line)
+                    </label>
+                  </div>
                 </div>
 
-                <div>
-                  <label className="form-label">Or Enter Manually</label>
-                  <textarea
-                    value={bulkText}
-                    onChange={(e) => setBulkText(e.target.value)}
-                    className="form-input resize-none"
-                    rows={10}
-                    placeholder="Enter one group per line:
-
-@firstgroup
-https://t.me/secondgroup
--1001234567890
-https://t.me/joinchat/xyz"
-                  />
-                  <p className="text-xs text-gray-500 mt-1">
-                    One group per line. Supported formats: username, Telegram link, group ID, or invite link
-                  </p>
+                <div className="material-card-outlined bg-secondary-50 p-4 rounded-lg">
+                  <div className="flex items-start space-x-3">
+                    <span className="material-icons text-secondary-600 text-lg mt-0.5">lightbulb</span>
+                    <div>
+                      <h4 className="text-title-small font-medium text-secondary-800 mb-1">
+                        Import Tips
+                      </h4>
+                      <div className="text-body-small text-secondary-700 space-y-1">
+                        <p>• Enter one group identifier per line</p>
+                        <p>• Mix different formats (usernames, IDs, links)</p>
+                        <p>• Empty lines and duplicates will be ignored</p>
+                        <p>• Upload .txt or .csv files for easier import</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 pt-4">
+                <div className="flex items-center justify-end space-x-3">
                   <button
                     type="button"
-                    onClick={handleCloseBulkModal}
-                    className="btn btn-outline flex-1"
+                    onClick={() => setShowBulkModal(false)}
+                    className="material-button-outlined"
                   >
                     Cancel
                   </button>
                   <button
-                    type="button"
-                    onClick={handleBulkSubmit}
+                    type="submit"
                     disabled={bulkLoading || !bulkText.trim()}
-                    className={`btn btn-primary flex-1 ${bulkLoading ? 'loading' : ''}`}
+                    className={`material-button-filled ${bulkLoading ? 'material-loading' : ''}`}
                   >
-                    {bulkLoading && <div className="spinner"></div>}
-                    {bulkLoading ? 'Importing...' : 'Import Groups'}
+                    {bulkLoading && <div className="material-spinner mr-2" />}
+                    <span className="material-icons mr-2">upload_file</span>
+                    Import Groups
                   </button>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
         </div>
       )}
+
+      {/* Material Design FAB for Quick Add */}
+      <button 
+        onClick={() => setShowModal(true)}
+        className="material-fab"
+        title="Quick Add Group"
+      >
+        <span className="material-icons">add</span>
+      </button>
     </div>
   );
 };
