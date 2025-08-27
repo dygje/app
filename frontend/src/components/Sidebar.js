@@ -198,7 +198,7 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, onLogout }) => {
             <button
               onClick={onLogout}
               className="w-full p-3 text-red-600 hover:bg-red-50 active:bg-red-100 rounded-lg transition-colors flex justify-center btn"
-              title="Keluar"
+              title="Logout"
             >
               🚪
             </button>
