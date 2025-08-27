@@ -284,56 +284,68 @@ const TelegramSetup = ({ onAuthSuccess }) => {
 
           {/* Step 1: Configuration */}
           {step === 'config' && (
-            <form onSubmit={handleConfigSubmit} className="space-y-4">
-              <div>
-                <label className="form-label">API ID</label>
-                <input
-                  type="text"
-                  value={config.api_id}
-                  onChange={(e) => setConfig({...config, api_id: e.target.value})}
-                  className="form-input"
-                  placeholder="123456"
-                  required
-                />
-                <p className="text-xs text-gray-500 mt-1">
-                  Get from <a href="https://my.telegram.org" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">my.telegram.org</a>
-                </p>
-              </div>
+            <form onSubmit={handleConfigSubmit} className="space-y-6">
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">API ID</label>
+                  <input
+                    type="text"
+                    value={config.api_id}
+                    onChange={(e) => setConfig({...config, api_id: e.target.value})}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-blue-500 focus:outline-none transition-colors"
+                    placeholder="123456"
+                    required
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Get from <a href="https://my.telegram.org" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">my.telegram.org</a>
+                  </p>
+                </div>
 
-              <div>
-                <label className="form-label">API Hash</label>
-                <input
-                  type="text"
-                  value={config.api_hash}
-                  onChange={(e) => setConfig({...config, api_hash: e.target.value})}
-                  className="form-input"
-                  placeholder="abcdef123456789..."
-                  required
-                />
-              </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">API Hash</label>
+                  <input
+                    type="text"
+                    value={config.api_hash}
+                    onChange={(e) => setConfig({...config, api_hash: e.target.value})}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-blue-500 focus:outline-none transition-colors"
+                    placeholder="abcdef123456789..."
+                    required
+                  />
+                </div>
 
-              <div>
-                <label className="form-label">Phone Number</label>
-                <input
-                  type="tel"
-                  value={config.phone_number}
-                  onChange={(e) => setConfig({...config, phone_number: e.target.value})}
-                  className="form-input"
-                  placeholder="+1234567890"
-                  required
-                />
-                <p className="text-xs text-gray-500 mt-1">
-                  Include country code (e.g., +1 for US, +62 for Indonesia)
-                </p>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                  <input
+                    type="tel"
+                    value={config.phone_number}
+                    onChange={(e) => setConfig({...config, phone_number: e.target.value})}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-blue-500 focus:outline-none transition-colors"
+                    placeholder="+1234567890"
+                    required
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Include country code (e.g., +1 for US, +62 for Indonesia)
+                  </p>
+                </div>
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-                className={`w-full btn btn-primary py-3 ${loading ? 'loading' : ''}`}
+                className={`w-full py-3 px-4 rounded-lg font-medium text-white transition-all ${
+                  loading
+                    ? 'bg-gray-300 cursor-not-allowed'
+                    : 'bg-blue-500 hover:bg-blue-600 active:bg-blue-700'
+                }`}
               >
-                {loading && <div className="spinner"></div>}
-                {loading ? 'Sending Code...' : 'Continue'}
+                {loading ? (
+                  <div className="flex items-center justify-center space-x-2">
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <span>Sending Code...</span>
+                  </div>
+                ) : (
+                  'Continue'
+                )}
               </button>
             </form>
           )}
@@ -416,72 +428,60 @@ const TelegramSetup = ({ onAuthSuccess }) => {
 
           {/* Step 3: Two-Factor Authentication */}
           {step === '2fa' && (
-            <form onSubmit={handle2FASubmit} className="space-y-4">
-              <div className="text-center mb-4">
+            <form onSubmit={handle2FASubmit} className="space-y-6">
+              <div className="text-center">
                 <p className="text-sm text-gray-600">
                   Your account has two-factor authentication enabled
                 </p>
               </div>
 
               <div>
-                <label className="form-label">2FA Password</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">2FA Password</label>
                 <input
                   type="password"
                   value={twoFAPassword}
                   onChange={(e) => setTwoFAPassword(e.target.value)}
-                  className="form-input"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-blue-500 focus:outline-none transition-colors"
                   placeholder="Enter your 2FA password"
+                  autoFocus
                   required
                 />
               </div>
 
-              <div className="flex space-x-3 pt-2">
-                <button
-                  type="button"
-                  onClick={handleBack}
-                  className="btn btn-outline flex-1"
-                >
-                  Back
-                </button>
+              <div className="space-y-3">
                 <button
                   type="submit"
                   disabled={loading || !twoFAPassword.trim()}
-                  className={`btn btn-primary flex-1 ${loading ? 'loading' : ''}`}
+                  className={`w-full py-3 px-4 rounded-lg font-medium text-white transition-all ${
+                    loading || !twoFAPassword.trim()
+                      ? 'bg-gray-300 cursor-not-allowed'
+                      : 'bg-blue-500 hover:bg-blue-600 active:bg-blue-700'
+                  }`}
                 >
-                  {loading && <div className="spinner"></div>}
-                  {loading ? 'Authenticating...' : 'Complete'}
+                  {loading ? (
+                    <div className="flex items-center justify-center space-x-2">
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span>Authenticating...</span>
+                    </div>
+                  ) : (
+                    'Complete Authentication'
+                  )}
+                </button>
+                
+                <button
+                  type="button"
+                  onClick={() => {
+                    resetState();
+                    setStep('phone-code');
+                    setTwoFAPassword('');
+                  }}
+                  className="w-full py-3 px-4 rounded-lg font-medium text-gray-600 border border-gray-200 hover:bg-gray-50 transition-colors"
+                >
+                  Back
                 </button>
               </div>
             </form>
           )}
-
-          {/* Help Section */}
-          <div className="mt-6 pt-4 border-t border-gray-200">
-            <div className="text-center">
-              <h4 className="text-sm font-medium text-gray-900 mb-2">Need Help?</h4>
-              <div className="space-y-1 text-xs text-gray-600">
-                {step === 'config' && (
-                  <>
-                    <p>1. Visit <a href="https://my.telegram.org" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">my.telegram.org</a> to get API credentials</p>
-                    <p>2. Use your actual Telegram phone number</p>
-                  </>
-                )}
-                {step === 'phone-code' && (
-                  <>
-                    <p>1. Check your Telegram app for the code</p>
-                    <p>2. Code expires after 5 minutes</p>
-                    <p>3. Use "Resend code" if needed</p>
-                  </>
-                )}
-                {step === '2fa' && (
-                  <>
-                    <p>1. Enter the password you set for 2FA</p>
-                    <p>2. This is different from your phone code</p>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
