@@ -209,8 +209,8 @@ const GroupManager = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6 space-y-4 md:space-y-0">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Kelola Grup</h1>
-          <p className="text-gray-600">Tambah dan kelola grup target untuk automation</p>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Manage Groups</h1>
+          <p className="text-gray-600">Add and manage target groups for automation</p>
         </div>
         <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
           <button
