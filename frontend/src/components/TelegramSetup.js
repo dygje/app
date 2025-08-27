@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const TelegramSetup = ({ onAuthSuccess }) => {
@@ -6,6 +6,7 @@ const TelegramSetup = ({ onAuthSuccess }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [notification, setNotification] = useState({ type: '', message: '', show: false });
   
   // Configuration step
   const [config, setConfig] = useState({
@@ -20,40 +21,89 @@ const TelegramSetup = ({ onAuthSuccess }) => {
   // 2FA step
   const [twoFAPassword, setTwoFAPassword] = useState('');
 
+  // Auto-dismiss success notifications
+  useEffect(() => {
+    if (notification.show && notification.type === 'success') {
+      const timer = setTimeout(() => {
+        setNotification({ ...notification, show: false });
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [notification]);
+
+  // Clear notifications when step changes
+  useEffect(() => {
+    setError('');
+    setSuccess('');
+    setNotification({ type: '', message: '', show: false });
+  }, [step]);
+
+  const showNotification = (type, message) => {
+    setNotification({ type, message, show: true });
+    // Clear old state
+    setError('');
+    setSuccess('');
+  };
+
   const handleConfigSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
-    setSuccess('');
+    setNotification({ type: '', message: '', show: false });
 
     try {
+      // Validate phone number format
+      if (!config.phone_number.startsWith('+')) {
+        throw new Error('Phone number must include country code (e.g., +1234567890)');
+      }
+
       // Save configuration
-      await axios.post('/telegram/config', config);
-      setSuccess('Configuration saved successfully');
+      await axios.post('/telegram/config', {
+        api_id: parseInt(config.api_id),
+        api_hash: config.api_hash,
+        phone_number: config.phone_number
+      });
+
+      showNotification('success', 'Configuration saved. Sending verification code...');
       
-      // Send authentication code
+      // Send authentication code after short delay
       setTimeout(async () => {
         try {
           await axios.post('/telegram/send-code');
-          setSuccess('Verification code sent to your phone number');
-          setStep('phone-code');
+          showNotification('success', 'Verification code sent to your phone number');
+          setTimeout(() => {
+            setStep('phone-code');
+          }, 1500);
         } catch (err) {
-          setError(err.response?.data?.detail || 'Failed to send verification code');
+          console.error('Send code error:', err);
+          const errorMsg = err.response?.data?.detail || 'Failed to send verification code';
+          showNotification('error', errorMsg);
+          setLoading(false);
         }
-        setLoading(false);
       }, 1000);
       
     } catch (err) {
-      setError(err.response?.data?.detail || 'Failed to save configuration');
+      console.error('Config error:', err);
+      let errorMsg = 'Failed to save configuration';
+      if (err.message.includes('country code')) {
+        errorMsg = err.message;
+      } else if (err.response?.data?.detail) {
+        errorMsg = err.response.data.detail;
+      }
+      showNotification('error', errorMsg);
       setLoading(false);
     }
   };
 
   const handlePhoneCodeSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!phoneCode || phoneCode.length < 5) {
+      showNotification('error', 'Please enter a valid verification code');
+      return;
+    }
+
     setLoading(true);
-    setError('');
-    setSuccess('');
+    setNotification({ type: '', message: '', show: false });
 
     try {
       const response = await axios.post('/telegram/verify-code', {
@@ -61,87 +111,155 @@ const TelegramSetup = ({ onAuthSuccess }) => {
       });
 
       if (response.data.requires_2fa) {
-        setSuccess('2FA password required');
-        setStep('2fa');
+        showNotification('info', '2FA password required. Please enter your password.');
+        setTimeout(() => {
+          setStep('2fa');
+        }, 1500);
       } else {
-        setSuccess('Authentication successful!');
+        showNotification('success', 'Authentication successful! Redirecting...');
         setTimeout(() => {
           onAuthSuccess();
-        }, 1500);
+        }, 2000);
       }
     } catch (err) {
-      setError(err.response?.data?.detail || 'Invalid verification code');
-    } finally {
+      console.error('Verify code error:', err);
+      let errorMsg = 'Invalid verification code';
+      
+      if (err.response?.data?.detail) {
+        const detail = err.response.data.detail;
+        if (detail.includes('expired')) {
+          errorMsg = 'Verification code has expired. Please request a new code.';
+        } else if (detail.includes('invalid')) {
+          errorMsg = 'Invalid verification code. Please check and try again.';
+        } else {
+          errorMsg = detail;
+        }
+      }
+      
+      showNotification('error', errorMsg);
       setLoading(false);
     }
   };
 
   const handle2FASubmit = async (e) => {
     e.preventDefault();
+    
+    if (!twoFAPassword.trim()) {
+      showNotification('error', 'Please enter your 2FA password');
+      return;
+    }
+
     setLoading(true);
-    setError('');
-    setSuccess('');
+    setNotification({ type: '', message: '', show: false });
 
     try {
       await axios.post('/telegram/verify-2fa', {
         password: twoFAPassword
       });
       
-      setSuccess('Authentication successful!');
+      showNotification('success', 'Authentication successful! Redirecting...');
       setTimeout(() => {
         onAuthSuccess();
-      }, 1500);
+      }, 2000);
     } catch (err) {
-      setError(err.response?.data?.detail || 'Invalid 2FA password');
+      console.error('2FA error:', err);
+      let errorMsg = 'Invalid 2FA password';
+      
+      if (err.response?.data?.detail) {
+        const detail = err.response.data.detail;
+        if (detail.includes('invalid')) {
+          errorMsg = 'Invalid 2FA password. Please check and try again.';
+        } else {
+          errorMsg = detail;
+        }
+      }
+      
+      showNotification('error', errorMsg);
       setLoading(false);
     }
   };
 
   const handleBack = () => {
-    setError('');
-    setSuccess('');
+    setNotification({ type: '', message: '', show: false });
     if (step === '2fa') {
       setStep('phone-code');
+      setTwoFAPassword('');
     } else if (step === 'phone-code') {
       setStep('config');
+      setPhoneCode('');
+    }
+  };
+
+  const handleRequestNewCode = async () => {
+    setLoading(true);
+    setNotification({ type: '', message: '', show: false });
+
+    try {
+      await axios.post('/telegram/send-code');
+      showNotification('success', 'New verification code sent to your phone number');
+      setPhoneCode('');
+    } catch (err) {
+      console.error('Resend code error:', err);
+      const errorMsg = err.response?.data?.detail || 'Failed to send new verification code';
+      showNotification('error', errorMsg);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getStepTitle = () => {
+    switch (step) {
+      case 'config': return 'API Configuration';
+      case 'phone-code': return 'Phone Verification';
+      case '2fa': return 'Two-Factor Authentication';
+      default: return 'Setup';
+    }
+  };
+
+  const getStepDescription = () => {
+    switch (step) {
+      case 'config': return 'Enter your Telegram API credentials';
+      case 'phone-code': return 'Enter the code sent to your phone';
+      case '2fa': return 'Enter your 2FA password';
+      default: return '';
     }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
       <div className="max-w-md w-full">
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+        <div className="bg-white rounded-2xl shadow-xl p-8 relative">
           {/* Header with Telegram Logo */}
-          <div className="text-center mb-8">
+          <div className="text-center mb-6">
             <div className="mx-auto w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mb-4 shadow-lg">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="white">
                 <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
               </svg>
             </div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Connect to Telegram</h1>
-            <p className="text-gray-600">Set up your automation account</p>
+            <h1 className="text-2xl font-bold text-gray-900 mb-1">{getStepTitle()}</h1>
+            <p className="text-gray-600 text-sm">{getStepDescription()}</p>
           </div>
 
           {/* Progress Indicator */}
-          <div className="flex items-center justify-center mb-8">
-            <div className="flex items-center space-x-4">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
+          <div className="flex items-center justify-center mb-6">
+            <div className="flex items-center space-x-2">
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-colors ${
                 step === 'config' ? 'bg-blue-500 text-white' : 
                 (step === 'phone-code' || step === '2fa') ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-500'
               }`}>
-                1
+                {(step === 'phone-code' || step === '2fa') ? '✓' : '1'}
               </div>
-              <div className={`w-16 h-1 ${
+              <div className={`w-12 h-1 transition-colors ${
                 step === 'phone-code' || step === '2fa' ? 'bg-green-500' : 'bg-gray-200'
               }`}></div>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-colors ${
                 step === 'phone-code' ? 'bg-blue-500 text-white' : 
                 step === '2fa' ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-500'
               }`}>
-                2
+                {step === '2fa' ? '✓' : '2'}
               </div>
-              <div className={`w-16 h-1 ${step === '2fa' ? 'bg-green-500' : 'bg-gray-200'}`}></div>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
+              <div className={`w-12 h-1 transition-colors ${step === '2fa' ? 'bg-green-500' : 'bg-gray-200'}`}></div>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-colors ${
                 step === '2fa' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-500'
               }`}>
                 3
@@ -149,29 +267,45 @@ const TelegramSetup = ({ onAuthSuccess }) => {
             </div>
           </div>
 
-          {/* Error Message */}
-          {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-              <div className="flex">
-                <span className="text-red-500 mr-2">⚠️</span>
-                <p className="text-red-700 text-sm">{error}</p>
-              </div>
-            </div>
-          )}
-
-          {/* Success Message */}
-          {success && (
-            <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-              <div className="flex">
-                <span className="text-green-500 mr-2">✅</span>
-                <p className="text-green-700 text-sm">{success}</p>
+          {/* Smart Notification System */}
+          {notification.show && (
+            <div className={`mb-4 p-3 rounded-lg border transition-all duration-300 ${
+              notification.type === 'error' ? 'bg-red-50 border-red-200 text-red-700' :
+              notification.type === 'success' ? 'bg-green-50 border-green-200 text-green-700' :
+              notification.type === 'info' ? 'bg-blue-50 border-blue-200 text-blue-700' :
+              'bg-gray-50 border-gray-200 text-gray-700'
+            }`}>
+              <div className="flex items-start">
+                <span className="mr-2 text-lg">
+                  {notification.type === 'error' ? '⚠️' :
+                   notification.type === 'success' ? '✅' :
+                   notification.type === 'info' ? 'ℹ️' : '📢'}
+                </span>
+                <div className="flex-1">
+                  <p className="text-sm font-medium">{notification.message}</p>
+                  {notification.type === 'error' && step === 'phone-code' && notification.message.includes('expired') && (
+                    <button
+                      onClick={handleRequestNewCode}
+                      disabled={loading}
+                      className="mt-2 text-xs text-blue-600 hover:text-blue-800 underline"
+                    >
+                      Request new code
+                    </button>
+                  )}
+                </div>
+                <button
+                  onClick={() => setNotification({ ...notification, show: false })}
+                  className="ml-2 text-gray-400 hover:text-gray-600"
+                >
+                  ×
+                </button>
               </div>
             </div>
           )}
 
           {/* Step 1: Configuration */}
           {step === 'config' && (
-            <form onSubmit={handleConfigSubmit} className="space-y-6">
+            <form onSubmit={handleConfigSubmit} className="space-y-4">
               <div>
                 <label className="form-label">API ID</label>
                 <input
@@ -220,18 +354,17 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                 className={`w-full btn btn-primary py-3 ${loading ? 'loading' : ''}`}
               >
                 {loading && <div className="spinner"></div>}
-                {loading ? 'Saving Configuration...' : 'Continue'}
+                {loading ? 'Sending Code...' : 'Continue'}
               </button>
             </form>
           )}
 
           {/* Step 2: Phone Code Verification */}
           {step === 'phone-code' && (
-            <form onSubmit={handlePhoneCodeSubmit} className="space-y-6">
-              <div className="text-center mb-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Enter Verification Code</h3>
+            <form onSubmit={handlePhoneCodeSubmit} className="space-y-4">
+              <div className="text-center mb-4">
                 <p className="text-sm text-gray-600">
-                  We sent a code to {config.phone_number}
+                  Code sent to <span className="font-medium">{config.phone_number}</span>
                 </p>
               </div>
 
@@ -243,15 +376,25 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                   onChange={(e) => setPhoneCode(e.target.value.replace(/\D/g, ''))}
                   className="form-input text-center text-lg tracking-widest"
                   placeholder="12345"
-                  maxLength="5"
+                  maxLength="6"
                   required
                 />
-                <p className="text-xs text-gray-500 mt-1">
-                  Check your Telegram app for the verification code
-                </p>
+                <div className="flex justify-between items-center mt-1">
+                  <p className="text-xs text-gray-500">
+                    Check your Telegram app
+                  </p>
+                  <button
+                    type="button"
+                    onClick={handleRequestNewCode}
+                    disabled={loading}
+                    className="text-xs text-blue-600 hover:text-blue-800 underline"
+                  >
+                    Resend code
+                  </button>
+                </div>
               </div>
 
-              <div className="flex space-x-3">
+              <div className="flex space-x-3 pt-2">
                 <button
                   type="button"
                   onClick={handleBack}
@@ -261,7 +404,7 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                 </button>
                 <button
                   type="submit"
-                  disabled={loading}
+                  disabled={loading || phoneCode.length < 5}
                   className={`btn btn-primary flex-1 ${loading ? 'loading' : ''}`}
                 >
                   {loading && <div className="spinner"></div>}
@@ -273,9 +416,8 @@ const TelegramSetup = ({ onAuthSuccess }) => {
 
           {/* Step 3: Two-Factor Authentication */}
           {step === '2fa' && (
-            <form onSubmit={handle2FASubmit} className="space-y-6">
-              <div className="text-center mb-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Enter 2FA Password</h3>
+            <form onSubmit={handle2FASubmit} className="space-y-4">
+              <div className="text-center mb-4">
                 <p className="text-sm text-gray-600">
                   Your account has two-factor authentication enabled
                 </p>
@@ -293,7 +435,7 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                 />
               </div>
 
-              <div className="flex space-x-3">
+              <div className="flex space-x-3 pt-2">
                 <button
                   type="button"
                   onClick={handleBack}
@@ -303,7 +445,7 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                 </button>
                 <button
                   type="submit"
-                  disabled={loading}
+                  disabled={loading || !twoFAPassword.trim()}
                   className={`btn btn-primary flex-1 ${loading ? 'loading' : ''}`}
                 >
                   {loading && <div className="spinner"></div>}
@@ -314,19 +456,29 @@ const TelegramSetup = ({ onAuthSuccess }) => {
           )}
 
           {/* Help Section */}
-          <div className="mt-8 pt-6 border-t border-gray-200">
+          <div className="mt-6 pt-4 border-t border-gray-200">
             <div className="text-center">
               <h4 className="text-sm font-medium text-gray-900 mb-2">Need Help?</h4>
-              <div className="space-y-1">
-                <p className="text-xs text-gray-600">
-                  1. Create API credentials at <a href="https://my.telegram.org" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">my.telegram.org</a>
-                </p>
-                <p className="text-xs text-gray-600">
-                  2. Use the same phone number as your Telegram account
-                </p>
-                <p className="text-xs text-gray-600">
-                  3. Check your Telegram app for the verification code
-                </p>
+              <div className="space-y-1 text-xs text-gray-600">
+                {step === 'config' && (
+                  <>
+                    <p>1. Visit <a href="https://my.telegram.org" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">my.telegram.org</a> to get API credentials</p>
+                    <p>2. Use your actual Telegram phone number</p>
+                  </>
+                )}
+                {step === 'phone-code' && (
+                  <>
+                    <p>1. Check your Telegram app for the code</p>
+                    <p>2. Code expires after 5 minutes</p>
+                    <p>3. Use "Resend code" if needed</p>
+                  </>
+                )}
+                {step === '2fa' && (
+                  <>
+                    <p>1. Enter the password you set for 2FA</p>
+                    <p>2. This is different from your phone code</p>
+                  </>
+                )}
               </div>
             </div>
           </div>
