@@ -158,30 +158,29 @@ class TelegramAutomationAPITester:
         self.run_test("Get Non-existent Message", "GET", "/messages/non-existent-id", 404)
 
     def test_group_targets_endpoints(self):
-        """Test group targets CRUD operations"""
+        """Test group targets CRUD operations with new simplified model"""
         print("\n" + "="*50)
-        print("TESTING GROUP TARGETS ENDPOINTS")
+        print("TESTING GROUP TARGETS ENDPOINTS (NEW SIMPLIFIED MODEL)")
         print("="*50)
         
         # Test getting empty list
         self.run_test("Get Group Targets (Empty)", "GET", "/groups", 200)
         
-        # Test creating group target
-        group_data = {
-            "name": "Test Group",
-            "group_link": "https://t.me/testgroup",
-            "username": "@testgroup",
-            "group_id": "test_group_123",
+        # Test creating group target with username
+        group_data_username = {
+            "group_identifier": "@testgroup",
             "is_active": True
         }
         success, created_group = self.run_test(
-            "Create Group Target", "POST", "/groups", 200, group_data
+            "Create Group Target (Username)", "POST", "/groups", 200, group_data_username
         )
         
         if success and created_group:
             group_id = created_group.get('id')
             if group_id:
                 self.created_resources['groups'].append(group_id)
+                print(f"   Created group with parsed_name: {created_group.get('parsed_name')}")
+                print(f"   Group type: {created_group.get('group_type')}")
                 
                 # Test getting specific group
                 self.run_test(
@@ -190,13 +189,60 @@ class TelegramAutomationAPITester:
                 
                 # Test updating group
                 update_data = {
-                    "name": "Updated Test Group",
-                    "group_link": "https://t.me/updatedtestgroup",
+                    "group_identifier": "https://t.me/updatedtestgroup",
                     "is_active": False
                 }
                 self.run_test(
                     "Update Group Target", "PUT", f"/groups/{group_id}", 200, update_data
                 )
+        
+        # Test creating group with Telegram link
+        group_data_link = {
+            "group_identifier": "https://t.me/testchannel",
+            "is_active": True
+        }
+        success, created_group_link = self.run_test(
+            "Create Group Target (Telegram Link)", "POST", "/groups", 200, group_data_link
+        )
+        
+        if success and created_group_link:
+            group_id = created_group_link.get('id')
+            if group_id:
+                self.created_resources['groups'].append(group_id)
+                print(f"   Created group with parsed_name: {created_group_link.get('parsed_name')}")
+                print(f"   Group type: {created_group_link.get('group_type')}")
+        
+        # Test creating group with group ID
+        group_data_id = {
+            "group_identifier": "-1001234567890",
+            "is_active": True
+        }
+        success, created_group_id = self.run_test(
+            "Create Group Target (Group ID)", "POST", "/groups", 200, group_data_id
+        )
+        
+        if success and created_group_id:
+            group_id = created_group_id.get('id')
+            if group_id:
+                self.created_resources['groups'].append(group_id)
+                print(f"   Created group with parsed_name: {created_group_id.get('parsed_name')}")
+                print(f"   Group type: {created_group_id.get('group_type')}")
+        
+        # Test creating group with invite link
+        group_data_invite = {
+            "group_identifier": "https://t.me/joinchat/AaBbCcDdEeFfGg",
+            "is_active": True
+        }
+        success, created_group_invite = self.run_test(
+            "Create Group Target (Invite Link)", "POST", "/groups", 200, group_data_invite
+        )
+        
+        if success and created_group_invite:
+            group_id = created_group_invite.get('id')
+            if group_id:
+                self.created_resources['groups'].append(group_id)
+                print(f"   Created group with parsed_name: {created_group_invite.get('parsed_name')}")
+                print(f"   Group type: {created_group_invite.get('group_type')}")
         
         # Test getting all groups
         self.run_test("Get All Group Targets", "GET", "/groups", 200)
