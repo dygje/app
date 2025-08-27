@@ -122,6 +122,11 @@ const TelegramSetup = ({ onAuthSuccess }) => {
       return;
     }
 
+    // Prevent double submission
+    if (loading) {
+      return;
+    }
+
     setLoading(true);
     setNotification({ type: '', message: '', show: false });
 
@@ -134,6 +139,7 @@ const TelegramSetup = ({ onAuthSuccess }) => {
         showNotification('info', '2FA password required. Please enter your password.');
         setTimeout(() => {
           setStep('2fa');
+          setLoading(false);
         }, 1500);
       } else {
         showNotification('success', 'Authentication successful! Redirecting...');
