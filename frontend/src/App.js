@@ -21,6 +21,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [telegramConfig, setTelegramConfig] = useState(null);
   const [currentPage, setCurrentPage] = useState('dashboard');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Check Telegram authentication status on app load
   const checkTelegramStatus = async () => {
@@ -58,10 +59,11 @@ function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading application...</p>
+      <div className="min-h-screen bg-surface-50 flex items-center justify-center">
+        <div className="text-center material-fade-in">
+          <div className="material-progress-circular w-12 h-12 mx-auto mb-6"></div>
+          <h2 className="text-title-large text-surface-900 mb-2">Loading Application</h2>
+          <p className="text-body-medium text-surface-600">Please wait while we initialize...</p>
         </div>
       </div>
     );
@@ -71,58 +73,134 @@ function App() {
   if (!isAuthenticated) {
     return (
       <BrowserRouter>
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-surface-50">
           <TelegramSetup onAuthSuccess={handleAuthSuccess} />
         </div>
       </BrowserRouter>
     );
   }
 
-  // Main application with sidebar navigation
+  // Main application with Material Design layout
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-gray-50 flex">
+      <div className="min-h-screen bg-surface-50 flex">
+        {/* Material Design Navigation Drawer */}
         <Sidebar 
           currentPage={currentPage} 
           setCurrentPage={setCurrentPage}
           telegramConfig={telegramConfig}
           onLogout={handleLogout}
+          isOpen={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
         />
         
-        <main className="flex-1 md:ml-0 pt-16 md:pt-0">
-          <Routes>
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
-            <Route 
-              path="/dashboard" 
-              element={
-                <Dashboard 
-                  telegramConfig={telegramConfig}
-                  setCurrentPage={setCurrentPage}
+        {/* Material Design Backdrop for mobile */}
+        {sidebarOpen && (
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
+        
+        {/* Material Design Main Content */}
+        <main className="flex-1 flex flex-col min-h-screen lg:ml-80">
+          {/* Material Design App Bar */}
+          <header className="material-app-bar sticky top-0 z-20 px-4 py-4 lg:px-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                {/* Mobile Menu Button */}
+                <button
+                  onClick={() => setSidebarOpen(true)}
+                  className="material-button-text lg:hidden p-2 -ml-2"
+                  aria-label="Open menu"
+                >
+                  <span className="material-icons">menu</span>
+                </button>
+                
+                {/* Page Title */}
+                <div>
+                  <h1 className="text-title-large text-white font-medium">
+                    {currentPage === 'dashboard' && 'Dashboard'}
+                    {currentPage === 'messages' && 'Messages'}
+                    {currentPage === 'groups' && 'Groups'}
+                    {currentPage === 'blacklist' && 'Blacklist'}
+                    {currentPage === 'settings' && 'Settings'}
+                  </h1>
+                  <p className="text-body-small text-primary-100 hidden md:block">
+                    Telegram Automation System
+                  </p>
+                </div>
+              </div>
+
+              {/* User Info & Actions */}
+              <div className="flex items-center space-x-4">
+                {/* Connection Status */}
+                <div className="hidden md:flex items-center space-x-2">
+                  <div className="material-status-online"></div>
+                  <span className="text-body-small text-white">
+                    {telegramConfig?.phone_number || 'Connected'}
+                  </span>
+                </div>
+
+                {/* Quick Actions */}
+                <div className="flex items-center space-x-2">
+                  <button 
+                    className="material-button-text p-2 text-white hover:bg-primary-700"
+                    title="Refresh"
+                    onClick={checkTelegramStatus}
+                  >
+                    <span className="material-icons">refresh</span>
+                  </button>
+                  
+                  <button 
+                    className="material-button-text p-2 text-white hover:bg-primary-700"
+                    title="Notifications"
+                  >
+                    <span className="material-icons">notifications</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </header>
+
+          {/* Material Design Content Area */}
+          <div className="flex-1 overflow-auto">
+            <div className="container-material py-6">
+              <Routes>
+                <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                <Route 
+                  path="/dashboard" 
+                  element={
+                    <Dashboard 
+                      telegramConfig={telegramConfig}
+                      setCurrentPage={setCurrentPage}
+                    />
+                  } 
                 />
-              } 
-            />
-            <Route 
-              path="/messages" 
-              element={<MessageManager />} 
-            />
-            <Route 
-              path="/groups" 
-              element={<GroupManager />} 
-            />
-            <Route 
-              path="/blacklist" 
-              element={<BlacklistManager />} 
-            />
-            <Route 
-              path="/settings" 
-              element={
-                <AutomationSettings 
-                  telegramConfig={telegramConfig}
-                  onConfigUpdate={checkTelegramStatus}
+                <Route 
+                  path="/messages" 
+                  element={<MessageManager />} 
                 />
-              } 
-            />
-          </Routes>
+                <Route 
+                  path="/groups" 
+                  element={<GroupManager />} 
+                />
+                <Route 
+                  path="/blacklist" 
+                  element={<BlacklistManager />} 
+                />
+                <Route 
+                  path="/settings" 
+                  element={
+                    <AutomationSettings 
+                      telegramConfig={telegramConfig}
+                      onConfigUpdate={checkTelegramStatus}
+                    />
+                  } 
+                />
+              </Routes>
+            </div>
+          </div>
         </main>
       </div>
     </BrowserRouter>
