@@ -27,7 +27,7 @@ const GroupManager = () => {
       setGroups(response.data);
     } catch (error) {
       console.error('Failed to load groups:', error);
-      alert('Gagal memuat grup. Silakan refresh halaman.');
+      alert('Failed to load groups. Please refresh the page.');
     } finally {
       setLoading(false);
     }
