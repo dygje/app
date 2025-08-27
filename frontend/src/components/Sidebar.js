@@ -141,7 +141,7 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, onLogout }) => {
                 </p>
                 <div className="flex items-center space-x-1">
                   <span className="status-dot status-online"></span>
-                  <span className="text-xs text-gray-500 ml-1">Terhubung</span>
+                  <span className="text-xs text-gray-500 ml-1">Connected</span>
                 </div>
               </div>
             </div>
