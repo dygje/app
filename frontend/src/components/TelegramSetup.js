@@ -443,7 +443,11 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                 <input
                   type="text"
                   value={phoneCode}
-                  onChange={(e) => setPhoneCode(e.target.value.replace(/\D/g, ''))}
+                  onChange={(e) => {
+                    const numericCode = e.target.value.replace(/\D/g, '');
+                    setPhoneCode(numericCode);
+                    console.log('Phone code updated:', numericCode, 'Length:', numericCode.length);
+                  }}
                   className="form-input text-center text-lg tracking-widest"
                   placeholder="12345"
                   maxLength="6"
