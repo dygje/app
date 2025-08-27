@@ -48,7 +48,7 @@ const GroupManager = () => {
       handleCloseModal();
     } catch (error) {
       console.error('Failed to save group:', error);
-      alert('Gagal menyimpan grup. Silakan coba lagi.');
+      alert('Failed to save group. Please try again.');
     } finally {
       setActionLoading(false);
     }
