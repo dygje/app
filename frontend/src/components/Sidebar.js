@@ -33,13 +33,13 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, onLogout }) => {
     },
     {
       id: 'messages',
-      name: 'Kelola Pesan',
+      name: 'Messages',
       icon: '💬',
       path: '/messages'
     },
     {
       id: 'groups',
-      name: 'Kelola Grup',
+      name: 'Groups',
       icon: '👥',
       path: '/groups'
     },
@@ -51,7 +51,7 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, onLogout }) => {
     },
     {
       id: 'settings',
-      name: 'Pengaturan',
+      name: 'Settings',
       icon: '⚙️',
       path: '/settings'
     }
