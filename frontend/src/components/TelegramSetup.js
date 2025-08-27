@@ -50,6 +50,7 @@ const TelegramSetup = ({ onAuthSuccess }) => {
   }, [step]);
 
   const showNotification = (type, message) => {
+    setNotificationStartTime(Date.now());
     setNotification({ type, message, show: true });
     // Clear old state
     setError('');
