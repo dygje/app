@@ -150,6 +150,30 @@ backend:
         agent: "testing"
         comment: "✅ PASSED: Bulk import API working excellently. Successfully imported 7 groups from mixed formats, correctly skipped empty strings and duplicates, handled whitespace trimming. All group types parsed correctly during bulk import."
 
+  - task: "Message Templates CRUD Operations"
+    implemented: true
+    working: true
+    file: "server.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ PASSED: All message template CRUD operations working correctly. Create, read, update, delete all functional. Proper error handling for non-existent templates."
+
+  - task: "Automation Config with Forced Blacklist Cleanup"
+    implemented: true
+    working: true
+    file: "server.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ PASSED: Automation configuration working correctly. Verified auto_cleanup_blacklist is always True by default and remains True after updates, as required. All automation endpoints functional."
+
 frontend:
   - task: "Update Group Manager UI"
     implemented: false
