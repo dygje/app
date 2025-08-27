@@ -491,9 +491,25 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                   type="button"
                   onClick={handleBack}
                   className="btn btn-outline flex-1"
+                  disabled={loading}
                 >
                   Back
                 </button>
+                
+                {loading && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setLoading(false);
+                      setNotification({ type: '', message: '', show: false });
+                    }}
+                    className="btn btn-secondary"
+                    title="Reset if stuck"
+                  >
+                    Reset
+                  </button>
+                )}
+                
                 <button
                   type="submit"
                   disabled={loading || !phoneCode || phoneCode.length < 5}
