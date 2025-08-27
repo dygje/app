@@ -164,8 +164,8 @@ code {
 
   /* Material Design Badges */
   .material-badge {
-    @apply inline-flex items-center px-2 py-1 text-label-small font-medium 
-           rounded-full transition-colors duration-material-short4;
+    @apply inline-flex items-center px-2 py-1 text-xs font-medium 
+           rounded-full transition-colors duration-200;
   }
 
   .material-badge-success {
