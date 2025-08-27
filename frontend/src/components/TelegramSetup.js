@@ -217,31 +217,39 @@ const TelegramSetup = ({ onAuthSuccess }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4" style={{fontFamily: 'Roboto, sans-serif'}}>
       <div className="max-w-sm w-full">
-        <div className="bg-white rounded-2xl shadow-lg p-6">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <div className="mx-auto w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mb-4">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
-                <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-              </svg>
+        {/* Material Design Card with Elevation */}
+        <div className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden" style={{elevation: '4dp'}}>
+          
+          {/* Material Header with Primary Color */}
+          <div className="bg-blue-600 px-6 py-8 text-center relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-blue-700 opacity-90"></div>
+            <div className="relative z-10">
+              {/* Material Icon */}
+              <div className="mx-auto w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-4 backdrop-blur-sm shadow-lg">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="white">
+                  <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                </svg>
+              </div>
+              <h1 className="text-xl font-medium text-white mb-2" style={{fontWeight: 500}}>{getStepTitle()}</h1>
+              <p className="text-blue-100 text-sm opacity-90">{getStepDescription()}</p>
             </div>
-            <h1 className="text-xl font-semibold text-gray-900 mb-2">{getStepTitle()}</h1>
-            <p className="text-sm text-gray-600">{getStepDescription()}</p>
           </div>
 
-          {/* Progress Bar */}
-          <div className="mb-8">
+          {/* Material Progress Indicator */}
+          <div className="px-6 py-4 bg-gray-50 border-b border-gray-200">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-medium text-gray-600">Step {step === 'config' ? '1' : step === 'phone-code' ? '2' : '3'} of 3</span>
-              <span className="text-xs text-gray-500">
+              <span className="text-xs font-medium text-gray-600 uppercase tracking-wide" style={{letterSpacing: '0.5px'}}>
+                Step {step === 'config' ? '1' : step === 'phone-code' ? '2' : '3'} of 3
+              </span>
+              <span className="text-xs text-gray-500 font-medium">
                 {step === 'config' ? '33%' : step === 'phone-code' ? '67%' : '100%'}
               </span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-2">
+            <div className="w-full bg-gray-300 rounded-full h-1">
               <div 
-                className="bg-blue-500 h-2 rounded-full transition-all duration-300" 
+                className="bg-blue-600 h-1 rounded-full transition-all duration-500 ease-out" 
                 style={{
                   width: step === 'config' ? '33%' : step === 'phone-code' ? '67%' : '100%'
                 }}
@@ -249,32 +257,63 @@ const TelegramSetup = ({ onAuthSuccess }) => {
             </div>
           </div>
 
-          {/* Notification */}
-          {notification.show && (
-            <div className={`mb-6 p-4 rounded-lg border-l-4 ${
-              notification.type === 'error' ? 'bg-red-50 border-l-red-400' :
-              notification.type === 'success' ? 'bg-green-50 border-l-green-400' :
-              'bg-blue-50 border-l-blue-400'
-            }`}>
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <p className={`text-sm font-medium ${
-                    notification.type === 'error' ? 'text-red-800' :
-                    notification.type === 'success' ? 'text-green-800' :
-                    'text-blue-800'
-                  }`}>
-                    {notification.message}
-                  </p>
+          {/* Material Content Area */}
+          <div className="px-6 py-8">
+            {/* Material Notification Card */}
+            {notification.show && (
+              <div className={`mb-6 rounded-lg shadow-md transition-all duration-300 transform ${
+                notification.show ? 'scale-100 opacity-100 translate-y-0' : 'scale-95 opacity-0 translate-y-2'
+              } ${
+                notification.type === 'error' ? 'bg-red-50 border-l-4 border-red-500' :
+                notification.type === 'success' ? 'bg-green-50 border-l-4 border-green-500' :
+                'bg-blue-50 border-l-4 border-blue-500'
+              }`} style={{elevation: '2dp'}}>
+                <div className="p-4">
+                  <div className="flex items-start">
+                    <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center mr-3 ${
+                      notification.type === 'error' ? 'bg-red-500' :
+                      notification.type === 'success' ? 'bg-green-500' :
+                      'bg-blue-500'
+                    }`}>
+                      {notification.type === 'error' ? (
+                        <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                        </svg>
+                      ) : notification.type === 'success' ? (
+                        <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      ) : (
+                        <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className={`text-sm font-medium ${
+                        notification.type === 'error' ? 'text-red-800' :
+                        notification.type === 'success' ? 'text-green-800' :
+                        'text-blue-800'
+                      }`}>
+                        {notification.message}
+                      </p>
+                    </div>
+                    {/* Material Icon Button */}
+                    <button
+                      onClick={() => setNotification({ ...notification, show: false })}
+                      className="flex-shrink-0 ml-3 w-6 h-6 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-200 transition-all duration-200 material-ripple"
+                      style={{
+                        WebkitTapHighlightColor: 'transparent'
+                      }}
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
-                <button
-                  onClick={() => setNotification({ ...notification, show: false })}
-                  className="text-gray-400 hover:text-gray-600 ml-3"
-                >
-                  ×
-                </button>
               </div>
-            </div>
-          )}
+            )}
 
           {/* Step 1: Configuration */}
           {step === 'config' && (
