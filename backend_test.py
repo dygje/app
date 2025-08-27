@@ -519,6 +519,7 @@ class TelegramAutomationAPITester:
             # Test all endpoints
             self.test_root_endpoint()
             self.test_telegram_config_endpoints()
+            self.test_authentication_error_handling()  # New focused test for auth error handling
             self.test_message_templates_endpoints()
             self.test_group_targets_endpoints()
             self.test_bulk_group_import()
