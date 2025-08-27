@@ -47,8 +47,8 @@
   /* Material Design FAB (Floating Action Button) */
   .material-fab {
     @apply fixed bottom-6 right-6 w-14 h-14 bg-secondary-500 text-white rounded-full
-           shadow-elevation-6 hover:shadow-elevation-8 active:shadow-elevation-12
-           flex items-center justify-center transition-all duration-material-medium2
+           shadow-lg hover:shadow-xl active:shadow-xl
+           flex items-center justify-center transition-all duration-300
            hover:scale-110 active:scale-95 z-50;
   }
 
@@ -59,7 +59,7 @@
   /* Material Design Snackbar */
   .material-snackbar {
     @apply fixed bottom-6 left-6 right-6 bg-surface-800 text-white px-4 py-3 
-           rounded-sm shadow-elevation-6 z-50 transition-all duration-material-medium3
+           rounded-sm shadow-lg z-50 transition-all duration-300
            transform translate-y-full;
   }
 
@@ -69,17 +69,17 @@
 
   /* Material Design App Bar */
   .material-app-bar {
-    @apply bg-primary-600 text-white shadow-elevation-4 
-           transition-shadow duration-material-short4;
+    @apply bg-primary-600 text-white shadow-md 
+           transition-shadow duration-300;
   }
 
   .material-app-bar-scrolled {
-    @apply shadow-elevation-8;
+    @apply shadow-lg;
   }
 
   /* Material Design Navigation Drawer */
   .material-nav-drawer {
-    @apply bg-white shadow-elevation-16 transition-all duration-material-medium4;
+    @apply bg-white shadow-xl transition-all duration-300;
   }
 
   .material-nav-drawer-modal {
@@ -92,7 +92,7 @@
 
   /* Material Design Data Tables */
   .material-table {
-    @apply w-full bg-white shadow-elevation-1 rounded-lg overflow-hidden;
+    @apply w-full bg-white shadow-sm rounded-lg overflow-hidden;
   }
 
   .material-table-header {
@@ -100,19 +100,19 @@
   }
 
   .material-table-cell {
-    @apply px-6 py-4 text-body-medium text-surface-700;
+    @apply px-6 py-4 text-sm text-surface-700;
   }
 
   .material-table-row {
     @apply border-b border-surface-100 hover:bg-surface-50 
-           transition-colors duration-material-short3;
+           transition-colors duration-200;
   }
 
   /* Material Design Chips */
   .material-chip {
-    @apply inline-flex items-center px-3 py-1 text-label-medium font-medium
+    @apply inline-flex items-center px-3 py-1 text-sm font-medium
            bg-surface-100 text-surface-700 rounded-full border border-surface-300
-           hover:bg-surface-200 transition-colors duration-material-short3;
+           hover:bg-surface-200 transition-colors duration-200;
   }
 
   .material-chip-selected {
@@ -125,7 +125,7 @@
   }
 
   .material-progress-bar {
-    @apply h-full bg-primary-600 transition-all duration-material-medium3 ease-out;
+    @apply h-full bg-primary-600 transition-all duration-300 ease-out;
   }
 
   .material-progress-circular {
@@ -134,22 +134,22 @@
 
   /* Material Design Dialog/Modal */
   .material-dialog {
-    @apply bg-white rounded-xl shadow-elevation-24 max-w-md mx-auto
-           transform transition-all duration-material-medium3;
+    @apply bg-white rounded-xl shadow-2xl max-w-md mx-auto
+           transform transition-all duration-300;
   }
 
   .material-dialog-backdrop {
     @apply fixed inset-0 bg-black bg-opacity-50 z-50 
-           transition-opacity duration-material-medium3;
+           transition-opacity duration-300;
   }
 
   /* Material Design Lists */
   .material-list {
-    @apply bg-white rounded-lg shadow-elevation-1 divide-y divide-surface-100;
+    @apply bg-white rounded-lg shadow-sm divide-y divide-surface-100;
   }
 
   .material-list-item {
-    @apply px-4 py-3 hover:bg-surface-50 transition-colors duration-material-short3
+    @apply px-4 py-3 hover:bg-surface-50 transition-colors duration-200
            flex items-center space-x-4;
   }
 
@@ -160,12 +160,12 @@
   /* Material Design Switches */
   .material-switch {
     @apply relative inline-block w-12 h-6 bg-surface-300 rounded-full
-           transition-colors duration-material-short4 cursor-pointer;
+           transition-colors duration-300 cursor-pointer;
   }
 
   .material-switch-thumb {
-    @apply absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow-elevation-1
-           transition-transform duration-material-short4;
+    @apply absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow-sm
+           transition-transform duration-300;
   }
 
   .material-switch:checked {
@@ -174,23 +174,6 @@
 
   .material-switch:checked .material-switch-thumb {
     @apply transform translate-x-6;
-  }
-
-  /* Material Design Text Fields with Floating Labels */
-  .material-textfield {
-    @apply relative;
-  }
-
-  .material-textfield-input {
-    @apply w-full px-4 pt-6 pb-2 text-body-large bg-surface-50 border border-surface-300
-           rounded-sm transition-all duration-material-short4 peer
-           focus:border-primary-600 focus:bg-transparent focus:outline-none;
-  }
-
-  .material-textfield-label {
-    @apply absolute left-4 top-4 text-body-medium text-surface-500 pointer-events-none
-           transition-all duration-material-short4 peer-focus:top-2 peer-focus:text-label-small 
-           peer-focus:text-primary-600 peer-valid:top-2 peer-valid:text-label-small;
   }
 }
 
