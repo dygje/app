@@ -90,15 +90,15 @@ code {
   /* Material Design Buttons */
   .material-button {
     @apply relative inline-flex items-center justify-center min-w-16 h-10 px-6 
-           rounded-full text-label-large font-medium transition-all duration-material-short4
+           rounded-full text-sm font-medium transition-all duration-200
            focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
-           disabled:opacity-38 disabled:pointer-events-none overflow-hidden
+           disabled:opacity-50 disabled:pointer-events-none overflow-hidden
            active:scale-95;
   }
 
   .material-button-filled {
     @apply material-button bg-primary-600 text-white hover:bg-primary-700 
-           hover:shadow-elevation-2 active:bg-primary-800;
+           shadow-sm hover:shadow-md active:bg-primary-800;
   }
 
   .material-button-outlined {
@@ -117,11 +117,11 @@ code {
 
   /* Material Design Cards */
   .material-card {
-    @apply bg-white rounded-xl transition-shadow duration-material-short4;
+    @apply bg-white rounded-xl transition-shadow duration-200;
   }
 
   .material-card-filled {
-    @apply material-card shadow-elevation-1 hover:shadow-elevation-2;
+    @apply material-card shadow-sm hover:shadow-md;
   }
 
   .material-card-outlined {
@@ -129,7 +129,7 @@ code {
   }
 
   .material-card-elevated {
-    @apply material-card shadow-elevation-2 hover:shadow-elevation-4;
+    @apply material-card shadow-md hover:shadow-lg;
   }
 
   /* Material Design Inputs */
