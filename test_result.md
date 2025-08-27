@@ -223,6 +223,18 @@ frontend:
         agent: "main"
         comment: "Added comprehensive mobile optimization: Android-specific CSS, mobile menu, responsive design, improved touch targets, mobile-first responsive tables and cards."
 
+  - task: "Language Localization to English"
+    implemented: true
+    working: false  # needs testing
+    file: "TelegramSetup.js, Sidebar.js, Dashboard.js, GroupManager.js, AutomationSettings.js, App.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "Converted all text from Indonesian to English. Updated authentication page to be simpler without 'Telegram Automation' text, added official Telegram logo SVG, and translated all user-facing text."
+
   - task: "Remove Blacklist Settings"
     implemented: true
     working: false  # needs testing
@@ -233,7 +245,7 @@ frontend:
     status_history:
       - working: false
         agent: "main"
-        comment: "Removed interactive blacklist settings checkbox and replaced with informational section indicating auto cleanup is always active."
+        comment: "Removed interactive blacklist settings checkbox and replaced with informational section indicating auto cleanup is always active. Updated text to English."
 
 metadata:
   created_by: "main_agent"
