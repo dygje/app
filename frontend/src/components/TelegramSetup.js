@@ -7,6 +7,7 @@ const TelegramSetup = ({ onAuthSuccess }) => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [notification, setNotification] = useState({ type: '', message: '', show: false });
+  const [notificationStartTime, setNotificationStartTime] = useState(Date.now());
   
   // Configuration step
   const [config, setConfig] = useState({
