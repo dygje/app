@@ -359,20 +359,35 @@ class TelegramAutomationAPITester:
         print("="*50)
         
         # Test getting automation config
-        self.run_test("Get Automation Config", "GET", "/automation/config", 200)
+        success, config = self.run_test("Get Automation Config", "GET", "/automation/config", 200)
         
-        # Test updating automation config
+        # Verify auto_cleanup_blacklist is always True
+        if success and config:
+            auto_cleanup = config.get('auto_cleanup_blacklist')
+            if auto_cleanup is True:
+                print("✅ Verified: auto_cleanup_blacklist is True by default")
+            else:
+                print(f"❌ Warning: auto_cleanup_blacklist is {auto_cleanup}, expected True")
+        
+        # Test updating automation config (auto_cleanup_blacklist should remain True)
         config_update = {
             "is_active": False,
             "message_delay_min": 10,
             "message_delay_max": 20,
             "cycle_delay_min": 2.0,
-            "cycle_delay_max": 3.0,
-            "auto_cleanup_blacklist": True
+            "cycle_delay_max": 3.0
         }
-        self.run_test(
+        success, updated_config = self.run_test(
             "Update Automation Config", "PUT", "/automation/config", 200, config_update
         )
+        
+        # Verify auto_cleanup_blacklist is still True after update
+        if success and updated_config:
+            auto_cleanup = updated_config.get('auto_cleanup_blacklist')
+            if auto_cleanup is True:
+                print("✅ Verified: auto_cleanup_blacklist remains True after update")
+            else:
+                print(f"❌ Warning: auto_cleanup_blacklist is {auto_cleanup} after update, expected True")
         
         # Test getting automation status
         self.run_test("Get Automation Status", "GET", "/automation/status", 200)
