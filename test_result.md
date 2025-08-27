@@ -176,52 +176,64 @@ backend:
 
 frontend:
   - task: "Update Group Manager UI"
-    implemented: false
-    working: false
+    implemented: true
+    working: false  # needs testing
     file: "GroupManager.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: false
         agent: "main"
-        comment: "Need to update frontend to match new simplified group management API"
+        comment: "Updated GroupManager to use simplified single group_identifier field with auto-detection. Added mobile-responsive design and bulk import UI for TXT/CSV files."
 
   - task: "Add Bulk Import Feature"
-    implemented: false
-    working: false
+    implemented: true
+    working: false  # needs testing
     file: "GroupManager.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: false
         agent: "main"
-        comment: "Need to add bulk import UI for TXT/CSV files"
+        comment: "Added bulk import modal with file upload support for TXT/CSV and manual textarea input. Includes validation and duplicate detection."
 
   - task: "Dashboard Authentication Command"
-    implemented: false
-    working: false
+    implemented: true
+    working: false  # needs testing
     file: "Dashboard.js"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: false
         agent: "main"
-        comment: "Need to add authentication guidance in dashboard if user not authenticated"
+        comment: "Added authentication guidance section in dashboard that appears when user is not authenticated, with step-by-step instructions and quick link to settings."
 
   - task: "Mobile UI Optimization"
-    implemented: false
-    working: false
-    file: "index.css"
+    implemented: true
+    working: false  # needs testing
+    file: "index.css, Sidebar.js, App.js"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: false
         agent: "main"
-        comment: "Need to optimize CSS for Android browser compatibility"
+        comment: "Added comprehensive mobile optimization: Android-specific CSS, mobile menu, responsive design, improved touch targets, mobile-first responsive tables and cards."
+
+  - task: "Remove Blacklist Settings"
+    implemented: true
+    working: false  # needs testing
+    file: "AutomationSettings.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "Removed interactive blacklist settings checkbox and replaced with informational section indicating auto cleanup is always active."
 
 metadata:
   created_by: "main_agent"
