@@ -447,6 +447,7 @@ class TelegramAutomationAPITester:
             self.test_telegram_config_endpoints()
             self.test_message_templates_endpoints()
             self.test_group_targets_endpoints()
+            self.test_bulk_group_import()
             self.test_blacklist_endpoints()
             self.test_automation_endpoints()
             self.test_legacy_endpoints()
