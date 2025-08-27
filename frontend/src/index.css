@@ -325,19 +325,19 @@ code {
   }
 
   @screen sm {
-    .container-material { @apply max-w-640px; }
+    .container-material { @apply max-w-sm; }
   }
 
   @screen md {
-    .container-material { @apply max-w-768px; }
+    .container-material { @apply max-w-md; }
   }
 
   @screen lg {
-    .container-material { @apply max-w-1024px; }
+    .container-material { @apply max-w-4xl; }
   }
 
   @screen xl {
-    .container-material { @apply max-w-1200px; }
+    .container-material { @apply max-w-6xl; }
   }
 
   /* Material Design Safe Areas */
