@@ -1,10 +1,28 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, onLogout }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
+
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isMobileMenuOpen && !event.target.closest('aside') && !event.target.closest('[data-mobile-menu-button]')) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isMobileMenuOpen]);
 
   const menuItems = [
     {
@@ -42,12 +60,41 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, onLogout }) => {
   const handleMenuClick = (item) => {
     setCurrentPage(item.id);
     navigate(item.path);
+    setIsMobileMenuOpen(false);
   };
 
   return (
-    <aside className={`bg-white shadow-lg transition-all duration-300 ${isCollapsed ? 'w-16' : 'w-64'} min-h-screen flex flex-col`}>
-      {/* Header */}
-      <div className="p-4 border-b border-gray-200">
+    <>
+      {/* Mobile Menu Button */}
+      <button
+        data-mobile-menu-button
+        className="md:hidden fixed top-4 left-4 z-50 bg-white shadow-md rounded-lg p-2 border border-gray-200"
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+      >
+        {isMobileMenuOpen ? (
+          <span className="text-xl">✕</span>
+        ) : (
+          <span className="text-xl">☰</span>
+        )}
+      </button>
+
+      {/* Mobile Backdrop */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-40" />
+      )}
+
+      {/* Sidebar */}
+      <aside className={`
+        bg-white shadow-lg transition-all duration-300 min-h-screen flex flex-col z-40
+        ${isCollapsed && !isMobileMenuOpen ? 'w-16' : 'w-64'}
+        md:relative md:translate-x-0
+        ${isMobileMenuOpen 
+          ? 'fixed left-0 top-0 translate-x-0' 
+          : 'fixed left-0 top-0 -translate-x-full md:translate-x-0'
+        }
+      `}>
+        {/* Header */}
+        <div className="p-4 border-b border-gray-200">
         <div className="flex items-center justify-between">
           {!isCollapsed && (
             <div>
