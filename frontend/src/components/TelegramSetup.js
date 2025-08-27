@@ -448,20 +448,31 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                     setPhoneCode(numericCode);
                     console.log('Phone code updated:', numericCode, 'Length:', numericCode.length);
                   }}
-                  className="form-input text-center text-lg tracking-widest"
+                  className={`form-input text-center text-lg tracking-widest ${
+                    phoneCode.length >= 5 ? 'border-green-300 bg-green-50' : ''
+                  }`}
                   placeholder="12345"
                   maxLength="6"
                   required
                 />
                 <div className="flex justify-between items-center mt-1">
-                  <p className="text-xs text-gray-500">
-                    Check your Telegram app
-                  </p>
+                  <div className="flex items-center space-x-2">
+                    <p className="text-xs text-gray-500">
+                      Check your Telegram app
+                    </p>
+                    {phoneCode && (
+                      <span className={`text-xs px-2 py-0.5 rounded-full ${
+                        phoneCode.length >= 5 ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
+                      }`}>
+                        {phoneCode.length}/5+
+                      </span>
+                    )}
+                  </div>
                   <button
                     type="button"
                     onClick={handleRequestNewCode}
                     disabled={loading}
-                    className="text-xs text-blue-600 hover:text-blue-800 underline"
+                    className="text-xs text-blue-600 hover:text-blue-800 underline disabled:opacity-50"
                   >
                     Resend code
                   </button>
