@@ -60,7 +60,7 @@ const Dashboard = ({ telegramConfig, setCurrentPage }) => {
       await loadDashboardData();
     } catch (error) {
       console.error('Failed to toggle automation:', error);
-      alert('Gagal mengubah status automation. Silakan coba lagi.');
+      alert('Failed to change automation status. Please try again.');
     } finally {
       setActionLoading(false);
     }
@@ -69,12 +69,12 @@ const Dashboard = ({ telegramConfig, setCurrentPage }) => {
   const formatTime = (hours) => {
     const h = Math.floor(hours);
     const m = Math.floor((hours - h) * 60);
-    return `${h}j ${m}m`;
+    return `${h}h ${m}m`;
   };
 
   if (loading) {
     return (
-      <div className="p-6">
+      <div className="p-4 md:p-6">
         <div className="animate-pulse">
           <div className="h-8 bg-gray-200 rounded w-1/4 mb-6"></div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -88,68 +88,68 @@ const Dashboard = ({ telegramConfig, setCurrentPage }) => {
   }
 
   return (
-    <div className="p-6 fade-in">
+    <div className="p-4 md:p-6 fade-in">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Dashboard</h1>
-        <p className="text-gray-600">Kelola dan monitor sistem automasi Telegram Anda</p>
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Dashboard</h1>
+        <p className="text-gray-600">Manage and monitor your Telegram automation system</p>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div className="bg-white rounded-lg shadow-md p-6 card-shadow">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
+        <div className="bg-white rounded-lg shadow-md p-4 md:p-6 card-shadow">
           <div className="flex items-center">
             <div className="p-3 bg-blue-100 rounded-full">
-              <span className="text-2xl">💬</span>
+              <span className="text-xl md:text-2xl">💬</span>
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Total Pesan</p>
-              <p className="text-2xl font-bold text-gray-900">{stats.totalMessages}</p>
-              <p className="text-xs text-green-600">{stats.messagesActive} aktif</p>
+              <p className="text-sm font-medium text-gray-600">Total Messages</p>
+              <p className="text-xl md:text-2xl font-bold text-gray-900">{stats.totalMessages}</p>
+              <p className="text-xs text-green-600">{stats.messagesActive} active</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-6 card-shadow">
+        <div className="bg-white rounded-lg shadow-md p-4 md:p-6 card-shadow">
           <div className="flex items-center">
             <div className="p-3 bg-green-100 rounded-full">
-              <span className="text-2xl">👥</span>
+              <span className="text-xl md:text-2xl">👥</span>
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Total Grup</p>
-              <p className="text-2xl font-bold text-gray-900">{stats.totalGroups}</p>
-              <p className="text-xs text-blue-600">Target aktif</p>
+              <p className="text-sm font-medium text-gray-600">Total Groups</p>
+              <p className="text-xl md:text-2xl font-bold text-gray-900">{stats.totalGroups}</p>
+              <p className="text-xs text-blue-600">Active targets</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-6 card-shadow">
+        <div className="bg-white rounded-lg shadow-md p-4 md:p-6 card-shadow">
           <div className="flex items-center">
             <div className="p-3 bg-red-100 rounded-full">
-              <span className="text-2xl">🚫</span>
+              <span className="text-xl md:text-2xl">🚫</span>
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Blacklist</p>
-              <p className="text-2xl font-bold text-gray-900">{stats.blacklistedGroups}</p>
-              <p className="text-xs text-red-600">Grup diblokir</p>
+              <p className="text-sm font-medium text-gray-600">Blacklisted</p>
+              <p className="text-xl md:text-2xl font-bold text-gray-900">{stats.blacklistedGroups}</p>
+              <p className="text-xs text-red-600">Blocked groups</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-6 card-shadow">
+        <div className="bg-white rounded-lg shadow-md p-4 md:p-6 card-shadow">
           <div className="flex items-center">
             <div className="p-3 bg-yellow-100 rounded-full">
-              <span className="text-2xl">⚡</span>
+              <span className="text-xl md:text-2xl">⚡</span>
             </div>
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Status</p>
-              <p className="text-2xl font-bold text-gray-900">
-                {automationConfig?.is_active ? 'Aktif' : 'Nonaktif'}
+              <p className="text-xl md:text-2xl font-bold text-gray-900">
+                {automationConfig?.is_active ? 'Active' : 'Inactive'}
               </p>
               <div className="flex items-center">
                 <span className={`status-dot ${automationConfig?.is_active ? 'status-online' : 'status-offline'}`}></span>
-                <span className="text-xs text-gray-500">
-                  {automationConfig?.is_active ? 'Berjalan' : 'Berhenti'}
+                <span className="text-xs text-gray-500 ml-1">
+                  {automationConfig?.is_active ? 'Running' : 'Stopped'}
                 </span>
               </div>
             </div>
@@ -158,21 +158,21 @@ const Dashboard = ({ telegramConfig, setCurrentPage }) => {
       </div>
 
       {/* Main Control Panel */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-8">
         {/* Automation Control */}
-        <div className="bg-white rounded-lg shadow-md p-6 card-shadow">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Kontrol Automasi</h3>
+        <div className="bg-white rounded-lg shadow-md p-4 md:p-6 card-shadow">
+          <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-4">Automation Control</h3>
           
           <div className="space-y-4">
             <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
               <div>
                 <p className="font-medium text-gray-900">
-                  Status: {automationConfig?.is_active ? 'Aktif' : 'Nonaktif'}
+                  Status: {automationConfig?.is_active ? 'Active' : 'Inactive'}
                 </p>
                 <p className="text-sm text-gray-600">
                   {automationConfig?.is_active 
-                    ? 'Sistem sedang mengirim pesan otomatis' 
-                    : 'Sistem tidak mengirim pesan'}
+                    ? 'System is sending automated messages' 
+                    : 'System is not sending messages'}
                 </p>
               </div>
               <button
@@ -181,20 +181,20 @@ const Dashboard = ({ telegramConfig, setCurrentPage }) => {
                 className={`btn ${automationConfig?.is_active ? 'btn-danger' : 'btn-success'} ${actionLoading ? 'loading' : ''}`}
               >
                 {actionLoading && <div className="spinner"></div>}
-                {automationConfig?.is_active ? 'Hentikan' : 'Mulai'}
+                {automationConfig?.is_active ? 'Stop' : 'Start'}
               </button>
             </div>
 
             {automationConfig && (
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">Delay Pesan:</span>
+                  <span className="text-sm text-gray-600">Message Delay:</span>
                   <span className="text-sm font-medium">
-                    {automationConfig.message_delay_min}-{automationConfig.message_delay_max} detik
+                    {automationConfig.message_delay_min}-{automationConfig.message_delay_max} seconds
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">Delay Siklus:</span>
+                  <span className="text-sm text-gray-600">Cycle Delay:</span>
                   <span className="text-sm font-medium">
                     {formatTime(automationConfig.cycle_delay_min)}-{formatTime(automationConfig.cycle_delay_max)}
                   </span>
@@ -202,7 +202,7 @@ const Dashboard = ({ telegramConfig, setCurrentPage }) => {
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Auto Cleanup:</span>
                   <span className={`badge ${automationConfig.auto_cleanup_blacklist ? 'badge-success' : 'badge-error'}`}>
-                    {automationConfig.auto_cleanup_blacklist ? 'Aktif' : 'Nonaktif'}
+                    {automationConfig.auto_cleanup_blacklist ? 'Enabled' : 'Disabled'}
                   </span>
                 </div>
               </div>
@@ -211,8 +211,8 @@ const Dashboard = ({ telegramConfig, setCurrentPage }) => {
         </div>
 
         {/* Quick Actions */}
-        <div className="bg-white rounded-lg shadow-md p-6 card-shadow">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Quick Actions</h3>
+        <div className="bg-white rounded-lg shadow-md p-4 md:p-6 card-shadow">
+          <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-4">Quick Actions</h3>
           
           <div className="grid grid-cols-2 gap-3">
             <button
@@ -220,7 +220,7 @@ const Dashboard = ({ telegramConfig, setCurrentPage }) => {
               className="btn btn-outline p-4 flex flex-col items-center space-y-2 btn-hover-scale"
             >
               <span className="text-2xl">💬</span>
-              <span className="text-sm">Kelola Pesan</span>
+              <span className="text-sm">Messages</span>
             </button>
             
             <button
@@ -228,7 +228,7 @@ const Dashboard = ({ telegramConfig, setCurrentPage }) => {
               className="btn btn-outline p-4 flex flex-col items-center space-y-2 btn-hover-scale"
             >
               <span className="text-2xl">👥</span>
-              <span className="text-sm">Kelola Grup</span>
+              <span className="text-sm">Groups</span>
             </button>
             
             <button
@@ -244,15 +244,15 @@ const Dashboard = ({ telegramConfig, setCurrentPage }) => {
               className="btn btn-outline p-4 flex flex-col items-center space-y-2 btn-hover-scale"
             >
               <span className="text-2xl">⚙️</span>
-              <span className="text-sm">Pengaturan</span>
+              <span className="text-sm">Settings</span>
             </button>
           </div>
         </div>
       </div>
 
       {/* Connection Status & Authentication Guide */}
-      <div className="bg-white rounded-lg shadow-md p-6 card-shadow">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Status Koneksi</h3>
+      <div className="bg-white rounded-lg shadow-md p-4 md:p-6 card-shadow">
+        <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-4">Connection Status</h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <div>
@@ -260,7 +260,7 @@ const Dashboard = ({ telegramConfig, setCurrentPage }) => {
             <div className="flex items-center space-x-2">
               <span className="status-dot status-online"></span>
               <span className="text-sm text-gray-600">
-                Terhubung sebagai {telegramConfig?.phone_number}
+                Connected as {telegramConfig?.phone_number}
               </span>
             </div>
           </div>
@@ -269,7 +269,7 @@ const Dashboard = ({ telegramConfig, setCurrentPage }) => {
             <h4 className="font-medium text-gray-900 mb-2">Database</h4>
             <div className="flex items-center space-x-2">
               <span className="status-dot status-online"></span>
-              <span className="text-sm text-gray-600">MongoDB aktif</span>
+              <span className="text-sm text-gray-600">MongoDB active</span>
             </div>
           </div>
         </div>
@@ -283,24 +283,24 @@ const Dashboard = ({ telegramConfig, setCurrentPage }) => {
               </div>
               <div className="ml-3 flex-1">
                 <h4 className="text-sm font-medium text-yellow-800 mb-2">
-                  Autentikasi Telegram Diperlukan
+                  Telegram Authentication Required
                 </h4>
                 <div className="text-sm text-yellow-700 mb-4">
                   <p className="mb-2">
-                    Untuk menggunakan sistem otomasi, Anda perlu melakukan autentikasi ke Telegram terlebih dahulu:
+                    To use the automation system, you need to authenticate with Telegram first:
                   </p>
                   <ol className="list-decimal ml-4 space-y-1">
-                    <li>Klik "Pengaturan" di menu samping</li>
-                    <li>Masukkan API ID, API Hash, dan Nomor Telepon Anda</li>
-                    <li>Ikuti proses verifikasi SMS dan 2FA (jika diperlukan)</li>
-                    <li>Setelah berhasil, kembali ke Dashboard untuk memulai automasi</li>
+                    <li>Click "Settings" in the sidebar</li>
+                    <li>Enter your API ID, API Hash, and Phone Number</li>
+                    <li>Follow the SMS and 2FA verification process (if required)</li>
+                    <li>After successful authentication, return to Dashboard to start automation</li>
                   </ol>
                 </div>
                 <button
                   onClick={() => setCurrentPage('settings')}
                   className="btn btn-sm btn-primary"
                 >
-                  🔧 Buka Pengaturan Telegram
+                  🔧 Open Telegram Settings
                 </button>
               </div>
             </div>
