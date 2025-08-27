@@ -250,6 +250,60 @@ class TelegramAutomationAPITester:
         # Test getting non-existent group
         self.run_test("Get Non-existent Group", "GET", "/groups/non-existent-id", 404)
 
+    def test_bulk_group_import(self):
+        """Test bulk group import functionality"""
+        print("\n" + "="*50)
+        print("TESTING BULK GROUP IMPORT")
+        print("="*50)
+        
+        # Test bulk import with various group identifier formats
+        bulk_data = {
+            "groups": [
+                "@bulkgroup1",
+                "https://t.me/bulkgroup2", 
+                "-1001111111111",
+                "https://t.me/joinchat/BulkInviteLink123",
+                "bulkgroup3",  # username without @
+                "t.me/bulkgroup4",  # link without https
+                "",  # empty string (should be skipped)
+                "   @bulkgroup5   "  # with whitespace
+            ]
+        }
+        
+        success, created_groups = self.run_test(
+            "Bulk Import Groups", "POST", "/groups/bulk", 200, bulk_data
+        )
+        
+        if success and created_groups:
+            print(f"   Successfully created {len(created_groups)} groups from bulk import")
+            for group in created_groups:
+                group_id = group.get('id')
+                if group_id:
+                    self.created_resources['groups'].append(group_id)
+                print(f"   - {group.get('group_identifier')} -> {group.get('parsed_name')} ({group.get('group_type')})")
+        
+        # Test bulk import with empty list
+        empty_bulk_data = {"groups": []}
+        self.run_test("Bulk Import Empty List", "POST", "/groups/bulk", 200, empty_bulk_data)
+        
+        # Test bulk import with duplicate groups (should skip existing)
+        duplicate_bulk_data = {
+            "groups": [
+                "@bulkgroup1",  # This should already exist from previous test
+                "@newbulkgroup"
+            ]
+        }
+        success, duplicate_result = self.run_test(
+            "Bulk Import with Duplicates", "POST", "/groups/bulk", 200, duplicate_bulk_data
+        )
+        
+        if success and duplicate_result:
+            print(f"   Created {len(duplicate_result)} new groups (duplicates skipped)")
+            for group in duplicate_result:
+                group_id = group.get('id')
+                if group_id:
+                    self.created_resources['groups'].append(group_id)
+
     def test_blacklist_endpoints(self):
         """Test blacklist management endpoints"""
         print("\n" + "="*50)
