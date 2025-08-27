@@ -123,17 +123,11 @@ const TelegramSetup = ({ onAuthSuccess }) => {
       }
     } catch (err) {
       console.error('Verify code error:', err);
-      let errorMsg = 'Invalid verification code';
+      let errorMsg = 'Failed to verify code. Please try again.';
       
       if (err.response?.data?.detail) {
-        const detail = err.response.data.detail;
-        if (detail.includes('expired')) {
-          errorMsg = 'Verification code has expired. Please request a new code.';
-        } else if (detail.includes('invalid')) {
-          errorMsg = 'Invalid verification code. Please check and try again.';
-        } else {
-          errorMsg = detail;
-        }
+        // Use the specific error message from backend
+        errorMsg = err.response.data.detail;
       }
       
       showNotification('error', errorMsg);
