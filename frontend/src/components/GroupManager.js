@@ -132,7 +132,7 @@ const GroupManager = () => {
   };
 
   const handleDelete = async (groupId) => {
-    if (!window.confirm('Apakah Anda yakin ingin menghapus grup ini?')) {
+    if (!window.confirm('Are you sure you want to delete this group?')) {
       return;
     }
 
@@ -141,7 +141,7 @@ const GroupManager = () => {
       await loadGroups();
     } catch (error) {
       console.error('Failed to delete group:', error);
-      alert('Gagal menghapus grup. Silakan coba lagi.');
+      alert('Failed to delete group. Please try again.');
     }
   };
 
