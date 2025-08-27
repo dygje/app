@@ -47,10 +47,10 @@ const AutomationSettings = ({ telegramConfig, onConfigUpdate }) => {
 
     try {
       await axios.put('/automation/config', automationConfig);
-      alert('Pengaturan automation berhasil disimpan');
+      alert('Automation settings saved successfully');
     } catch (error) {
       console.error('Failed to update automation config:', error);
-      alert('Gagal menyimpan pengaturan. Silakan coba lagi.');
+      alert('Failed to save settings. Please try again.');
     } finally {
       setActionLoading(false);
     }
@@ -72,17 +72,17 @@ const AutomationSettings = ({ telegramConfig, onConfigUpdate }) => {
       setShowTelegramModal(false);
       await loadSettings();
       onConfigUpdate();
-      alert('Konfigurasi Telegram berhasil diperbarui. Anda perlu login ulang.');
+      alert('Telegram configuration updated successfully. You need to authenticate again.');
     } catch (error) {
       console.error('Failed to update telegram config:', error);
-      alert('Gagal memperbarui konfigurasi. Silakan coba lagi.');
+      alert('Failed to update configuration. Please try again.');
     } finally {
       setActionLoading(false);
     }
   };
 
   const handleLogout = async () => {
-    if (!window.confirm('Apakah Anda yakin ingin logout dari Telegram?')) {
+    if (!window.confirm('Are you sure you want to logout from Telegram?')) {
       return;
     }
 
@@ -94,11 +94,11 @@ const AutomationSettings = ({ telegramConfig, onConfigUpdate }) => {
         phone_number: telegramConfig.phone_number
       });
       
-      alert('Berhasil logout dari Telegram');
+      alert('Successfully logged out from Telegram');
       window.location.reload();
     } catch (error) {
       console.error('Failed to logout:', error);
-      alert('Gagal logout. Silakan refresh halaman.');
+      alert('Failed to logout. Please refresh the page.');
     }
   };
 
@@ -108,14 +108,14 @@ const AutomationSettings = ({ telegramConfig, onConfigUpdate }) => {
       const minMinutes = Math.floor((min - minHours) * 60);
       const maxHours = Math.floor(max);
       const maxMinutes = Math.floor((max - maxHours) * 60);
-      return `${minHours}j ${minMinutes}m - ${maxHours}j ${maxMinutes}m`;
+      return `${minHours}h ${minMinutes}m - ${maxHours}h ${maxMinutes}m`;
     }
     return `${min} - ${max} ${unit}`;
   };
 
   if (loading) {
     return (
-      <div className="p-6">
+      <div className="p-4 md:p-6">
         <div className="animate-pulse">
           <div className="h-8 bg-gray-200 rounded w-1/4 mb-6"></div>
           <div className="space-y-4">
@@ -127,10 +127,10 @@ const AutomationSettings = ({ telegramConfig, onConfigUpdate }) => {
   }
 
   return (
-    <div className="p-6 fade-in">
+    <div className="p-4 md:p-6 fade-in">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Settings</h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Settings</h1>
         <p className="text-gray-600">Configure automation system and Telegram account</p>
       </div>
 
@@ -161,141 +161,112 @@ const AutomationSettings = ({ telegramConfig, onConfigUpdate }) => {
       {/* Automation Settings Tab */}
       {activeTab === 'automation' && automationConfig && (
         <div className="space-y-6">
-          <div className="bg-white rounded-lg shadow-md p-6 card-shadow">
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">
+          <div className="bg-white rounded-lg shadow-md p-4 md:p-6 card-shadow">
+            <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-4">
               Automation Configuration
             </h3>
             
             <form onSubmit={handleAutomationUpdate} className="space-y-6">
-              {/* Message Delays */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-4">
                 <div>
-                  <label className="form-label">Delay Pesan Minimum (detik)</label>
-                  <input
-                    type="number"
-                    min="1"
-                    max="60"
-                    value={automationConfig.message_delay_min}
-                    onChange={(e) => setAutomationConfig({
-                      ...automationConfig,
-                      message_delay_min: parseInt(e.target.value)
-                    })}
-                    className="form-input"
-                    required
-                  />
-                  <p className="text-xs text-gray-500 mt-1">
-                    Delay minimum antar pengiriman pesan
+                  <label className="form-label">
+                    Message Delay (seconds)
+                  </label>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <input
+                        type="number"
+                        min="1"
+                        max="300"
+                        value={automationConfig.message_delay_min}
+                        onChange={(e) => setAutomationConfig({
+                          ...automationConfig,
+                          message_delay_min: parseInt(e.target.value)
+                        })}
+                        className="form-input"
+                        placeholder="Min"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">Minimum</p>
+                    </div>
+                    <div>
+                      <input
+                        type="number"
+                        min="1"
+                        max="300"
+                        value={automationConfig.message_delay_max}
+                        onChange={(e) => setAutomationConfig({
+                          ...automationConfig,
+                          message_delay_max: parseInt(e.target.value)
+                        })}
+                        className="form-input"
+                        placeholder="Max"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">Maximum</p>
+                    </div>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-2">
+                    Random delay between {automationConfig.message_delay_min} - {automationConfig.message_delay_max} seconds
                   </p>
                 </div>
-                
-                <div>
-                  <label className="form-label">Delay Pesan Maksimum (detik)</label>
-                  <input
-                    type="number"
-                    min="1"
-                    max="60"
-                    value={automationConfig.message_delay_max}
-                    onChange={(e) => setAutomationConfig({
-                      ...automationConfig,
-                      message_delay_max: parseInt(e.target.value)
-                    })}
-                    className="form-input"
-                    required
-                  />
-                  <p className="text-xs text-gray-500 mt-1">
-                    Delay maksimum antar pengiriman pesan
-                  </p>
-                </div>
-              </div>
 
-              {/* Cycle Delays */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="form-label">Delay Siklus Minimum (jam)</label>
-                  <input
-                    type="number"
-                    step="0.1"
-                    min="0.1"
-                    max="24"
-                    value={automationConfig.cycle_delay_min}
-                    onChange={(e) => setAutomationConfig({
-                      ...automationConfig,
-                      cycle_delay_min: parseFloat(e.target.value)
-                    })}
-                    className="form-input"
-                    required
-                  />
-                  <p className="text-xs text-gray-500 mt-1">
-                    Delay minimum antar siklus pengiriman
+                  <label className="form-label">
+                    Cycle Delay (hours)
+                  </label>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <input
+                        type="number"
+                        min="0.1"
+                        max="24"
+                        step="0.1"
+                        value={automationConfig.cycle_delay_min}
+                        onChange={(e) => setAutomationConfig({
+                          ...automationConfig,
+                          cycle_delay_min: parseFloat(e.target.value)
+                        })}
+                        className="form-input"
+                        placeholder="Min"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">Minimum</p>
+                    </div>
+                    <div>
+                      <input
+                        type="number"
+                        min="0.1"
+                        max="24"
+                        step="0.1"
+                        value={automationConfig.cycle_delay_max}
+                        onChange={(e) => setAutomationConfig({
+                          ...automationConfig,
+                          cycle_delay_max: parseFloat(e.target.value)
+                        })}
+                        className="form-input"
+                        placeholder="Max"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">Maximum</p>
+                    </div>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-2">
+                    Random delay {formatTimeRange(automationConfig.cycle_delay_min, automationConfig.cycle_delay_max, 'hours')}
                   </p>
                 </div>
-                
-                <div>
-                  <label className="form-label">Delay Siklus Maksimum (jam)</label>
-                  <input
-                    type="number"
-                    step="0.1"
-                    min="0.1"
-                    max="24"
-                    value={automationConfig.cycle_delay_max}
-                    onChange={(e) => setAutomationConfig({
-                      ...automationConfig,
-                      cycle_delay_max: parseFloat(e.target.value)
-                    })}
-                    className="form-input"
-                    required
-                  />
-                  <p className="text-xs text-gray-500 mt-1">
-                    Delay maksimum antar siklus pengiriman
-                  </p>
-                </div>
-              </div>
 
-              {/* Blacklist Auto Cleanup - Always Active (Info Only) */}
-              <div className="border border-blue-200 bg-blue-50 rounded-lg p-4">
-                <div className="flex items-center space-x-3">
-                  <div className="flex-shrink-0">
-                    <span className="text-blue-600 text-xl">ℹ️</span>
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-medium text-blue-900 mb-1">
-                      Auto Cleanup Blacklist
-                    </h4>
-                    <p className="text-sm text-blue-700">
-                      Pembersihan otomatis blacklist selalu aktif untuk menjaga performa sistem. 
-                      Grup yang diblokir sementara akan otomatis dihapus setelah expired.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Current Settings Preview */}
-              <div className="bg-gray-50 rounded-lg p-4">
-                <h4 className="font-medium text-gray-900 mb-3">Preview Pengaturan</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <span className="text-gray-600">Delay Pesan:</span>
-                    <span className="ml-2 font-medium">
-                      {formatTimeRange(automationConfig.message_delay_min, automationConfig.message_delay_max, 'detik')}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-gray-600">Delay Siklus:</span>
-                    <span className="ml-2 font-medium">
-                      {formatTimeRange(automationConfig.cycle_delay_min, automationConfig.cycle_delay_max, 'hours')}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-gray-600">Auto Cleanup:</span>
-                    <span className={`ml-2 badge ${automationConfig.auto_cleanup_blacklist ? 'badge-success' : 'badge-error'}`}>
-                      {automationConfig.auto_cleanup_blacklist ? 'Aktif' : 'Nonaktif'}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-gray-600">Status Automation:</span>
-                    <span className={`ml-2 badge ${automationConfig.is_active ? 'badge-success' : 'badge-error'}`}>
-                      {automationConfig.is_active ? 'Aktif' : 'Nonaktif'}
-                    </span>
+                {/* Blacklist Auto Cleanup - Always Active (Info Only) */}
+                <div className="border border-blue-200 bg-blue-50 rounded-lg p-4">
+                  <div className="flex items-center space-x-3">
+                    <div className="flex-shrink-0">
+                      <span className="text-blue-600 text-xl">ℹ️</span>
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-medium text-blue-900 mb-1">
+                        Auto Cleanup Blacklist
+                      </h4>
+                      <p className="text-sm text-blue-700">
+                        Automatic blacklist cleanup is always enabled to maintain system performance. 
+                        Temporarily blocked groups will be automatically removed after expiration.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -303,10 +274,10 @@ const AutomationSettings = ({ telegramConfig, onConfigUpdate }) => {
               <button
                 type="submit"
                 disabled={actionLoading}
-                className={`btn btn-primary ${actionLoading ? 'loading' : ''}`}
+                className={`btn btn-primary w-full ${actionLoading ? 'loading' : ''}`}
               >
                 {actionLoading && <div className="spinner"></div>}
-                {actionLoading ? 'Menyimpan...' : 'Simpan Pengaturan'}
+                {actionLoading ? 'Saving...' : 'Save Automation Settings'}
               </button>
             </form>
           </div>
@@ -316,92 +287,108 @@ const AutomationSettings = ({ telegramConfig, onConfigUpdate }) => {
       {/* Telegram Settings Tab */}
       {activeTab === 'telegram' && (
         <div className="space-y-6">
-          <div className="bg-white rounded-lg shadow-md p-6 card-shadow">
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">
-              Konfigurasi Telegram
+          {/* Current Configuration */}
+          <div className="bg-white rounded-lg shadow-md p-4 md:p-6 card-shadow">
+            <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-4">
+              Current Telegram Configuration
             </h3>
             
-            {/* Current Status */}
-            <div className="bg-gray-50 rounded-lg p-4 mb-6">
-              <h4 className="font-medium text-gray-900 mb-3">Status Akun</h4>
-              <div className="space-y-2">
-                <div className="flex items-center">
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="form-label">API ID</label>
+                  <div className="form-input bg-gray-50">
+                    {telegramSettings.api_id || 'Not configured'}
+                  </div>
+                </div>
+                <div>
+                  <label className="form-label">Phone Number</label>
+                  <div className="form-input bg-gray-50">
+                    {telegramSettings.phone_number || 'Not configured'}
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label className="form-label">Authentication Status</label>
+                <div className="flex items-center space-x-2">
                   <span className={`status-dot ${telegramConfig?.is_authenticated ? 'status-online' : 'status-offline'}`}></span>
                   <span className="text-sm text-gray-600">
-                    Status: {telegramConfig?.is_authenticated ? 'Terhubung' : 'Tidak terhubung'}
-                  </span>
-                </div>
-                <div className="flex items-center">
-                  <span className="text-sm text-gray-600">
-                    Nomor: {telegramConfig?.phone_number || 'Tidak diset'}
-                  </span>
-                </div>
-                <div className="flex items-center">
-                  <span className="text-sm text-gray-600">
-                    API ID: {telegramConfig?.api_id || 'Tidak diset'}
+                    {telegramConfig?.is_authenticated ? 'Authenticated' : 'Not authenticated'}
                   </span>
                 </div>
               </div>
-            </div>
 
-            {/* Actions */}
-            <div className="flex space-x-3">
-              <button
-                onClick={() => setShowTelegramModal(true)}
-                className="btn btn-primary"
-              >
-                ⚙️ Update Konfigurasi
-              </button>
-              
-              {telegramConfig?.is_authenticated && (
+              <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 pt-4">
                 <button
-                  onClick={handleLogout}
-                  className="btn btn-danger"
+                  onClick={() => setShowTelegramModal(true)}
+                  className="btn btn-primary flex-1"
                 >
-                  🚪 Logout Telegram
+                  Update Configuration
                 </button>
-              )}
+                {telegramConfig?.is_authenticated && (
+                  <button
+                    onClick={handleLogout}
+                    className="btn btn-danger flex-1"
+                  >
+                    Logout from Telegram
+                  </button>
+                )}
+              </div>
             </div>
           </div>
 
-          {/* Security Notice */}
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-            <div className="flex">
-              <div className="flex-shrink-0">
-                <span className="text-yellow-400 text-xl">⚠️</span>
-              </div>
-              <div className="ml-3">
-                <h4 className="text-yellow-800 font-medium">Catatan Keamanan</h4>
-                <p className="text-yellow-700 text-sm mt-1">
-                  Kredensial Telegram Anda disimpan dengan enkripsi. API Hash tidak ditampilkan 
-                  untuk keamanan. Jangan bagikan API ID dan Hash Anda kepada siapapun.
+          {/* Help Section */}
+          <div className="bg-white rounded-lg shadow-md p-4 md:p-6 card-shadow">
+            <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-4">
+              How to Get Telegram API Credentials
+            </h3>
+            
+            <div className="space-y-3 text-sm text-gray-600">
+              <div className="flex items-start space-x-3">
+                <span className="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-semibold">1</span>
+                <p>
+                  Visit <a href="https://my.telegram.org" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">my.telegram.org</a> and login with your phone number
                 </p>
+              </div>
+              <div className="flex items-start space-x-3">
+                <span className="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-semibold">2</span>
+                <p>Click on "API development tools" and create a new application</p>
+              </div>
+              <div className="flex items-start space-x-3">
+                <span className="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-semibold">3</span>
+                <p>Copy your API ID and API Hash from the created application</p>
+              </div>
+              <div className="flex items-start space-x-3">
+                <span className="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-semibold">4</span>
+                <p>Use the same phone number that's associated with your Telegram account</p>
               </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* Telegram Configuration Modal */}
+      {/* Update Telegram Configuration Modal */}
       {showTelegramModal && (
-        <div className="fixed inset-0 modal-backdrop flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 modal-backdrop flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                Update Konfigurasi Telegram
+                Update Telegram Configuration
               </h2>
               
               <form onSubmit={handleTelegramUpdate} className="space-y-4">
                 <div>
                   <label className="form-label">API ID</label>
                   <input
-                    type="number"
+                    type="text"
                     value={telegramSettings.api_id}
                     onChange={(e) => setTelegramSettings({
                       ...telegramSettings,
                       api_id: e.target.value
                     })}
                     className="form-input"
+                    placeholder="123456"
                     required
                   />
                 </div>
@@ -409,19 +396,24 @@ const AutomationSettings = ({ telegramConfig, onConfigUpdate }) => {
                 <div>
                   <label className="form-label">API Hash</label>
                   <input
-                    type="password"
+                    type="text"
                     value={telegramSettings.api_hash}
                     onChange={(e) => setTelegramSettings({
                       ...telegramSettings,
                       api_hash: e.target.value
                     })}
                     className="form-input"
-                    placeholder="Kosongkan jika tidak ingin mengubah"
+                    placeholder="Enter new API Hash or leave unchanged"
                   />
+                  {telegramSettings.api_hash === '***HIDDEN***' && (
+                    <p className="text-xs text-gray-500 mt-1">
+                      Leave empty to keep current API Hash
+                    </p>
+                  )}
                 </div>
 
                 <div>
-                  <label className="form-label">Nomor Telepon</label>
+                  <label className="form-label">Phone Number</label>
                   <input
                     type="tel"
                     value={telegramSettings.phone_number}
@@ -430,23 +422,24 @@ const AutomationSettings = ({ telegramConfig, onConfigUpdate }) => {
                       phone_number: e.target.value
                     })}
                     className="form-input"
+                    placeholder="+1234567890"
                     required
                   />
                 </div>
 
-                <div className="bg-yellow-50 border border-yellow-200 rounded p-3">
-                  <p className="text-yellow-800 text-sm">
-                    ⚠️ Mengubah konfigurasi akan memerlukan login ulang ke Telegram
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                  <p className="text-xs text-yellow-700">
+                    ⚠️ Changing these settings will require re-authentication with Telegram
                   </p>
                 </div>
 
-                <div className="flex space-x-3 pt-4">
+                <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 pt-4">
                   <button
                     type="button"
                     onClick={() => setShowTelegramModal(false)}
                     className="btn btn-outline flex-1"
                   >
-                    Batal
+                    Cancel
                   </button>
                   <button
                     type="submit"
@@ -454,7 +447,7 @@ const AutomationSettings = ({ telegramConfig, onConfigUpdate }) => {
                     className={`btn btn-primary flex-1 ${actionLoading ? 'loading' : ''}`}
                   >
                     {actionLoading && <div className="spinner"></div>}
-                    {actionLoading ? 'Menyimpan...' : 'Simpan'}
+                    {actionLoading ? 'Updating...' : 'Update & Re-authenticate'}
                   </button>
                 </div>
               </form>
