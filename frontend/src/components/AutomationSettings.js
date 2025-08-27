@@ -130,8 +130,8 @@ const AutomationSettings = ({ telegramConfig, onConfigUpdate }) => {
     <div className="p-6 fade-in">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Pengaturan</h1>
-        <p className="text-gray-600">Konfigurasi sistem automation dan akun Telegram</p>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Settings</h1>
+        <p className="text-gray-600">Configure automation system and Telegram account</p>
       </div>
 
       {/* Tabs */}
