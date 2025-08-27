@@ -100,26 +100,12 @@ const TelegramSetup = ({ onAuthSuccess }) => {
   const handlePhoneCodeSubmit = async (e) => {
     e.preventDefault();
     
-    // Enhanced validation with more specific feedback
-    if (!phoneCode) {
-      showNotification('error', 'Please enter the verification code sent to your phone.');
-      return;
-    }
-    
-    if (phoneCode.length < 5) {
-      showNotification('error', 'Verification code must be at least 5 digits long.');
-      return;
-    }
-    
-    if (!/^\d+$/.test(phoneCode)) {
-      showNotification('error', 'Verification code should only contain numbers.');
+    if (!phoneCode || phoneCode.length < 5) {
+      showNotification('error', 'Please enter a valid 5-digit verification code');
       return;
     }
 
-    // Prevent double submission
-    if (loading) {
-      return;
-    }
+    if (loading) return; // Prevent double submission
 
     setLoading(true);
     setNotification({ type: '', message: '', show: false });
@@ -130,32 +116,23 @@ const TelegramSetup = ({ onAuthSuccess }) => {
       });
 
       if (response.data.requires_2fa) {
-        showNotification('info', '2FA password required. Please enter your password.');
-        setTimeout(() => {
-          setStep('2fa');
-          setLoading(false);
-        }, 1500);
+        showNotification('info', '2FA password required');
+        setStep('2fa');
       } else {
-        showNotification('success', 'Authentication successful! Redirecting...');
-        setTimeout(() => {
-          onAuthSuccess();
-        }, 2000);
+        showNotification('success', 'Authentication successful!');
+        setTimeout(() => onAuthSuccess(), 1500);
       }
     } catch (err) {
       console.error('Verify code error:', err);
       let errorMsg = 'Failed to verify code. Please try again.';
       
       if (err.response?.data?.detail) {
-        // Use the specific error message from backend
         errorMsg = err.response.data.detail;
-      } else if (err.response?.status === 429) {
-        errorMsg = 'Too many attempts. Please wait a moment before trying again.';
-      } else if (err.response?.status === 500) {
-        errorMsg = 'Server error occurred. Please try again later.';
       }
       
       showNotification('error', errorMsg);
-      setLoading(false);
+    } finally {
+      setLoading(false); // Always reset loading
     }
   };
 
