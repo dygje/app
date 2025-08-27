@@ -21,12 +21,22 @@ const TelegramSetup = ({ onAuthSuccess }) => {
   // 2FA step
   const [twoFAPassword, setTwoFAPassword] = useState('');
 
-  // Auto-dismiss success notifications
+  // Auto-dismiss notifications with smart timing
   useEffect(() => {
-    if (notification.show && notification.type === 'success') {
+    if (notification.show) {
       const timer = setTimeout(() => {
-        setNotification({ ...notification, show: false });
-      }, 3000);
+        // Success messages auto-dismiss after 3 seconds
+        // Error messages auto-dismiss after 8 seconds (giving user time to read)
+        // Info messages auto-dismiss after 5 seconds
+        const delay = notification.type === 'success' ? 3000 : 
+                     notification.type === 'error' ? 8000 : 5000;
+        
+        if (Date.now() - notificationStartTime >= delay) {
+          setNotification({ ...notification, show: false });
+        }
+      }, notification.type === 'success' ? 3000 : 
+         notification.type === 'error' ? 8000 : 5000);
+      
       return () => clearTimeout(timer);
     }
   }, [notification]);
