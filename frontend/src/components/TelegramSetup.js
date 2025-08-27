@@ -106,8 +106,19 @@ const TelegramSetup = ({ onAuthSuccess }) => {
   const handlePhoneCodeSubmit = async (e) => {
     e.preventDefault();
     
-    if (!phoneCode || phoneCode.length < 5) {
-      showNotification('error', 'Please enter a valid verification code');
+    // Enhanced validation with more specific feedback
+    if (!phoneCode) {
+      showNotification('error', 'Please enter the verification code sent to your phone.');
+      return;
+    }
+    
+    if (phoneCode.length < 5) {
+      showNotification('error', 'Verification code must be at least 5 digits long.');
+      return;
+    }
+    
+    if (!/^\d+$/.test(phoneCode)) {
+      showNotification('error', 'Verification code should only contain numbers.');
       return;
     }
 
@@ -137,6 +148,10 @@ const TelegramSetup = ({ onAuthSuccess }) => {
       if (err.response?.data?.detail) {
         // Use the specific error message from backend
         errorMsg = err.response.data.detail;
+      } else if (err.response?.status === 429) {
+        errorMsg = 'Too many attempts. Please wait a moment before trying again.';
+      } else if (err.response?.status === 500) {
+        errorMsg = 'Server error occurred. Please try again later.';
       }
       
       showNotification('error', errorMsg);
