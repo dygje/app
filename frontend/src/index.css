@@ -251,11 +251,11 @@ body {
   }
 
   .material-textfield-input {
-    @apply form-input peer placeholder-transparent;
+    @apply form-input placeholder-transparent;
   }
 
   .material-textfield-label {
-    @apply absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-primary-600;
+    @apply absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all;
   }
 
   .material-dialog {
