@@ -103,7 +103,7 @@ const TelegramSetup = ({ onAuthSuccess }) => {
       return;
     }
 
-    if (loading) return; // Prevent double submission
+    if (loading) return;
 
     setLoading(true);
     setNotification({ type: '', message: '', show: false });
@@ -191,7 +191,7 @@ const TelegramSetup = ({ onAuthSuccess }) => {
     switch (step) {
       case 'config':
         return {
-          title: 'API Configuration',
+          title: 'Telegram API Setup',
           subtitle: 'Enter your Telegram API credentials',
           icon: 'api',
           stepNumber: 1,
@@ -227,66 +227,62 @@ const TelegramSetup = ({ onAuthSuccess }) => {
   const stepInfo = getStepInfo();
 
   return (
-    <div className="min-h-screen bg-surface-50 flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-6">
       <div className="w-full max-w-md">
-        {/* Material Design Authentication Card */}
-        <div className="material-card-elevated rounded-xl overflow-hidden material-scale-in">
+        {/* Main Setup Card */}
+        <div className="admin-card fade-in">
           
-          {/* Material Design Header */}
-          <div className="bg-gradient-to-br from-primary-600 to-primary-800 px-8 py-10 text-center relative">
-            <div className="absolute inset-0 bg-primary-600 opacity-90"></div>
-            <div className="relative z-10">
-              {/* Material Design Icon Container */}
-              <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-elevation-4 backdrop-blur-sm">
-                <span className="material-icons text-white text-2xl">{stepInfo.icon}</span>
-              </div>
-              
-              <h1 className="text-title-large text-white font-medium mb-2">
-                {stepInfo.title}
-              </h1>
-              <p className="text-body-medium text-primary-100 opacity-90">
-                {stepInfo.subtitle}
-              </p>
+          {/* Header */}
+          <div className="admin-card-header text-center">
+            <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mx-auto mb-4">
+              <span className="material-icons text-white text-xl">{stepInfo.icon}</span>
             </div>
+            
+            <h1 className="text-xl font-semibold text-gray-100 mb-2">
+              {stepInfo.title}
+            </h1>
+            <p className="text-gray-400">
+              {stepInfo.subtitle}
+            </p>
           </div>
 
-          {/* Material Design Progress Indicator */}
-          <div className="px-8 py-6 bg-surface-50 border-b border-surface-200">
+          {/* Progress Indicator */}
+          <div className="px-6 py-4 bg-gray-700 border-b border-gray-600">
             <div className="flex items-center justify-between mb-3">
-              <span className="text-label-small text-surface-700 font-medium">
+              <span className="text-xs font-semibold text-gray-300">
                 STEP {stepInfo.stepNumber} OF 3
               </span>
-              <span className="text-label-small text-surface-500 font-medium">
+              <span className="text-xs text-gray-400">
                 {stepInfo.progress}%
               </span>
             </div>
             
-            <div className="material-progress-linear">
+            <div className="w-full bg-gray-600 rounded-full h-1">
               <div 
-                className="material-progress-bar"
+                className="bg-blue-600 h-1 rounded-full transition-all duration-300"
                 style={{ width: `${stepInfo.progress}%` }}
               />
             </div>
           </div>
 
-          {/* Material Design Content */}
-          <div className="px-8 py-8">
-            {/* Material Design Notification */}
+          {/* Content */}
+          <div className="admin-card-content">
+            {/* Notification */}
             {notification.show && (
-              <div className={`material-card-outlined mb-6 p-4 rounded-lg border-l-4 material-slide-up ${
+              <div className={`p-4 rounded-lg mb-6 border-l-4 ${
                 notification.type === 'error' 
-                  ? 'bg-error-50 border-error-500' 
+                  ? 'bg-red-900 border-red-600' 
                   : notification.type === 'success' 
-                  ? 'bg-success-50 border-success-500'
-                  : 'bg-primary-50 border-primary-500'
+                  ? 'bg-green-900 border-green-600'
+                  : 'bg-blue-900 border-blue-600'
               }`}>
-                <div className="flex items-start space-x-3">
-                  <span className={`material-icons text-lg ${
+                <div className="flex items-center space-x-3">
+                  <span className={`material-icons ${
                     notification.type === 'error' 
-                      ? 'text-error-600' 
+                      ? 'text-red-400' 
                       : notification.type === 'success' 
-                      ? 'text-success-600'
-                      : 'text-primary-600'
+                      ? 'text-green-400'
+                      : 'text-blue-400'
                   }`}>
                     {notification.type === 'error' 
                       ? 'error' 
@@ -294,12 +290,12 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                       ? 'check_circle'
                       : 'info'}
                   </span>
-                  <p className={`text-body-medium font-medium ${
+                  <p className={`text-sm font-medium ${
                     notification.type === 'error' 
-                      ? 'text-error-800' 
+                      ? 'text-red-200' 
                       : notification.type === 'success' 
-                      ? 'text-success-800'
-                      : 'text-primary-800'
+                      ? 'text-green-200'
+                      : 'text-blue-200'
                   }`}>
                     {notification.message}
                   </p>
@@ -310,70 +306,65 @@ const TelegramSetup = ({ onAuthSuccess }) => {
             {/* Step 1: API Configuration */}
             {step === 'config' && (
               <form onSubmit={handleConfigSubmit} className="space-y-6">
-                <div className="space-y-6">
-                  {/* Material Design Text Fields */}
-                  <div className="material-textfield">
+                <div className="space-y-4">
+                  <div className="form-group">
+                    <label className="form-label">API ID</label>
                     <input
                       type="text"
                       value={config.api_id}
                       onChange={(e) => setConfig({...config, api_id: e.target.value})}
-                      className="material-textfield-input peer"
-                      placeholder=" "
+                      className="form-input"
+                      placeholder="Enter your API ID"
                       required
                     />
-                    <label className="material-textfield-label">
-                      API ID
-                    </label>
                   </div>
 
-                  <div className="material-textfield">
+                  <div className="form-group">
+                    <label className="form-label">API Hash</label>
                     <input
                       type="text"
                       value={config.api_hash}
                       onChange={(e) => setConfig({...config, api_hash: e.target.value})}
-                      className="material-textfield-input peer"
-                      placeholder=" "
+                      className="form-input"
+                      placeholder="Enter your API Hash"
                       required
                     />
-                    <label className="material-textfield-label">
-                      API Hash
-                    </label>
                   </div>
 
-                  <div className="material-textfield">
+                  <div className="form-group">
+                    <label className="form-label">Phone Number</label>
                     <input
                       type="tel"
                       value={config.phone_number}
                       onChange={(e) => setConfig({...config, phone_number: e.target.value})}
-                      className="material-textfield-input peer"
-                      placeholder=" "
+                      className="form-input"
+                      placeholder="+1234567890"
                       required
                     />
-                    <label className="material-textfield-label">
-                      Phone Number (with country code)
-                    </label>
                   </div>
                 </div>
 
-                {/* Material Design Help Card */}
-                <div className="material-card-outlined bg-primary-50 p-4 rounded-lg">
-                  <div className="flex items-start space-x-3">
-                    <span className="material-icons text-primary-600 text-lg mt-0.5">help</span>
-                    <div>
-                      <h4 className="text-title-small font-medium text-primary-800 mb-1">
-                        Need API Credentials?
-                      </h4>
-                      <p className="text-body-small text-primary-700 mb-2">
-                        Get your API ID and Hash from my.telegram.org
-                      </p>
-                      <a 
-                        href="https://my.telegram.org" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-body-small text-primary-600 font-medium hover:underline"
-                      >
-                        Visit Telegram API
-                      </a>
+                {/* Help Card */}
+                <div className="admin-card bg-blue-900 border-blue-700">
+                  <div className="p-4">
+                    <div className="flex items-start space-x-3">
+                      <span className="material-icons text-blue-400 text-lg mt-0.5">help</span>
+                      <div>
+                        <h4 className="text-sm font-semibold text-blue-200 mb-1">
+                          Need API Credentials?
+                        </h4>
+                        <p className="text-sm text-blue-300 mb-2">
+                          Get your API ID and Hash from my.telegram.org
+                        </p>
+                        <a 
+                          href="https://my.telegram.org" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-sm text-blue-400 hover:text-blue-300 underline"
+                        >
+                          Visit Telegram API
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -381,9 +372,9 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                 <button
                   type="submit"
                   disabled={loading || !config.api_id || !config.api_hash || !config.phone_number}
-                  className={`material-button-filled w-full ${loading ? 'material-loading' : ''}`}
+                  className="btn-primary w-full"
                 >
-                  {loading && <div className="material-spinner mr-3" />}
+                  {loading && <div className="loading-spinner mr-3" />}
                   <span className="material-icons mr-2">
                     {loading ? 'hourglass_empty' : 'arrow_forward'}
                   </span>
@@ -396,16 +387,17 @@ const TelegramSetup = ({ onAuthSuccess }) => {
             {step === 'phone-code' && (
               <form onSubmit={handlePhoneCodeSubmit} className="space-y-6">
                 <div className="text-center">
-                  <div className="w-16 h-16 bg-secondary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="material-icons text-secondary-700 text-2xl">sms</span>
+                  <div className="w-16 h-16 bg-green-600 rounded-lg flex items-center justify-center mx-auto mb-4">
+                    <span className="material-icons text-white text-2xl">sms</span>
                   </div>
-                  <p className="text-body-medium text-surface-600 mb-6">
+                  <p className="text-gray-300 mb-6">
                     We sent a verification code to your phone number
                   </p>
                 </div>
 
                 <div className="space-y-4">
-                  <div className="material-textfield">
+                  <div className="form-group">
+                    <label className="form-label">Verification Code</label>
                     <input
                       type="text"
                       value={phoneCode}
@@ -413,26 +405,23 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                         const numericCode = e.target.value.replace(/\D/g, '');
                         setPhoneCode(numericCode);
                       }}
-                      className="material-textfield-input peer text-center text-xl font-mono tracking-widest"
-                      placeholder=" "
+                      className="form-input text-center text-xl tracking-widest font-mono"
+                      placeholder="12345"
                       maxLength="6"
                       autoFocus
                       required
                     />
-                    <label className="material-textfield-label">
-                      Verification Code
-                    </label>
                   </div>
 
                   <div className="flex justify-between items-center">
-                    <span className="text-body-small text-surface-500">
+                    <span className="text-sm text-gray-400">
                       Enter 5-digit code
                     </span>
                     <button
                       type="button"
                       onClick={handleRequestNewCode}
                       disabled={loading}
-                      className="material-button-text text-primary-600 font-medium"
+                      className="btn-ghost text-sm"
                     >
                       <span className="material-icons mr-1 text-sm">refresh</span>
                       Resend Code
@@ -444,9 +433,9 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                   <button
                     type="submit"
                     disabled={loading || phoneCode.length < 5}
-                    className={`material-button-filled w-full ${loading ? 'material-loading' : ''}`}
+                    className="btn-primary w-full"
                   >
-                    {loading && <div className="material-spinner mr-3" />}
+                    {loading && <div className="loading-spinner mr-3" />}
                     <span className="material-icons mr-2">verified</span>
                     {loading ? 'Verifying...' : 'Verify Code'}
                   </button>
@@ -458,7 +447,7 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                       setStep('config');
                       setPhoneCode('');
                     }}
-                    className="material-button-outlined w-full"
+                    className="btn-secondary w-full"
                   >
                     <span className="material-icons mr-2">arrow_back</span>
                     Back
@@ -471,36 +460,34 @@ const TelegramSetup = ({ onAuthSuccess }) => {
             {step === '2fa' && (
               <form onSubmit={handle2FASubmit} className="space-y-6">
                 <div className="text-center">
-                  <div className="w-16 h-16 bg-warning-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="material-icons text-warning-700 text-2xl">security</span>
+                  <div className="w-16 h-16 bg-yellow-600 rounded-lg flex items-center justify-center mx-auto mb-4">
+                    <span className="material-icons text-white text-2xl">security</span>
                   </div>
-                  <p className="text-body-medium text-surface-600 mb-6">
+                  <p className="text-gray-300 mb-6">
                     Your account has two-factor authentication enabled
                   </p>
                 </div>
 
-                <div className="material-textfield">
+                <div className="form-group">
+                  <label className="form-label">2FA Password</label>
                   <input
                     type="password"
                     value={twoFAPassword}
                     onChange={(e) => setTwoFAPassword(e.target.value)}
-                    className="material-textfield-input peer"
-                    placeholder=" "
+                    className="form-input"
+                    placeholder="Enter your 2FA password"
                     autoFocus
                     required
                   />
-                  <label className="material-textfield-label">
-                    2FA Password
-                  </label>
                 </div>
 
                 <div className="space-y-3">
                   <button
                     type="submit"
                     disabled={loading || !twoFAPassword.trim()}
-                    className={`material-button-filled w-full ${loading ? 'material-loading' : ''}`}
+                    className="btn-primary w-full"
                   >
-                    {loading && <div className="material-spinner mr-3" />}
+                    {loading && <div className="loading-spinner mr-3" />}
                     <span className="material-icons mr-2">lock_open</span>
                     {loading ? 'Authenticating...' : 'Complete Authentication'}
                   </button>
@@ -512,7 +499,7 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                       setStep('phone-code');
                       setTwoFAPassword('');
                     }}
-                    className="material-button-outlined w-full"
+                    className="btn-secondary w-full"
                   >
                     <span className="material-icons mr-2">arrow_back</span>
                     Back
@@ -522,20 +509,13 @@ const TelegramSetup = ({ onAuthSuccess }) => {
             )}
           </div>
 
-          {/* Material Design Footer */}
-          <div className="px-8 py-6 bg-surface-50 border-t border-surface-200 text-center">
-            <p className="text-body-small text-surface-500">
-              Secured by Material Design • Telegram API
+          {/* Footer */}
+          <div className="px-6 py-4 bg-gray-800 border-t border-gray-700 text-center">
+            <p className="text-xs text-gray-400">
+              <span className="material-icons text-xs mr-1 align-middle">security</span>
+              Your credentials are encrypted and secure
             </p>
           </div>
-        </div>
-
-        {/* Material Design Security Notice */}
-        <div className="mt-6 text-center">
-          <p className="text-body-small text-surface-500 mb-2">
-            <span className="material-icons text-xs mr-1 align-middle">shield</span>
-            Your credentials are encrypted and secure
-          </p>
         </div>
       </div>
     </div>

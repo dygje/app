@@ -7,7 +7,7 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, onLogout, isOpen
 
   // Close sidebar when route changes on mobile
   useEffect(() => {
-    if (window.innerWidth < 1024) {
+    if (window.innerWidth < 768) {
       onClose();
     }
   }, [location.pathname, onClose]);
@@ -42,140 +42,99 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, onLogout, isOpen
   const handleMenuClick = (item) => {
     setCurrentPage(item.id);
     navigate(item.path);
-    if (window.innerWidth < 1024) {
+    if (window.innerWidth < 768) {
       onClose();
     }
   };
 
   return (
-    <>
-      {/* Material Design Navigation Drawer */}
-      <aside className={`
-        material-nav-drawer fixed inset-y-0 left-0 z-40 w-80 flex flex-col
-        transform transition-transform duration-300 lg:translate-x-0
-        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-      `}>
-        
-        {/* Material Design App Identity */}
-        <div className="px-6 py-6 border-b border-surface-200">
-          <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-primary-600 rounded-full flex items-center justify-center elevation-2">
-              <span className="material-icons text-white text-2xl">telegram</span>
-            </div>
-            <div>
-              <h1 className="text-title-large font-medium text-surface-900">
-                Telegram Automation
-              </h1>
-              <p className="text-body-small text-surface-600">
-                Smart messaging system
-              </p>
-            </div>
+    <aside className={`admin-sidebar transition-transform duration-300 ${
+      isOpen ? 'translate-x-0' : '-translate-x-full'
+    } md:translate-x-0`}>
+      
+      {/* App Header */}
+      <div className="p-6 border-b border-gray-700">
+        <div className="flex items-center space-x-3">
+          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+            <span className="material-icons text-white text-lg">telegram</span>
           </div>
-        </div>
-
-        {/* Material Design User Profile Card */}
-        {telegramConfig && (
-          <div className="px-6 py-4 border-b border-surface-200">
-            <div className="material-card-filled p-4 rounded-xl">
-              <div className="flex items-center space-x-4">
-                <div className="w-10 h-10 bg-secondary-100 rounded-full flex items-center justify-center">
-                  <span className="material-icons text-secondary-700">person</span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-title-small text-surface-900 truncate font-medium">
-                    {telegramConfig.phone_number || 'Unknown User'}
-                  </p>
-                  <div className="flex items-center space-x-2 mt-1">
-                    <div className="material-status-online"></div>
-                    <span className="text-body-small text-success-600">Connected</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Material Design Navigation Menu */}
-        <nav className="flex-1 px-6 py-4">
-          <div className="space-y-2">
-            {menuItems.map((item) => {
-              const isActive = location.pathname === item.path;
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => handleMenuClick(item)}
-                  className={`
-                    material-nav-item w-full text-left
-                    ${isActive 
-                      ? 'material-nav-item-active' 
-                      : 'hover:bg-surface-50'
-                    }
-                  `}
-                >
-                  <span className="material-icons text-xl mr-4">{item.icon}</span>
-                  <span className="text-body-large">{item.name}</span>
-                  
-                  {/* Material Design Active Indicator */}
-                  {isActive && (
-                    <div className="ml-auto w-1 h-6 bg-secondary-600 rounded-full"></div>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        </nav>
-
-        {/* Material Design Divider */}
-        <div className="mx-6 border-t border-surface-200"></div>
-
-        {/* Material Design Quick Stats */}
-        <div className="px-6 py-4 space-y-3">
-          <h3 className="text-label-large text-surface-900 font-medium">Quick Status</h3>
-          
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-body-small text-surface-600">System Status</span>
-              <div className="material-badge-success">
-                Active
-              </div>
-            </div>
-            
-            <div className="flex items-center justify-between">
-              <span className="text-body-small text-surface-600">Database</span>
-              <div className="flex items-center space-x-1">
-                <div className="material-status-online w-1.5 h-1.5"></div>
-                <span className="text-body-small text-success-600">Online</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Material Design Footer Actions */}
-        <div className="px-6 py-4 border-t border-surface-200 space-y-3">
-          {/* Help & Support */}
-          <button className="material-nav-item w-full text-left">
-            <span className="material-icons text-xl mr-4">help_outline</span>
-            <span className="text-body-large">Help & Support</span>
-          </button>
-
-          {/* Logout Button */}
-          <button
-            onClick={onLogout}
-            className="material-nav-item w-full text-left text-error-600 hover:bg-error-50"
-          >
-            <span className="material-icons text-xl mr-4">logout</span>
-            <span className="text-body-large">Sign Out</span>
-          </button>
-
-          {/* Version Info */}
-          <div className="pt-2 border-t border-surface-200">
-            <p className="text-body-small text-surface-500 text-center">
-              Version 2.0.0 - Material Design
+          <div>
+            <h1 className="text-lg font-semibold text-white">
+              TG Automation
+            </h1>
+            <p className="text-xs text-gray-400">
+              Smart messaging system
             </p>
           </div>
         </div>
-      </aside>
-    </>
+      </div>
+
+      {/* User Status */}
+      {telegramConfig && (
+        <div className="p-4 border-b border-gray-700">
+          <div className="admin-card p-3">
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center">
+                <span className="material-icons text-gray-300 text-sm">person</span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-gray-200 truncate">
+                  {telegramConfig.phone_number || 'Unknown User'}
+                </p>
+                <div className="flex items-center space-x-1 mt-1">
+                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                  <span className="text-xs text-green-400">Connected</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Navigation Menu */}
+      <nav className="flex-1 p-4 space-y-1">
+        {menuItems.map((item) => {
+          const isActive = location.pathname === item.path;
+          return (
+            <button
+              key={item.id}
+              onClick={() => handleMenuClick(item)}
+              className={isActive ? 'nav-item-active w-full text-left' : 'nav-item w-full text-left'}
+            >
+              <span className={isActive ? 'nav-icon-active' : 'nav-icon'}>
+                {item.icon}
+              </span>
+              <span className="text-sm font-medium">{item.name}</span>
+            </button>
+          );
+        })}
+      </nav>
+
+      {/* Footer Actions */}
+      <div className="p-4 border-t border-gray-700 space-y-1">
+        {/* Help */}
+        <button className="nav-item w-full text-left">
+          <span className="nav-icon">help_outline</span>
+          <span className="text-sm">Help & Support</span>
+        </button>
+
+        {/* Logout */}
+        <button
+          onClick={onLogout}
+          className="nav-item w-full text-left text-red-400 hover:text-red-300 hover:bg-red-900"
+        >
+          <span className="nav-icon text-red-400">logout</span>
+          <span className="text-sm">Sign Out</span>
+        </button>
+
+        {/* Version */}
+        <div className="pt-2 mt-2 border-t border-gray-700">
+          <p className="text-xs text-gray-500 text-center">
+            v2.1.0 - Dark Edition
+          </p>
+        </div>
+      </div>
+    </aside>
   );
 };
 
