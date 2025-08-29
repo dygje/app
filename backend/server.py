@@ -379,11 +379,16 @@ async def send_auth_code():
             raise HTTPException(status_code=400, detail="Failed to initialize Telegram client")
         
         await client.connect()
+        logging.info(f"Telethon client connected for phone: {config.phone_number}")
+        
         sent_code = await client.send_code_request(config.phone_number)
+        logging.info(f"SMS code sent successfully, phone_code_hash: {sent_code.phone_code_hash[:10]}...")
         
         # Store phone_code_hash for later use with very extended timeout
         current_time = datetime.utcnow()
-        await db.temp_auth.replace_one(
+        logging.info(f"Storing temp_auth for phone: {config.phone_number}")
+        
+        result = await db.temp_auth.replace_one(
             {"phone_number": config.phone_number},
             {
                 "phone_number": config.phone_number,
@@ -393,8 +398,10 @@ async def send_auth_code():
             },
             upsert=True
         )
+        logging.info(f"Database write result: matched={result.matched_count}, modified={result.modified_count}, upserted={result.upserted_id}")
         
         await client.disconnect()
+        logging.info(f"Authentication code sent successfully for phone: {config.phone_number}")
         return {"message": "Authentication code sent successfully", "phone_code_hash": sent_code.phone_code_hash}
     
     except Exception as e:
