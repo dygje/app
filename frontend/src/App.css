@@ -1,290 +1,34 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* ===== MATERIAL DESIGN ENHANCEMENTS ===== */
-
-/* Custom Material Design scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+/* App-specific styles */
+.notification {
+  @apply fixed top-4 right-4 max-w-sm bg-white border border-gray-200 rounded-lg shadow-medium p-4 z-50 transform transition-all duration-300;
 }
 
-::-webkit-scrollbar-track {
-  background: #f5f5f5;
-  border-radius: 4px;
+.notification.success {
+  @apply border-success-200 bg-success-50;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #bdbdbd;
-  border-radius: 4px;
-  border: 1px solid #f5f5f5;
+.notification.error {
+  @apply border-danger-200 bg-danger-50;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #9e9e9e;
+.notification.info {
+  @apply border-primary-200 bg-primary-50;
 }
 
-::-webkit-scrollbar-corner {
-  background: #f5f5f5;
+.notification.show {
+  @apply translate-x-0 opacity-100;
 }
 
-/* Material Design Enhanced Animations */
-@layer components {
-  /* Enhanced Card Hover Effects */
-  .material-card-interactive {
-    @apply bg-white rounded-xl shadow-sm hover:shadow-md cursor-pointer transition-all duration-300;
-  }
-
-  .material-card-interactive:hover {
-    @apply shadow-lg -translate-y-1;
-  }
-
-  .material-card-interactive:active {
-    @apply shadow-md translate-y-0 scale-95;
-  }
-
-  /* Material Design FAB (Floating Action Button) */
-  .material-fab {
-    @apply fixed bottom-6 right-6 w-14 h-14 bg-secondary-500 text-white rounded-full
-           shadow-lg hover:shadow-xl active:shadow-xl
-           flex items-center justify-center transition-all duration-300
-           hover:scale-110 active:scale-95 z-50;
-  }
-
-  .material-fab-extended {
-    @apply material-fab w-auto px-6 rounded-full;
-  }
-
-  /* Material Design Snackbar */
-  .material-snackbar {
-    @apply fixed bottom-6 left-6 right-6 bg-surface-800 text-white px-4 py-3 
-           rounded-sm shadow-lg z-50 transition-all duration-300
-           transform translate-y-full;
-  }
-
-  .material-snackbar.show {
-    @apply translate-y-0;
-  }
-
-  /* Material Design App Bar */
-  .material-app-bar {
-    @apply bg-primary-600 text-white shadow-md 
-           transition-shadow duration-300;
-  }
-
-  .material-app-bar-scrolled {
-    @apply shadow-lg;
-  }
-
-  /* Material Design Navigation Drawer */
-  .material-nav-drawer {
-    @apply bg-white shadow-xl transition-all duration-300;
-  }
-
-  .material-nav-drawer-modal {
-    @apply fixed inset-y-0 left-0 z-40 w-80 transform -translate-x-full;
-  }
-
-  .material-nav-drawer-modal.open {
-    @apply translate-x-0;
-  }
-
-  /* Material Design Data Tables */
-  .material-table {
-    @apply w-full bg-white shadow-sm rounded-lg overflow-hidden;
-  }
-
-  .material-table-header {
-    @apply bg-surface-50 border-b border-surface-200;
-  }
-
-  .material-table-cell {
-    @apply px-6 py-4 text-sm text-surface-700;
-  }
-
-  .material-table-row {
-    @apply border-b border-surface-100 hover:bg-surface-50 
-           transition-colors duration-200;
-  }
-
-  /* Material Design Chips */
-  .material-chip {
-    @apply inline-flex items-center px-3 py-1 text-sm font-medium
-           bg-surface-100 text-surface-700 rounded-full border border-surface-300
-           hover:bg-surface-200 transition-colors duration-200;
-  }
-
-  .material-chip-selected {
-    @apply bg-secondary-100 text-secondary-800 border-secondary-300;
-  }
-
-  /* Material Design Progress Indicators */
-  .material-progress-linear {
-    @apply w-full h-1 bg-surface-200 rounded-full overflow-hidden;
-  }
-
-  .material-progress-bar {
-    @apply h-full bg-primary-600 transition-all duration-300 ease-out;
-  }
-
-  .material-progress-circular {
-    @apply animate-spin rounded-full border-2 border-surface-200 border-t-primary-600;
-  }
-
-  /* Material Design Dialog/Modal */
-  .material-dialog {
-    @apply bg-white rounded-xl shadow-2xl max-w-md mx-auto
-           transform transition-all duration-300;
-  }
-
-  .material-dialog-backdrop {
-    @apply fixed inset-0 bg-black bg-opacity-50 z-50 
-           transition-opacity duration-300;
-  }
-
-  /* Material Design Lists */
-  .material-list {
-    @apply bg-white rounded-lg shadow-sm divide-y divide-surface-100;
-  }
-
-  .material-list-item {
-    @apply px-4 py-3 hover:bg-surface-50 transition-colors duration-200
-           flex items-center space-x-4;
-  }
-
-  .material-list-item-active {
-    @apply bg-primary-50 border-r-4 border-primary-600;
-  }
-
-  /* Material Design Switches */
-  .material-switch {
-    @apply relative inline-block w-12 h-6 bg-surface-300 rounded-full
-           transition-colors duration-300 cursor-pointer;
-  }
-
-  .material-switch-thumb {
-    @apply absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow-sm
-           transition-transform duration-300;
-  }
-
-  .material-switch:checked {
-    @apply bg-primary-600;
-  }
-
-  .material-switch:checked .material-switch-thumb {
-    @apply transform translate-x-6;
-  }
+.notification.hide {
+  @apply translate-x-full opacity-0;
 }
 
-/* Enhanced Material Motion */
-@keyframes material-slide-up {
-  from {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+/* Loading overlay */
+.loading-overlay {
+  @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50;
 }
 
-@keyframes material-scale-in {
-  from {
-    transform: scale(0.8);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes material-bounce-in {
-  0% {
-    transform: scale(0.3);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1.05);
-    opacity: 0.8;
-  }
-  70% {
-    transform: scale(0.95);
-    opacity: 0.9;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-/* Animation Classes */
-.material-slide-up {
-  animation: material-slide-up 300ms cubic-bezier(0.0, 0.0, 0.2, 1);
-}
-
-.material-scale-in {
-  animation: material-scale-in 250ms cubic-bezier(0.0, 0.0, 0.2, 1);
-}
-
-.material-bounce-in {
-  animation: material-bounce-in 400ms cubic-bezier(0.0, 0.0, 0.2, 1);
-}
-
-/* State Classes */
-.material-loading {
-  @apply opacity-60 cursor-not-allowed pointer-events-none;
-}
-
-.material-disabled {
-  @apply opacity-50 cursor-not-allowed pointer-events-none;
-}
-
-.material-hidden {
-  @apply opacity-0 invisible;
-}
-
-.material-visible {
-  @apply opacity-100 visible;
-}
-
-/* Focus Management */
-.material-focus-visible {
-  @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
-}
-
-/* High Contrast Mode Support */
-@media (prefers-contrast: high) {
-  .material-card {
-    @apply border border-surface-900;
-  }
-  
-  .material-button-outlined {
-    @apply border-2;
-  }
-}
-
-/* Reduced Motion Support */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* Print Styles */
-@media print {
-  .material-card {
-    @apply shadow-none border border-surface-300;
-  }
-  
-  .material-button {
-    @apply border border-surface-400;
-  }
-  
-  .no-print {
-    display: none !important;
-  }
+/* Modal backdrop */
+.modal-backdrop {
+  @apply fixed inset-0 bg-black bg-opacity-50 z-40;
 }
