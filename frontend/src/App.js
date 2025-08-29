@@ -6,7 +6,6 @@ import Dashboard from "./components/Dashboard";
 import TelegramSetup from "./components/TelegramSetup";
 import MessageManager from "./components/MessageManager";
 import GroupManager from "./components/GroupManager";
-
 import AutomationSettings from "./components/AutomationSettings";
 import Sidebar from "./components/Sidebar";
 
@@ -51,7 +50,6 @@ function App() {
   };
 
   const handleLogout = async () => {
-    // In a real app, you might want to call a logout endpoint
     setIsAuthenticated(false);
     setTelegramConfig(null);
     setCurrentPage('dashboard');
@@ -59,11 +57,11 @@ function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-surface-50 flex items-center justify-center">
-        <div className="text-center material-fade-in">
-          <div className="material-progress-circular w-12 h-12 mx-auto mb-6"></div>
-          <h2 className="text-title-large text-surface-900 mb-2">Loading Application</h2>
-          <p className="text-body-medium text-surface-600">Please wait while we initialize...</p>
+      <div className="admin-container flex items-center justify-center">
+        <div className="text-center fade-in">
+          <div className="loading-spinner mx-auto mb-4"></div>
+          <h2 className="text-xl font-medium text-gray-200 mb-2">Loading Application</h2>
+          <p className="text-gray-400">Initializing Telegram automation system...</p>
         </div>
       </div>
     );
@@ -73,18 +71,18 @@ function App() {
   if (!isAuthenticated) {
     return (
       <BrowserRouter>
-        <div className="min-h-screen bg-surface-50">
+        <div className="admin-container">
           <TelegramSetup onAuthSuccess={handleAuthSuccess} />
         </div>
       </BrowserRouter>
     );
   }
 
-  // Main application with Material Design layout
+  // Main application with dark admin layout
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-surface-50 flex">
-        {/* Material Design Navigation Drawer */}
+      <div className="admin-container">
+        {/* Sidebar Navigation */}
         <Sidebar 
           currentPage={currentPage} 
           setCurrentPage={setCurrentPage}
@@ -94,24 +92,24 @@ function App() {
           onClose={() => setSidebarOpen(false)}
         />
         
-        {/* Material Design Backdrop for mobile */}
+        {/* Mobile Backdrop */}
         {sidebarOpen && (
           <div 
-            className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
+            className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
             onClick={() => setSidebarOpen(false)}
           />
         )}
         
-        {/* Material Design Main Content */}
-        <main className="flex-1 flex flex-col min-h-screen lg:ml-80">
-          {/* Material Design App Bar */}
-          <header className="material-app-bar sticky top-0 z-20 px-4 py-4 lg:px-6">
+        {/* Main Content Area */}
+        <div className="admin-main">
+          {/* Header */}
+          <header className="admin-header">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 {/* Mobile Menu Button */}
                 <button
                   onClick={() => setSidebarOpen(true)}
-                  className="material-button-text lg:hidden p-2 -ml-2"
+                  className="btn-ghost p-2 md:hidden"
                   aria-label="Open menu"
                 >
                   <span className="material-icons">menu</span>
@@ -119,85 +117,71 @@ function App() {
                 
                 {/* Page Title */}
                 <div>
-                  <h1 className="text-title-large text-white font-medium">
+                  <h1 className="text-xl font-semibold text-gray-100">
                     {currentPage === 'dashboard' && 'Dashboard'}
-                    {currentPage === 'messages' && 'Messages'}
-                    {currentPage === 'groups' && 'Groups'}
+                    {currentPage === 'messages' && 'Message Templates'}
+                    {currentPage === 'groups' && 'Group Management'}
                     {currentPage === 'settings' && 'Settings'}
                   </h1>
-                  <p className="text-body-small text-primary-100 hidden md:block">
+                  <p className="text-sm text-gray-400 hidden sm:block">
                     Telegram Automation System
                   </p>
                 </div>
               </div>
 
-              {/* User Info & Actions */}
-              <div className="flex items-center space-x-4">
-                {/* Connection Status */}
-                <div className="hidden md:flex items-center space-x-2">
-                  <div className="material-status-online"></div>
-                  <span className="text-body-small text-white">
+              {/* Header Actions */}
+              <div className="flex items-center space-x-3">
+                <div className="hidden sm:flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <span className="text-sm text-gray-300">
                     {telegramConfig?.phone_number || 'Connected'}
                   </span>
                 </div>
-
-                {/* Quick Actions */}
-                <div className="flex items-center space-x-2">
-                  <button 
-                    className="material-button-text p-2 text-white hover:bg-primary-700"
-                    title="Refresh"
-                    onClick={checkTelegramStatus}
-                  >
-                    <span className="material-icons">refresh</span>
-                  </button>
-                  
-                  <button 
-                    className="material-button-text p-2 text-white hover:bg-primary-700"
-                    title="Notifications"
-                  >
-                    <span className="material-icons">notifications</span>
-                  </button>
-                </div>
+                
+                <button 
+                  className="btn-ghost p-2"
+                  title="Refresh Status"
+                  onClick={checkTelegramStatus}
+                >
+                  <span className="material-icons icon">refresh</span>
+                </button>
               </div>
             </div>
           </header>
 
-          {/* Material Design Content Area */}
-          <div className="flex-1 overflow-auto">
-            <div className="container-material py-6">
-              <Routes>
-                <Route path="/" element={<Navigate to="/dashboard" replace />} />
-                <Route 
-                  path="/dashboard" 
-                  element={
-                    <Dashboard 
-                      telegramConfig={telegramConfig}
-                      setCurrentPage={setCurrentPage}
-                    />
-                  } 
-                />
-                <Route 
-                  path="/messages" 
-                  element={<MessageManager />} 
-                />
-                <Route 
-                  path="/groups" 
-                  element={<GroupManager />} 
-                />
-
-                <Route 
-                  path="/settings" 
-                  element={
-                    <AutomationSettings 
-                      telegramConfig={telegramConfig}
-                      onConfigUpdate={checkTelegramStatus}
-                    />
-                  } 
-                />
-              </Routes>
-            </div>
-          </div>
-        </main>
+          {/* Page Content */}
+          <main className="admin-content">
+            <Routes>
+              <Route path="/" element={<Navigate to="/dashboard" replace />} />
+              <Route 
+                path="/dashboard" 
+                element={
+                  <Dashboard 
+                    telegramConfig={telegramConfig}
+                    setCurrentPage={setCurrentPage}
+                  />
+                } 
+              />
+              <Route 
+                path="/messages" 
+                element={<MessageManager />} 
+              />
+              <Route 
+                path="/groups" 
+                element={<GroupManager />} 
+              />
+              <Route 
+                path="/settings" 
+                element={
+                  <AutomationSettings 
+                    telegramConfig={telegramConfig}
+                    onConfigUpdate={checkTelegramStatus}
+                  />
+                } 
+              />
+            </Routes>
+          </main>
+        </div>
       </div>
     </BrowserRouter>
   );
