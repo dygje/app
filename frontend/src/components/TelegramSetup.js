@@ -461,7 +461,7 @@ const TelegramSetup = ({ onAuthSuccess }) => {
               <form onSubmit={handle2FASubmit} className="space-y-4">
                 <div className="text-center mb-6">
                   <div className="inline-flex items-center justify-center w-12 h-12 bg-yellow-100 rounded-full mb-3">
-                    <div className="text-yellow-500">🔐</div>
+                    <div className="text-yellow-500">🛡️</div>
                   </div>
                   <p className="text-sm text-gray-600">
                     Your account has two-factor authentication enabled
