@@ -266,23 +266,23 @@ const TelegramSetup = ({ onAuthSuccess }) => {
           </div>
 
           {/* Content */}
-          <div className="admin-card-content">
+          <div className="card-body">
             {/* Notification */}
             {notification.show && (
               <div className={`p-4 rounded-lg mb-6 border-l-4 ${
                 notification.type === 'error' 
-                  ? 'bg-red-900 border-red-600' 
+                  ? 'bg-danger-50 border-danger-500' 
                   : notification.type === 'success' 
-                  ? 'bg-green-900 border-green-600'
-                  : 'bg-blue-900 border-blue-600'
+                  ? 'bg-success-50 border-success-500'
+                  : 'bg-primary-50 border-primary-500'
               }`}>
                 <div className="flex items-center space-x-3">
                   <span className={`material-icons ${
                     notification.type === 'error' 
-                      ? 'text-red-400' 
+                      ? 'text-danger-600' 
                       : notification.type === 'success' 
-                      ? 'text-green-400'
-                      : 'text-blue-400'
+                      ? 'text-success-600'
+                      : 'text-primary-600'
                   }`}>
                     {notification.type === 'error' 
                       ? 'error' 
@@ -292,10 +292,10 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                   </span>
                   <p className={`text-sm font-medium ${
                     notification.type === 'error' 
-                      ? 'text-red-200' 
+                      ? 'text-danger-800' 
                       : notification.type === 'success' 
-                      ? 'text-green-200'
-                      : 'text-blue-200'
+                      ? 'text-success-800'
+                      : 'text-primary-800'
                   }`}>
                     {notification.message}
                   </p>
