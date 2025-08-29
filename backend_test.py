@@ -71,13 +71,16 @@ class BackendTester:
                 data = response.json()
                 required_fields = ["authenticated", "phone_number", "has_session", "user_profile"]
                 
-                if all(field in data for field in required_fields):
+                # Check if all required fields are present (they can be null/false)
+                missing_fields = [field for field in required_fields if field not in data]
+                
+                if not missing_fields:
                     auth_status = "authenticated" if data.get("authenticated") else "not authenticated"
-                    self.log_test("Telegram Status Check", True, f"Status: {auth_status}")
+                    phone = data.get("phone_number", "None")
+                    self.log_test("Telegram Status Check", True, f"Status: {auth_status}, Phone: {phone}")
                     return True
                 else:
-                    missing = [f for f in required_fields if f not in data]
-                    self.log_test("Telegram Status Check", False, f"Missing fields: {missing}")
+                    self.log_test("Telegram Status Check", False, f"Missing fields: {missing_fields}")
                     return False
             else:
                 self.log_test("Telegram Status Check", False, f"HTTP {response.status_code}")
