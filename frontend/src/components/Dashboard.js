@@ -94,10 +94,14 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
       {/* Welcome Header */}
       <div>
         <h2 className="text-2xl font-semibold text-gray-900 mb-2">
-          Welcome Back
+          Welcome Back{userProfile ? `, ${userProfile.first_name || 'User'}` : ''}
         </h2>
         <p className="text-gray-600">
-          Monitor and manage your Telegram automation system
+          {userProfile ? (
+            `Monitor and manage your Telegram automation system${userProfile.username ? ` (@${userProfile.username})` : ''}`
+          ) : (
+            'Monitor and manage your Telegram automation system'
+          )}
         </p>
       </div>
 
