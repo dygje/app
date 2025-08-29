@@ -5,8 +5,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import './material-design.css';
-
 @layer base {
   body {
     @apply font-sans bg-gray-50 text-gray-900 antialiased;
