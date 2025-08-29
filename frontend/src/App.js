@@ -55,6 +55,11 @@ function App() {
     checkTelegramStatus();
   };
 
+  // Debug sidebar state changes
+  useEffect(() => {
+    console.log('App.js: sidebarOpen state changed to:', sidebarOpen);
+  }, [sidebarOpen]);
+
   const handleLogout = async () => {
     try {
       // Call backend logout endpoint
