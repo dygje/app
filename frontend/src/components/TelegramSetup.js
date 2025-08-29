@@ -463,7 +463,7 @@ const TelegramSetup = ({ onAuthSuccess }) => {
               <form onSubmit={handle2FASubmit} className="space-y-4">
                 <div className="text-center mb-6">
                   <div className="inline-flex items-center justify-center w-12 h-12 bg-yellow-100 rounded-full mb-3">
-                    <div className="text-yellow-500">🛡️</div>
+                    <span className="material-icons text-yellow-500">security</span>
                   </div>
                   <p className="text-sm text-gray-600">
                     Your account has two-factor authentication enabled
@@ -496,7 +496,7 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                       </>
                     ) : (
                       <>
-                        <div className="mr-2">🔒</div>
+                        <span className="material-icons text-sm mr-2">lock</span>
                         Complete Authentication
                       </>
                     )}
@@ -511,8 +511,8 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                     }}
                     className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200 flex items-center justify-center"
                   >
-                    <div className="mr-2">⬅️</div>
-                    Back
+                    <span className="material-icons text-sm mr-2">arrow_back</span>
+                    Back to Verification
                   </button>
                 </div>
               </form>
