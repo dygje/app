@@ -510,8 +510,8 @@ const TelegramSetup = ({ onAuthSuccess }) => {
           </div>
 
           {/* Footer */}
-          <div className="px-6 py-4 bg-gray-800 border-t border-gray-700 text-center">
-            <p className="text-xs text-gray-400">
+          <div className="card-footer text-center">
+            <p className="text-xs text-gray-500">
               <span className="material-icons text-xs mr-1 align-middle">security</span>
               Your credentials are encrypted and secure
             </p>
