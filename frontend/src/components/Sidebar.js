@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, onLogout, isOpen, onClose }) => {
+const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, userProfile, onLogout, isOpen, onClose }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
