@@ -106,7 +106,7 @@ const Dashboard = ({ telegramConfig, setCurrentPage }) => {
       </div>
 
       {/* Material Design Stats Grid */}
-      <div className="material-grid material-grid-cols-4">
+      <div className="material-grid material-grid-cols-3">
         {/* Total Messages Card */}
         <div className="material-card-interactive p-6">
           <div className="flex items-start justify-between mb-4">
@@ -140,24 +140,6 @@ const Dashboard = ({ telegramConfig, setCurrentPage }) => {
               {stats.totalGroups}
             </h3>
             <p className="text-body-medium text-surface-600">Target Groups</p>
-          </div>
-        </div>
-
-        {/* Blacklisted Groups Card */}
-        <div className="material-card-interactive p-6">
-          <div className="flex items-start justify-between mb-4">
-            <div className="w-12 h-12 bg-error-100 rounded-full flex items-center justify-center">
-              <span className="material-icons text-error-700 text-xl">block</span>
-            </div>
-            <div className="material-badge-error">
-              Blocked
-            </div>
-          </div>
-          <div>
-            <h3 className="text-title-large font-medium text-surface-900 mb-1">
-              {stats.blacklistedGroups}
-            </h3>
-            <p className="text-body-medium text-surface-600">Blacklisted</p>
           </div>
         </div>
 
