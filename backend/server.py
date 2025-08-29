@@ -630,7 +630,10 @@ async def verify_2fa_password(two_fa_auth: TwoFactorAuth):
         # Clean up temp auth
         await db.temp_auth.delete_one({"phone_number": config.phone_number})
         
-        return {"message": "2FA authentication successful"}
+        return {
+            "success": True,
+            "message": "2FA authentication successful"
+        }
     
     except PasswordHashInvalidError:
         raise HTTPException(status_code=400, detail="Invalid 2FA password")
