@@ -120,7 +120,8 @@
   }
 
   .fluent-textarea {
-    @apply fluent-input resize-vertical min-h-24;
+    @apply fluent-input min-h-24;
+    resize: vertical;
   }
 
   /* Navigation Components */
