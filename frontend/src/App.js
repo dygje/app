@@ -123,7 +123,6 @@ function App() {
                     {currentPage === 'dashboard' && 'Dashboard'}
                     {currentPage === 'messages' && 'Messages'}
                     {currentPage === 'groups' && 'Groups'}
-                    {currentPage === 'blacklist' && 'Blacklist'}
                     {currentPage === 'settings' && 'Settings'}
                   </h1>
                   <p className="text-body-small text-primary-100 hidden md:block">
