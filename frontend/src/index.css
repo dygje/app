@@ -390,9 +390,7 @@ body {
 
   /* Additional color variants */
 
-  .text-primary-800 {
-    @apply text-primary-800;
-  }
+
 
   .text-success-700 {
     @apply text-green-700;
