@@ -78,11 +78,11 @@ function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-surface-50 flex items-center justify-center">
-        <div className="text-center material-fade-in">
-          <div className="material-spinner mx-auto mb-6 w-8 h-8"></div>
-          <h2 className="text-title-large font-medium text-surface-900 mb-2">Loading Telegram Automation</h2>
-          <p className="text-body-medium text-surface-600">Initializing system...</p>
+      <div className="min-h-screen bg-telegram-bg flex items-center justify-center">
+        <div className="text-center tg-fade-in">
+          <div className="tg-spinner mx-auto mb-6"></div>
+          <h2 className="tg-heading-2 mb-2">Loading Telegram Automation</h2>
+          <p className="tg-body-secondary">Initializing system...</p>
         </div>
       </div>
     );
@@ -92,17 +92,17 @@ function App() {
   if (!isAuthenticated) {
     return (
       <BrowserRouter>
-        <div className="min-h-screen bg-surface-50">
+        <div className="min-h-screen bg-telegram-bg">
           <TelegramSetup onAuthSuccess={handleAuthSuccess} />
         </div>
       </BrowserRouter>
     );
   }
 
-  // Main application with clean layout
+  // Main application with Telegram Dark Theme
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-surface-50">
+      <div className="min-h-screen bg-telegram-bg">
         {/* Sidebar Navigation */}
         <Sidebar 
           currentPage={currentPage} 
@@ -114,7 +114,7 @@ function App() {
           onClose={() => setSidebarOpen(false)}
         />
         
-        {/* Mobile Backdrop - Enhanced */}
+        {/* Mobile Backdrop */}
         {sidebarOpen && (
           <div 
             className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
@@ -123,49 +123,42 @@ function App() {
         )}
         
         {/* Main Content Area */}
-        <div className="main-content">
-          {/* Header with Connection Status - Material Design */}
-          <header className="bg-white border-b border-surface-200 px-4 sm:px-6 py-4 sticky top-0 z-30">
+        <div className="tg-main-content">
+          {/* Header */}
+          <header className="bg-telegram-surface border-b border-telegram-border px-6 py-4 sticky top-0 z-30">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
-                {/* Mobile Menu Button - Enhanced */}
+                {/* Mobile Menu Button */}
                 <button
-                  onClick={() => {
-                    setSidebarOpen(!sidebarOpen);
-                  }}
-                  className="lg:hidden material-button-text p-2 rounded-xl"
+                  onClick={() => setSidebarOpen(!sidebarOpen)}
+                  className="lg:hidden fluent-btn-ghost p-2"
                   aria-label="Toggle menu"
-                  style={{ 
-                    minWidth: '44px', 
-                    minHeight: '44px'
-                  }}
                 >
-                  <span className="material-icons text-xl text-surface-700">
+                  <span className="material-icons text-xl">
                     {sidebarOpen ? 'close' : 'menu'}
                   </span>
                 </button>
                 
                 {/* Page Title */}
                 <div>
-                  <h1 className="text-title-large font-medium text-surface-900">
+                  <h1 className="tg-heading-2">
                     {currentPage === 'dashboard' && 'Dashboard'}
                     {currentPage === 'messages' && 'Message Templates'}
                     {currentPage === 'groups' && 'Group Management'}
                     {currentPage === 'settings' && 'Settings'}
                   </h1>
-                  <p className="text-body-small text-surface-500 hidden sm:block">
+                  <p className="tg-caption hidden sm:block">
                     Telegram Automation System
                   </p>
                 </div>
               </div>
 
-              {/* Connection Status - Always Visible */}
+              {/* Connection Status */}
               <div className="flex items-center">
-                {/* Connection Status */}
-                <div className="material-card-outlined bg-success-50 border-success-200 px-4 py-2 rounded-xl">
+                <div className="tg-card px-4 py-2 border-telegram-green border-opacity-30 bg-telegram-green bg-opacity-10">
                   <div className="flex items-center space-x-2">
-                    <div className="material-status-online animate-pulse"></div>
-                    <span className="text-body-medium font-medium text-success-800">
+                    <div className="tg-status-online animate-pulse"></div>
+                    <span className="tg-body-secondary text-telegram-green font-medium">
                       {userProfile ? (
                         userProfile.username ? `@${userProfile.username}` : userProfile.first_name
                       ) : (
@@ -179,7 +172,7 @@ function App() {
           </header>
 
           {/* Page Content */}
-          <main className="p-4 sm:p-6 space-y-6">
+          <main className="p-6 space-y-6">
             <Routes>
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route 

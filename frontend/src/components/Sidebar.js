@@ -5,9 +5,6 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, userProfile, onL
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Only close sidebar on mobile when explicitly requested
-  // Removed auto-close on route change to prevent sidebar closing when clicking menu items
-
   const menuItems = [
     {
       id: 'dashboard',
@@ -38,71 +35,71 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, userProfile, onL
   const handleMenuClick = (item) => {
     setCurrentPage(item.id);
     navigate(item.path);
-    // Only close sidebar on mobile when user explicitly wants it
-    // Removed automatic close to prevent sidebar closing immediately after click
   };
 
   return (
-    <aside className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
+    <aside className={`tg-sidebar ${isOpen ? 'open' : 'closed'}`}>
       
-      {/* App Header - Material Design */}
-      <div className="p-6 border-b border-surface-200">
-        <div className="flex items-center space-x-3">
-          <div className="w-12 h-12 bg-primary-600 rounded-2xl flex items-center justify-center">
-            <span className="material-icons text-white text-xl">telegram</span>
+      {/* App Header */}
+      <div className="p-6 border-b border-telegram-border">
+        <div className="flex items-center space-x-4">
+          <div className="w-12 h-12 bg-telegram-blue rounded-2xl flex items-center justify-center shadow-telegram">
+            <span className="material-icons text-white text-2xl">telegram</span>
           </div>
           <div>
-            <h1 className="text-title-large font-medium text-surface-900">
+            <h1 className="tg-heading-3">
               TG Automation
             </h1>
-            <p className="text-body-small text-surface-600">
+            <p className="tg-caption">
               Smart messaging system
             </p>
           </div>
         </div>
       </div>
 
-      {/* User Status - Material Design */}
+      {/* User Profile Section */}
       {telegramConfig && (
-        <div className="p-6 border-b border-surface-200">
-          <div className="material-card-outlined p-4 rounded-xl bg-surface-50">
+        <div className="p-6 border-b border-telegram-border">
+          <div className="tg-card p-4">
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
-                <span className="material-icons text-primary-700">person</span>
+              <div className="relative">
+                <div className="w-12 h-12 bg-telegram-blue bg-opacity-20 rounded-full flex items-center justify-center">
+                  <span className="material-icons text-telegram-blue text-xl">person</span>
+                </div>
+                <div className="absolute -bottom-1 -right-1">
+                  <div className="tg-status-online border-2 border-telegram-surface"></div>
+                </div>
               </div>
+              
               <div className="flex-1 min-w-0">
                 {userProfile ? (
                   <>
-                    <p className="text-body-medium font-medium text-surface-900 truncate">
+                    <p className="tg-body font-medium truncate">
                       {userProfile.first_name || 'User'} {userProfile.last_name || ''}
                     </p>
                     {userProfile.username && (
-                      <p className="text-body-small text-surface-600 truncate">
+                      <p className="tg-caption truncate text-telegram-blue">
                         @{userProfile.username}
                       </p>
                     )}
-                    <div className="flex items-center space-x-2 mt-2">
-                      <div className="material-status-online"></div>
-                      <span className="text-body-small text-success-700 font-medium">
+                    <div className="flex items-center space-x-2 mt-1">
+                      <span className="tg-caption text-telegram-green">
                         Connected
-                        {userProfile.is_verified && (
-                          <span className="material-icons text-sm ml-1 text-primary-600" title="Verified">verified</span>
-                        )}
-                        {userProfile.is_premium && (
-                          <span className="material-icons text-sm ml-1 text-warning-600" title="Premium">stars</span>
-                        )}
                       </span>
+                      {userProfile.is_verified && (
+                        <span className="material-icons text-xs text-telegram-blue" title="Verified">verified</span>
+                      )}
+                      {userProfile.is_premium && (
+                        <span className="material-icons text-xs text-telegram-orange" title="Premium">stars</span>
+                      )}
                     </div>
                   </>
                 ) : (
                   <>
-                    <p className="text-body-medium font-medium text-surface-900 truncate">
+                    <p className="tg-body font-medium truncate">
                       {telegramConfig.phone_number || 'Unknown User'}
                     </p>
-                    <div className="flex items-center space-x-2 mt-2">
-                      <div className="material-status-online"></div>
-                      <span className="text-body-small text-success-700 font-medium">Connected</span>
-                    </div>
+                    <span className="tg-caption text-telegram-green">Connected</span>
                   </>
                 )}
               </div>
@@ -111,33 +108,33 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, userProfile, onL
         </div>
       )}
 
-      {/* Navigation Menu - Material Design */}
-      <nav className="flex-1 p-4 space-y-1">
+      {/* Navigation Menu */}
+      <nav className="flex-1 py-4">
         {menuItems.map((item) => {
           const isActive = location.pathname === item.path;
           return (
             <button
               key={item.id}
               onClick={() => handleMenuClick(item)}
-              className={`w-full flex items-center space-x-4 px-4 py-3 rounded-xl text-left transition-all duration-200 ${
+              className={`${
                 isActive 
-                  ? 'bg-primary-100 text-primary-700' 
-                  : 'text-surface-700 hover:bg-surface-100 hover:text-surface-900'
-              }`}
+                  ? 'tg-nav-item-active' 
+                  : 'tg-nav-item'
+              } w-full text-left`}
             >
               <span className={`material-icons text-xl ${
-                isActive ? 'text-primary-700' : 'text-surface-600'
+                isActive ? 'text-telegram-blue' : 'text-telegram-textMuted'
               }`}>
                 {item.icon}
               </span>
-              <span className="text-body-medium font-medium">{item.name}</span>
+              <span className="tg-body font-medium">{item.name}</span>
             </button>
           );
         })}
       </nav>
 
-      {/* Footer Actions - Material Design */}
-      <div className="p-4 border-t border-surface-200 space-y-2">
+      {/* Footer Actions */}
+      <div className="p-4 border-t border-telegram-border space-y-2">
         {/* New Session */}
         <button
           onClick={() => {
@@ -145,31 +142,31 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, userProfile, onL
               onLogout();
             }
           }}
-          className="w-full flex items-center space-x-4 px-4 py-3 rounded-xl text-left text-primary-700 hover:text-primary-800 hover:bg-primary-50 transition-all duration-200"
+          className="tg-nav-item w-full text-left text-telegram-blue hover:text-telegram-blueHover"
         >
           <span className="material-icons text-xl">refresh</span>
-          <span className="text-body-medium font-medium">New Session</span>
+          <span className="tg-body font-medium">New Session</span>
         </button>
 
         {/* Help */}
-        <button className="w-full flex items-center space-x-4 px-4 py-3 rounded-xl text-left text-surface-700 hover:text-surface-900 hover:bg-surface-100 transition-all duration-200">
+        <button className="tg-nav-item w-full text-left">
           <span className="material-icons text-xl">help_outline</span>
-          <span className="text-body-medium font-medium">Help & Support</span>
+          <span className="tg-body font-medium">Help & Support</span>
         </button>
 
-        {/* Logout */}
+        {/* Sign Out */}
         <button
           onClick={onLogout}
-          className="w-full flex items-center space-x-4 px-4 py-3 rounded-xl text-left text-error-700 hover:text-error-800 hover:bg-error-50 transition-all duration-200"
+          className="tg-nav-item w-full text-left text-telegram-red hover:text-red-400"
         >
           <span className="material-icons text-xl">logout</span>
-          <span className="text-body-medium font-medium">Sign Out</span>
+          <span className="tg-body font-medium">Sign Out</span>
         </button>
 
         {/* Version */}
-        <div className="pt-4 mt-4 border-t border-surface-200">
-          <p className="text-body-small text-surface-400 text-center">
-            v3.2.0 - Enhanced Edition
+        <div className="pt-4 mt-4 border-t border-telegram-border">
+          <p className="tg-caption text-center">
+            v4.0.0 - Telegram Dark Edition
           </p>
         </div>
       </div>
