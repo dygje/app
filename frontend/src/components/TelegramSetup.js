@@ -387,10 +387,10 @@ const TelegramSetup = ({ onAuthSuccess }) => {
             {step === 'phone-code' && (
               <form onSubmit={handlePhoneCodeSubmit} className="space-y-6">
                 <div className="text-center">
-                  <div className="w-16 h-16 bg-green-600 rounded-lg flex items-center justify-center mx-auto mb-4">
-                    <span className="material-icons text-white text-2xl">sms</span>
+                  <div className="w-16 h-16 bg-success-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <span className="material-icons text-success-600 text-2xl">sms</span>
                   </div>
-                  <p className="text-gray-300 mb-6">
+                  <p className="text-gray-600 mb-6">
                     We sent a verification code to your phone number
                   </p>
                 </div>
