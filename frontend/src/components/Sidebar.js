@@ -72,17 +72,44 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, userProfile, onL
         <div className="p-4 border-b border-gray-200">
           <div className="card p-3">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
-                <span className="material-icons text-primary-600 text-sm">person</span>
+              <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
+                <span className="material-icons text-primary-600">person</span>
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-700 truncate">
-                  {telegramConfig.phone_number || 'Unknown User'}
-                </p>
-                <div className="flex items-center space-x-1 mt-1">
-                  <div className="w-2 h-2 bg-success-500 rounded-full"></div>
-                  <span className="text-xs text-success-600">Connected</span>
-                </div>
+                {userProfile ? (
+                  <>
+                    <p className="text-sm font-medium text-gray-700 truncate">
+                      {userProfile.first_name || 'User'} {userProfile.last_name || ''}
+                    </p>
+                    {userProfile.username && (
+                      <p className="text-xs text-gray-500 truncate">
+                        @{userProfile.username}
+                      </p>
+                    )}
+                    <div className="flex items-center space-x-1 mt-1">
+                      <div className="w-2 h-2 bg-success-500 rounded-full"></div>
+                      <span className="text-xs text-success-600">
+                        Connected
+                        {userProfile.is_verified && (
+                          <span className="material-icons text-xs ml-1 text-blue-500" title="Verified">verified</span>
+                        )}
+                        {userProfile.is_premium && (
+                          <span className="material-icons text-xs ml-1 text-yellow-500" title="Premium">stars</span>
+                        )}
+                      </span>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <p className="text-sm font-medium text-gray-700 truncate">
+                      {telegramConfig.phone_number || 'Unknown User'}
+                    </p>
+                    <div className="flex items-center space-x-1 mt-1">
+                      <div className="w-2 h-2 bg-success-500 rounded-full"></div>
+                      <span className="text-xs text-success-600">Connected</span>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
