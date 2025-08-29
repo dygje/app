@@ -227,39 +227,39 @@ const TelegramSetup = ({ onAuthSuccess }) => {
   const stepInfo = getStepInfo();
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
+    <div className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-primary-50 to-gray-100">
       <div className="w-full max-w-md">
         {/* Main Setup Card */}
-        <div className="admin-card fade-in">
+        <div className="card fade-in shadow-large">
           
           {/* Header */}
-          <div className="admin-card-header text-center">
-            <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mx-auto mb-4">
-              <span className="material-icons text-white text-xl">{stepInfo.icon}</span>
+          <div className="card-header text-center">
+            <div className="w-16 h-16 bg-primary-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <span className="material-icons text-white text-2xl">{stepInfo.icon}</span>
             </div>
             
-            <h1 className="text-xl font-semibold text-gray-100 mb-2">
+            <h1 className="text-2xl font-semibold text-gray-900 mb-2">
               {stepInfo.title}
             </h1>
-            <p className="text-gray-400">
+            <p className="text-gray-600">
               {stepInfo.subtitle}
             </p>
           </div>
 
           {/* Progress Indicator */}
-          <div className="px-6 py-4 bg-gray-700 border-b border-gray-600">
+          <div className="px-6 py-4 bg-gray-50 border-b border-gray-200">
             <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-semibold text-gray-300">
+              <span className="text-xs font-semibold text-gray-600">
                 STEP {stepInfo.stepNumber} OF 3
               </span>
-              <span className="text-xs text-gray-400">
+              <span className="text-xs text-gray-500">
                 {stepInfo.progress}%
               </span>
             </div>
             
-            <div className="w-full bg-gray-600 rounded-full h-1">
+            <div className="w-full bg-gray-300 rounded-full h-2">
               <div 
-                className="bg-blue-600 h-1 rounded-full transition-all duration-300"
+                className="bg-primary-600 h-2 rounded-full transition-all duration-500"
                 style={{ width: `${stepInfo.progress}%` }}
               />
             </div>
