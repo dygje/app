@@ -5,9 +5,12 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, userProfile, onL
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Debug logging
+  console.log('Sidebar render - isOpen:', isOpen);
+
   // Close sidebar when route changes on mobile
   useEffect(() => {
-    if (window.innerWidth < 768) {
+    if (window.innerWidth < 1024) {  // Changed from 768 to 1024 to match CSS
       onClose();
     }
   }, [location.pathname, onClose]);
