@@ -273,15 +273,20 @@ async def cleanup_expired_blacklists():
 
 # ========================== TELEGRAM CLIENT MANAGEMENT ==========================
 
-async def initialize_telegram_client() -> Optional[TelegramClient]:
-    """Initialize Telegram client with current config"""
+async def initialize_telegram_client(session_string: Optional[str] = None) -> Optional[TelegramClient]:
+    """Initialize Telegram client with current config and optional session"""
     config = await get_telegram_config()
     if not config or not config.api_id or not config.api_hash:
         return None
     
     try:
-        # Use StringSession for better portability
-        session = StringSession(config.session_string) if config.session_string else StringSession()
+        # Use provided session_string, or fallback to config session, or create new
+        if session_string:
+            session = StringSession(session_string)
+        elif config.session_string:
+            session = StringSession(config.session_string)
+        else:
+            session = StringSession()
         
         client = TelegramClient(
             session,
