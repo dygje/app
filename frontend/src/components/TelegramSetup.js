@@ -522,7 +522,7 @@ const TelegramSetup = ({ onAuthSuccess }) => {
           {/* Footer */}
           <div className="p-4 border-t border-gray-100 bg-gray-50 rounded-b-lg">
             <div className="flex items-center justify-center text-xs text-gray-500">
-              <div className="mr-1">🔒</div>
+              <span className="material-icons text-sm mr-1">lock</span>
               Your credentials are encrypted and secure
             </div>
           </div>
@@ -531,7 +531,7 @@ const TelegramSetup = ({ onAuthSuccess }) => {
         {/* Made with Emergent */}
         <div className="text-center mt-6">
           <div className="flex items-center justify-center text-xs text-gray-400">
-            <div className="mr-1">⚡</div>
+            <span className="material-icons text-sm mr-1">flash_on</span>
             Made with Emergent
           </div>
         </div>
