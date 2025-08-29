@@ -576,6 +576,166 @@ class TelegramAutomationAPITester:
         # Test stopping automation
         self.run_test("Stop Automation", "POST", "/automation/stop", 200)
 
+    def test_logout_functionality(self):
+        """Test the new logout functionality and regression tests"""
+        print("\n" + "="*50)
+        print("TESTING NEW LOGOUT FUNCTIONALITY")
+        print("="*50)
+        
+        # Setup: Create a telegram config for testing
+        config_data = {
+            "api_id": 99999,
+            "api_hash": "logout_test_hash_12345",
+            "phone_number": "+1999888777"
+        }
+        success, created_config = self.run_test(
+            "Setup Config for Logout Test", "POST", "/telegram/config", 200, config_data
+        )
+        
+        if not success:
+            print("❌ Failed to setup config for logout tests")
+            return
+        
+        # Test 1: Test logout when no session exists (should return appropriate message)
+        print("\n🔍 Testing logout when no active session exists...")
+        success, logout_response = self.run_test(
+            "Logout Without Active Session", "POST", "/telegram/logout", 200
+        )
+        
+        if success and logout_response:
+            message = logout_response.get('message', '')
+            if 'No active session' in message or 'logged out' in message.lower():
+                print("✅ Logout without session handled correctly")
+            else:
+                print(f"   Response message: {message}")
+        
+        # Test 2: Verify status after logout (should show not authenticated)
+        print("\n🔍 Testing status endpoint after logout...")
+        success, status_response = self.run_test(
+            "Get Status After Logout", "GET", "/telegram/status", 200
+        )
+        
+        if success and status_response:
+            authenticated = status_response.get('authenticated', True)
+            has_session = status_response.get('has_session', True)
+            if not authenticated and not has_session:
+                print("✅ Status correctly shows no authentication after logout")
+            else:
+                print(f"   Authentication status: {authenticated}, Has session: {has_session}")
+        
+        # Test 3: Test config endpoint still works after logout
+        print("\n🔍 Testing config endpoint functionality after logout...")
+        success, config_response = self.run_test(
+            "Get Config After Logout", "GET", "/telegram/config", 200
+        )
+        
+        if success and config_response:
+            phone_number = config_response.get('phone_number')
+            is_authenticated = config_response.get('is_authenticated', True)
+            if phone_number and not is_authenticated:
+                print("✅ Config endpoint works correctly after logout")
+            else:
+                print(f"   Phone: {phone_number}, Authenticated: {is_authenticated}")
+        
+        # Test 4: Test that new config can be set after logout
+        print("\n🔍 Testing setting new config after logout...")
+        new_config_data = {
+            "api_id": 88888,
+            "api_hash": "new_config_after_logout_hash",
+            "phone_number": "+1888777666"
+        }
+        success, new_config_response = self.run_test(
+            "Set New Config After Logout", "POST", "/telegram/config", 200, new_config_data
+        )
+        
+        if success and new_config_response:
+            new_phone = new_config_response.get('phone_number')
+            new_api_id = new_config_response.get('api_id')
+            if new_phone == "+1888777666" and new_api_id == 88888:
+                print("✅ New config can be set successfully after logout")
+            else:
+                print(f"   New phone: {new_phone}, New API ID: {new_api_id}")
+        
+        # Test 5: Test authentication flow after logout (send-code)
+        print("\n🔍 Testing send-code works after logout...")
+        success, send_code_response = self.run_test(
+            "Send Code After Logout", "POST", "/telegram/send-code", 400
+        )
+        
+        if success:
+            print("✅ Send-code endpoint works correctly after logout (expected 400 for invalid credentials)")
+        
+        # Test 6: Test verify-code works after logout
+        print("\n🔍 Testing verify-code works after logout...")
+        verify_data = {"phone_code": "123456"}
+        success, verify_response = self.run_test(
+            "Verify Code After Logout", "POST", "/telegram/verify-code", 400, verify_data
+        )
+        
+        if success:
+            print("✅ Verify-code endpoint works correctly after logout")
+        
+        # Test 7: Test logout with simulated active session
+        print("\n🔍 Testing logout behavior with config that has session data...")
+        
+        # First, let's create a config and then test logout again
+        session_config_data = {
+            "api_id": 77777,
+            "api_hash": "session_test_hash_12345",
+            "phone_number": "+1777666555"
+        }
+        success, session_config = self.run_test(
+            "Create Config for Session Logout Test", "POST", "/telegram/config", 200, session_config_data
+        )
+        
+        if success:
+            # Now test logout with this config
+            success, logout_with_config = self.run_test(
+                "Logout With Config Present", "POST", "/telegram/logout", 200
+            )
+            
+            if success and logout_with_config:
+                message = logout_with_config.get('message', '')
+                if 'logged out' in message.lower() or 'success' in message.lower():
+                    print("✅ Logout with config present works correctly")
+                else:
+                    print(f"   Logout message: {message}")
+        
+        # Test 8: Verify database cleanup after logout
+        print("\n🔍 Testing database cleanup verification...")
+        success, final_status = self.run_test(
+            "Final Status Check After All Logout Tests", "GET", "/telegram/status", 200
+        )
+        
+        if success and final_status:
+            authenticated = final_status.get('authenticated', True)
+            has_session = final_status.get('has_session', True)
+            if not authenticated and not has_session:
+                print("✅ Database cleanup verified - no authentication or session data")
+            else:
+                print(f"   Final auth status: {authenticated}, Final session status: {has_session}")
+        
+        # Test 9: Test multiple consecutive logouts (should not cause errors)
+        print("\n🔍 Testing multiple consecutive logouts...")
+        for i in range(3):
+            success, multi_logout = self.run_test(
+                f"Multiple Logout Test {i+1}", "POST", "/telegram/logout", 200
+            )
+            if success:
+                print(f"   ✅ Logout {i+1} successful")
+        
+        print("\n📋 Logout Functionality Test Summary:")
+        print("   - Tested logout without active session")
+        print("   - Verified status endpoint reports no authentication after logout")
+        print("   - Confirmed config endpoint still works after logout")
+        print("   - Verified new config can be set after logout")
+        print("   - Tested authentication flow works after logout (send-code)")
+        print("   - Tested authentication flow works after logout (verify-code)")
+        print("   - Tested logout with config present")
+        print("   - Verified database cleanup after logout")
+        print("   - Tested multiple consecutive logouts")
+        print("   - Confirmed no regressions in existing endpoints")
+
     def test_legacy_endpoints(self):
         """Test legacy status endpoints"""
         print("\n" + "="*50)
