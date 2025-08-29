@@ -449,7 +449,7 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                     }}
                     className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200 flex items-center justify-center"
                   >
-                    <div className="mr-2">←</div>
+                    <div className="mr-2">⬅️</div>
                     Back
                   </button>
                 </div>
