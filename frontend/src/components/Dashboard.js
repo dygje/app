@@ -288,7 +288,6 @@ const Dashboard = ({ telegramConfig, setCurrentPage }) => {
             {[
               { id: 'messages', icon: 'message', label: 'Messages', color: 'primary' },
               { id: 'groups', icon: 'groups', label: 'Groups', color: 'success' },
-              { id: 'blacklist', icon: 'block', label: 'Blacklist', color: 'error' },
               { id: 'settings', icon: 'settings', label: 'Settings', color: 'secondary' }
             ].map((action) => (
               <button
