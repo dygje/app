@@ -226,39 +226,34 @@ const TelegramSetup = ({ onAuthSuccess }) => {
   const stepInfo = getStepInfo();
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-primary-50 to-gray-100">
-      <div className="w-full max-w-md">
-        {/* Main Setup Card */}
-        <div className="card fade-in shadow-large">
-          
-          {/* Header */}
-          <div className="card-header text-center">
-            <div className="w-16 h-16 bg-primary-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <span className="material-icons text-white text-2xl">{stepInfo.icon}</span>
-            </div>
-            
-            <h1 className="text-2xl font-semibold text-gray-900 mb-2">
-              {stepInfo.title}
-            </h1>
-            <p className="text-gray-600">
-              {stepInfo.subtitle}
-            </p>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="w-full max-w-sm">
+        {/* Telegram Logo */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-500 rounded-full mb-4">
+            <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.820 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+            </svg>
           </div>
+          <h1 className="text-xl font-medium text-gray-800 mb-1">{stepInfo.title}</h1>
+          <p className="text-sm text-gray-500">{stepInfo.subtitle}</p>
+        </div>
 
-          {/* Progress Indicator */}
-          <div className="px-6 py-4 bg-gray-50 border-b border-gray-200">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-semibold text-gray-600">
-                STEP {stepInfo.stepNumber} OF 3
+        {/* Main Card */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+          {/* Progress Bar */}
+          <div className="p-4 border-b border-gray-100">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                Step {stepInfo.stepNumber} of 3
               </span>
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-gray-400">
                 {stepInfo.progress}%
               </span>
             </div>
-            
-            <div className="w-full bg-gray-300 rounded-full h-2">
+            <div className="w-full bg-gray-200 rounded-full h-1">
               <div 
-                className="bg-primary-600 h-2 rounded-full transition-all duration-500"
+                className="bg-blue-500 h-1 rounded-full transition-all duration-300"
                 style={{ width: `${stepInfo.progress}%` }}
               />
             </div>
