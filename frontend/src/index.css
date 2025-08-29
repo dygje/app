@@ -389,9 +389,6 @@ body {
   }
 
   /* Additional color variants */
-  .text-primary-700 {
-    @apply text-primary-700;
-  }
 
   .text-primary-800 {
     @apply text-primary-800;
