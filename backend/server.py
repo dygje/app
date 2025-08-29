@@ -227,6 +227,25 @@ def parse_group_identifier(identifier: str) -> Dict[str, str]:
         'name': f'@{identifier}'
     }
 
+# ========================== HELPER FUNCTIONS ==========================
+
+async def fetch_user_profile(client: TelegramClient) -> UserProfile:
+    """Fetch user profile information from Telegram"""
+    try:
+        me = await client.get_me()
+        return UserProfile(
+            user_id=me.id,
+            first_name=me.first_name,
+            last_name=me.last_name,
+            username=me.username,
+            is_verified=getattr(me, 'verified', False),
+            is_premium=getattr(me, 'premium', False),
+            is_bot=getattr(me, 'bot', False)
+        )
+    except Exception as e:
+        logging.warning(f"Failed to fetch user profile: {e}")
+        return UserProfile()  # Return empty profile on error
+
 async def get_telegram_config() -> Optional[TelegramConfig]:
     """Get the current telegram configuration"""
     config = await db.telegram_config.find_one()
