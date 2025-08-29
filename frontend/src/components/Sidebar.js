@@ -32,12 +32,6 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, onLogout, isOpen
       path: '/groups'
     },
     {
-      id: 'blacklist',
-      name: 'Blacklist',
-      icon: 'block',
-      path: '/blacklist'
-    },
-    {
       id: 'settings',
       name: 'Settings',
       icon: 'settings',
