@@ -484,6 +484,23 @@ async def verify_auth_code(auth_request: AuthRequest):
             return {"message": "Authentication successful", "requires_2fa": False}
             
         except SessionPasswordNeededError:
+            # Don't disconnect - we need to maintain the session for 2FA
+            logging.info(f"2FA required for phone: {config.phone_number} - keeping session alive")
+            
+            # Update temp_auth to indicate 2FA state and keep client session
+            current_time = datetime.utcnow()
+            await db.temp_auth.update_one(
+                {"phone_number": config.phone_number},
+                {
+                    "$set": {
+                        "requires_2fa": True,
+                        "session_string": client.session.save(),  # Update with current session state
+                        "updated_at": current_time
+                    }
+                }
+            )
+            
+            # Disconnect only after saving the proper state
             await client.disconnect()
             return {"message": "2FA password required", "requires_2fa": True}
         
