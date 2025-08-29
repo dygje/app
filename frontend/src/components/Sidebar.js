@@ -5,14 +5,8 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, userProfile, onL
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Close sidebar when route changes on mobile
-  useEffect(() => {
-    console.log('Sidebar useEffect triggered. Location:', location.pathname, 'isOpen:', isOpen);
-    if (window.innerWidth < 1024) {  
-      console.log('Mobile detected, calling onClose()');
-      onClose();
-    }
-  }, [location.pathname, onClose, isOpen]);
+  // Only close sidebar on mobile when explicitly requested
+  // Removed auto-close on route change to prevent sidebar closing when clicking menu items
 
   const menuItems = [
     {
