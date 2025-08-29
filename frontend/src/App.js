@@ -130,12 +130,19 @@ function App() {
           <header className="header">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
-                {/* Mobile Menu Button - Fixed */}
+                {/* Mobile Menu Button - Enhanced */}
                 <button
-                  onClick={() => setSidebarOpen(!sidebarOpen)}
-                  className="btn-ghost p-2 lg:hidden flex items-center justify-center"
+                  onClick={() => {
+                    console.log('Hamburger clicked, current state:', sidebarOpen);
+                    setSidebarOpen(!sidebarOpen);
+                  }}
+                  className="btn-ghost p-2 lg:hidden flex items-center justify-center relative z-50"
                   aria-label="Toggle menu"
-                  style={{ minWidth: '40px', minHeight: '40px' }}
+                  style={{ 
+                    minWidth: '44px', 
+                    minHeight: '44px',
+                    border: '2px solid transparent' 
+                  }}
                 >
                   <span className="material-icons text-xl">menu</span>
                 </button>
