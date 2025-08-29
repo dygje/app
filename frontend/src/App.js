@@ -64,7 +64,6 @@ function App() {
       setTelegramConfig(null);
       setUserProfile(null);
       setCurrentPage('dashboard');
-      
       console.log('Successfully logged out');
     } catch (error) {
       console.error('Logout error:', error);
