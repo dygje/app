@@ -255,14 +255,10 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Redesign Authentication UI to Modern Best Practice"
-    - "Fix Authentication Error Handling"
-    - "Update Group Manager UI"
-    - "Add Bulk Import Feature"
-    - "Dashboard Authentication Command"
-    - "Mobile UI Optimization"
-    - "Language Localization to English"
-    - "Remove Blacklist Settings"
+    - "Complete UI Redesign - Clean Telegram-Inspired Design"
+    - "Test All Components After Redesign"
+    - "Verify Mobile Responsiveness"
+    - "Check All Pages Navigation"
   stuck_tasks: []
   test_all: true
   test_priority: "high_first"
