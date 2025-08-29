@@ -337,17 +337,14 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                       <p className="text-xs text-gray-600 mb-2">
                         Get your API ID and Hash from my.telegram.org
                       </p>
-                          Get your API ID and Hash from my.telegram.org
-                        </p>
-                        <a 
-                          href="https://my.telegram.org" 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="text-sm text-primary-600 hover:text-primary-700 underline font-medium"
-                        >
-                          Visit Telegram API →
-                        </a>
-                      </div>
+                      <a 
+                        href="https://my.telegram.org" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-xs text-blue-600 hover:text-blue-700 underline font-medium"
+                      >
+                        Visit my.telegram.org →
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -355,13 +352,16 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                 <button
                   type="submit"
                   disabled={loading || !config.api_id || !config.api_hash || !config.phone_number}
-                  className="btn-primary w-full"
+                  className="w-full bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200 flex items-center justify-center"
                 >
-                  {loading && <div className="loading-spinner mr-3" />}
-                  <span className="material-icons mr-2">
-                    {loading ? 'hourglass_empty' : 'arrow_forward'}
-                  </span>
-                  {loading ? 'Configuring...' : 'Continue'}
+                  {loading ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      Configuring...
+                    </>
+                  ) : (
+                    'Continue'
+                  )}
                 </button>
               </form>
             )}
