@@ -273,12 +273,9 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Complete UI Redesign - Clean Telegram-Inspired Design"
-    - "Test All Components After Redesign"
-    - "Verify Mobile Responsiveness"
-    - "Check All Pages Navigation"
+    - "Telegram Logout Functionality"
   stuck_tasks: []
-  test_all: true
+  test_all: false
   test_priority: "high_first"
 
   - task: "Fix Authentication Error Handling"
