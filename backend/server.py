@@ -404,6 +404,8 @@ async def send_auth_code():
 @api_router.post("/telegram/verify-code")
 async def verify_auth_code(auth_request: AuthRequest):
     """Verify authentication code and complete login"""
+    logging.info(f"Starting verification for code: {auth_request.phone_code[:3]}***")
+    
     config = await get_telegram_config()
     if not config:
         raise HTTPException(status_code=404, detail="Telegram configuration not found")
@@ -411,7 +413,11 @@ async def verify_auth_code(auth_request: AuthRequest):
     # Get stored phone_code_hash with timeout check
     temp_auth = await db.temp_auth.find_one({"phone_number": config.phone_number})
     if not temp_auth:
+        logging.warning(f"No temp_auth found for phone: {config.phone_number}")
         raise HTTPException(status_code=400, detail="No pending authentication found. Please request a new verification code.")
+    
+    # Log temp_auth details for debugging
+    logging.info(f"Found temp_auth - Created: {temp_auth.get('created_at')}, Expires: {temp_auth.get('expires_at')}")
     
     # Check if temp_auth has expired (beyond our application timeout) with buffer
     current_time = datetime.utcnow()
