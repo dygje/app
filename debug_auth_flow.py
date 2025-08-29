@@ -7,7 +7,7 @@ import pymongo
 import os
 
 # Configuration  
-BASE_URL = "https://bugfix-consistency.preview.emergentagent.com/api"
+BASE_URL = "https://codehealer-9.preview.emergentagent.com/api"
 MONGO_URL = "mongodb://localhost:27017"
 
 class AuthFlowDebugger:
