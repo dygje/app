@@ -125,7 +125,7 @@ function App() {
         )}
         
         {/* Main Content Area */}
-        <div className={`main-content ${!sidebarOpen ? 'sidebar-closed' : ''} md:sidebar-closed-false`}>
+        <div className={`main-content`}>
           {/* Header */}
           <header className="header">
             <div className="flex items-center justify-between">
