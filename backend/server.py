@@ -520,7 +520,11 @@ async def verify_auth_code(auth_request: AuthRequest):
             # Clean up temp auth after successful login
             await db.temp_auth.delete_one({"phone_number": config.phone_number})
             
-            return {"message": "Authentication successful", "requires_2fa": False}
+            return {
+                "success": True,
+                "message": "Authentication successful", 
+                "requires_2fa": False
+            }
             
         except SessionPasswordNeededError:
             # Don't disconnect - we need to maintain the session for 2FA
