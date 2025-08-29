@@ -110,6 +110,19 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, onLogout, isOpen
 
       {/* Footer Actions */}
       <div className="p-4 border-t border-gray-200 space-y-2">
+        {/* New Session */}
+        <button
+          onClick={() => {
+            if (window.confirm('Are you sure you want to start a new session? This will clear your current authentication.')) {
+              onLogout();
+            }
+          }}
+          className="nav-item w-full text-left text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+        >
+          <span className="material-icons text-lg mr-3">refresh</span>
+          <span className="text-sm">New Session</span>
+        </button>
+
         {/* Help */}
         <button className="nav-item w-full text-left">
           <span className="material-icons text-lg mr-3">help_outline</span>
@@ -128,7 +141,7 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, onLogout, isOpen
         {/* Version */}
         <div className="pt-2 mt-2 border-t border-gray-200">
           <p className="text-xs text-gray-400 text-center">
-            v3.0.0 - Clean Edition
+            v3.1.0 - Enhanced Edition
           </p>
         </div>
       </div>
