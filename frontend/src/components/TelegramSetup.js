@@ -383,7 +383,7 @@ const TelegramSetup = ({ onAuthSuccess }) => {
               <form onSubmit={handlePhoneCodeSubmit} className="space-y-4">
                 <div className="text-center mb-6">
                   <div className="inline-flex items-center justify-center w-12 h-12 bg-green-100 rounded-full mb-3">
-                    <div className="text-green-500">💬</div>
+                    <div className="text-green-500">📱</div>
                   </div>
                   <p className="text-sm text-gray-600">
                     We sent a verification code to your phone number
