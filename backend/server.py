@@ -541,7 +541,11 @@ async def verify_auth_code(auth_request: AuthRequest):
             
             # Disconnect only after saving the proper state
             await client.disconnect()
-            return {"message": "2FA password required", "requires_2fa": True}
+            return {
+                "success": True,
+                "message": "2FA password required", 
+                "requires_2fa": True
+            }
         
         finally:
             # Ensure client is disconnected
