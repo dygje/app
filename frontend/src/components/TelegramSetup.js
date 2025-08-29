@@ -68,18 +68,17 @@ const TelegramSetup = ({ onAuthSuccess }) => {
 
       showNotification('success', 'Configuration saved. Sending verification code...');
       
-      // Send authentication code
-      setTimeout(async () => {
-        try {
-          await axios.post('/telegram/send-code');
-          showNotification('success', 'Verification code sent to your phone');
-          setTimeout(() => setStep('phone-code'), 1000);
-        } catch (err) {
-          console.error('Send code error:', err);
-          const errorMsg = err.response?.data?.detail || 'Failed to send verification code';
-          showNotification('error', errorMsg);
-        }
-      }, 1000);
+      // Send authentication code immediately without delay
+      try {
+        await axios.post('/telegram/send-code');
+        showNotification('success', 'Verification code sent to your phone');
+        // Move to next step immediately
+        setStep('phone-code');
+      } catch (err) {
+        console.error('Send code error:', err);
+        const errorMsg = err.response?.data?.detail || 'Failed to send verification code';
+        showNotification('error', errorMsg);
+      }
       
     } catch (err) {
       console.error('Config error:', err);
