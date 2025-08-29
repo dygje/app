@@ -45,7 +45,8 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, userProfile, onL
   const handleMenuClick = (item) => {
     setCurrentPage(item.id);
     navigate(item.path);
-    if (window.innerWidth < 768) {
+    // Close sidebar on mobile after menu click
+    if (window.innerWidth < 1024) {  // Changed from 768 to 1024
       onClose();
     }
   };
