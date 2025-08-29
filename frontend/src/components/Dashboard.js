@@ -22,12 +22,11 @@ const Dashboard = ({ telegramConfig, setCurrentPage }) => {
       setLoading(true);
       
       // Load automation status and config
-      const [statusRes, configRes, messagesRes, groupsRes, blacklistRes] = await Promise.all([
+      const [statusRes, configRes, messagesRes, groupsRes] = await Promise.all([
         axios.get('/automation/status'),
         axios.get('/automation/config'),
         axios.get('/messages'),
-        axios.get('/groups'),
-        axios.get('/blacklist')
+        axios.get('/groups')
       ]);
 
       setAutomationStatus(statusRes.data);
