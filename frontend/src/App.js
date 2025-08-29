@@ -110,6 +110,7 @@ function App() {
           currentPage={currentPage} 
           setCurrentPage={setCurrentPage}
           telegramConfig={telegramConfig}
+          userProfile={userProfile}  // Pass user profile to Sidebar
           onLogout={handleLogout}
           isOpen={sidebarOpen}
           onClose={() => setSidebarOpen(false)}
