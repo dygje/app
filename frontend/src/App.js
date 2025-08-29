@@ -19,7 +19,7 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const [telegramConfig, setTelegramConfig] = useState(null);
-  const [userProfile, setUserProfile] = useState(null);  // Add user profile state
+  const [userProfile, setUserProfile] = useState(null);
   const [currentPage, setCurrentPage] = useState('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -63,7 +63,7 @@ function App() {
       // Reset local state
       setIsAuthenticated(false);
       setTelegramConfig(null);
-      setUserProfile(null);  // Clear user profile
+      setUserProfile(null);
       setCurrentPage('dashboard');
       
       console.log('Successfully logged out');
@@ -110,7 +110,7 @@ function App() {
           currentPage={currentPage} 
           setCurrentPage={setCurrentPage}
           telegramConfig={telegramConfig}
-          userProfile={userProfile}  // Pass user profile to Sidebar
+          userProfile={userProfile}
           onLogout={handleLogout}
           isOpen={sidebarOpen}
           onClose={() => setSidebarOpen(false)}
@@ -119,24 +119,25 @@ function App() {
         {/* Mobile Backdrop */}
         {sidebarOpen && (
           <div 
-            className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
+            className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
             onClick={() => setSidebarOpen(false)}
           />
         )}
         
         {/* Main Content Area */}
-        <div className={`main-content`}>
-          {/* Header */}
+        <div className="main-content">
+          {/* Header with Connection Status */}
           <header className="header">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
-                {/* Mobile Menu Button */}
+                {/* Mobile Menu Button - Fixed */}
                 <button
-                  onClick={() => setSidebarOpen(true)}
-                  className="btn-ghost p-2 md:hidden"
-                  aria-label="Open menu"
+                  onClick={() => setSidebarOpen(!sidebarOpen)}
+                  className="btn-ghost p-2 lg:hidden flex items-center justify-center"
+                  aria-label="Toggle menu"
+                  style={{ minWidth: '40px', minHeight: '40px' }}
                 >
-                  <span className="material-icons">menu</span>
+                  <span className="material-icons text-xl">menu</span>
                 </button>
                 
                 {/* Page Title */}
@@ -153,15 +154,16 @@ function App() {
                 </div>
               </div>
 
-              {/* Header Actions */}
+              {/* Connection Status - Always Visible */}
               <div className="flex items-center space-x-4">
-                <div className="hidden sm:flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-success-500 rounded-full"></div>
-                  <span className="text-sm text-gray-600">
+                {/* Connection Status */}
+                <div className="flex items-center space-x-2 bg-green-50 px-3 py-1.5 rounded-lg border border-green-200">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-sm font-medium text-green-700">
                     {userProfile ? (
-                      `${userProfile.first_name || 'User'} ${userProfile.username ? `(@${userProfile.username})` : ''}`
+                      userProfile.username ? `@${userProfile.username}` : userProfile.first_name
                     ) : (
-                      telegramConfig?.phone_number || 'Connected'
+                      'Connected'
                     )}
                   </span>
                 </div>
@@ -178,7 +180,7 @@ function App() {
           </header>
 
           {/* Page Content */}
-          <main className="p-6 space-y-6">
+          <main className="p-4 sm:p-6 space-y-6">
             <Routes>
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route 
@@ -186,7 +188,7 @@ function App() {
                 element={
                   <Dashboard 
                     telegramConfig={telegramConfig}
-                    userProfile={userProfile}  // Pass user profile to Dashboard
+                    userProfile={userProfile}
                     setCurrentPage={setCurrentPage}
                   />
                 } 

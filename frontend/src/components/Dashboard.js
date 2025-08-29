@@ -96,20 +96,6 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
 
   return (
     <div className="space-y-6 fade-in">
-      {/* Welcome Header */}
-      <div>
-        <h2 className="text-2xl font-semibold text-gray-900 mb-2">
-          Welcome Back{userProfile ? `, ${userProfile.first_name || 'User'}` : ''}
-        </h2>
-        <p className="text-gray-600">
-          {userProfile ? (
-            `Monitor and manage your Telegram automation system${userProfile.username ? ` (@${userProfile.username})` : ''}`
-          ) : (
-            'Monitor and manage your Telegram automation system'
-          )}
-        </p>
-      </div>
-
       {/* System Overview */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Groups Stats */}
@@ -166,7 +152,7 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
 
       {/* Main Dashboard Content */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Quick Actions - Improved Compact Design */}
+        {/* Quick Actions - Compact Design */}
         <div className="card">
           <div className="card-header">
             <div className="flex items-center space-x-3">
@@ -210,7 +196,7 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
                 <button
                   key={action.id}
                   onClick={() => handleNavigate(action.id, action.path)}
-                  className="btn-action"
+                  className="btn-action group"
                 >
                   <div className="btn-action-content">
                     <div className={`btn-action-icon ${
@@ -318,91 +304,41 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
         </div>
       </div>
 
-      {/* Connection Status */}
-      <div className="card">
-        <div className="card-header">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-success-100 rounded-lg flex items-center justify-center">
-                <span className="material-icons text-success-600 text-lg">wifi</span>
+      {/* Authentication Guide for Unauthenticated Users */}
+      {(!telegramConfig?.is_authenticated) && (
+        <div className="card border border-warning-200 bg-warning-50">
+          <div className="card-body">
+            <div className="flex items-start space-x-4">
+              <div className="w-8 h-8 bg-warning-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                <span className="material-icons text-white text-lg">warning</span>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900">Connection Status</h3>
-            </div>
-            <div className="flex items-center space-x-2">
-              <div className="w-2 h-2 bg-success-500 rounded-full"></div>
-              <span className="text-sm text-success-600">All Systems Online</span>
+              <div className="flex-1">
+                <h4 className="text-sm font-semibold text-warning-800 mb-2">
+                  Complete Telegram Authentication
+                </h4>
+                <div className="text-sm text-warning-700 mb-4">
+                  <p className="mb-3">
+                    To start using the automation system, complete your Telegram authentication:
+                  </p>
+                  <ol className="list-decimal ml-4 space-y-1">
+                    <li>Navigate to Settings from the sidebar</li>
+                    <li>Enter your Telegram API credentials</li>
+                    <li>Verify your phone number with SMS code</li>
+                    <li>Complete 2FA verification if enabled</li>
+                  </ol>
+                </div>
+                <button
+                  onClick={() => handleNavigate('settings', '/settings')}
+                  className="btn-primary"
+                >
+                  <span className="material-icons mr-2 text-sm">settings</span>
+                  Open Settings
+                </button>
+              </div>
             </div>
           </div>
         </div>
-        
-        <div className="card-body">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                <span className="material-icons text-blue-600">telegram</span>
-              </div>
-              <div>
-                <h4 className="text-sm font-semibold text-gray-700">Telegram API</h4>
-                <div className="flex items-center space-x-2 mt-1">
-                  <div className="w-2 h-2 bg-success-500 rounded-full"></div>
-                  <span className="text-sm text-success-600">
-                    Connected {userProfile ? `as ${userProfile.first_name}` : telegramConfig?.phone_number}
-                  </span>
-                </div>
-              </div>
-            </div>
-            
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                <span className="material-icons text-gray-600">storage</span>
-              </div>
-              <div>
-                <h4 className="text-sm font-semibold text-gray-700">Database</h4>
-                <div className="flex items-center space-x-2 mt-1">
-                  <div className="w-2 h-2 bg-success-500 rounded-full"></div>
-                  <span className="text-sm text-success-600">Operational</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Authentication Guide for Unauthenticated Users */}
-          {(!telegramConfig?.is_authenticated) && (
-            <div className="mt-6 card border border-warning-200 bg-warning-50">
-              <div className="p-4">
-                <div className="flex items-start space-x-4">
-                  <div className="w-8 h-8 bg-warning-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <span className="material-icons text-white text-lg">warning</span>
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="text-sm font-semibold text-warning-800 mb-2">
-                      Complete Telegram Authentication
-                    </h4>
-                    <div className="text-sm text-warning-700 mb-4">
-                      <p className="mb-3">
-                        To start using the automation system, complete your Telegram authentication:
-                      </p>
-                      <ol className="list-decimal ml-4 space-y-1">
-                        <li>Navigate to Settings from the sidebar</li>
-                        <li>Enter your Telegram API credentials</li>
-                        <li>Verify your phone number with SMS code</li>
-                        <li>Complete 2FA verification if enabled</li>
-                      </ol>
-                    </div>
-                    <button
-                      onClick={() => handleNavigate('settings', '/settings')}
-                      className="btn-primary"
-                    >
-                      <span className="material-icons mr-2 text-sm">settings</span>
-                      Open Settings
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
+      )}
     </div>
   );
 };

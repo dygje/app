@@ -38,7 +38,7 @@
   }
 
   /* Desktop: Always visible */
-  @media (min-width: 768px) {
+  @media (min-width: 1024px) {
     .sidebar {
       @apply translate-x-0 shadow-none;
     }
@@ -48,8 +48,8 @@
     }
   }
 
-  /* Mobile: Full width when sidebar hidden */
-  @media (max-width: 767px) {
+  /* Mobile & Tablet: Full width when sidebar hidden */
+  @media (max-width: 1023px) {
     .main-content {
       @apply ml-0;
     }
@@ -118,7 +118,7 @@
     @apply btn bg-green-500 text-white hover:bg-green-600 focus:ring-green-500 shadow-sm hover:shadow-md;
   }
 
-  /* Quick Action Buttons - Compact Design */
+  /* Quick Action Buttons - Compact Design with group support */
   .btn-action {
     @apply w-full text-left p-3 rounded-lg border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all duration-200;
   }
