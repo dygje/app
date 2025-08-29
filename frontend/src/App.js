@@ -50,11 +50,6 @@ function App() {
     checkTelegramStatus();
   }, []);
 
-  // Debug useEffect to track sidebar state changes
-  useEffect(() => {
-    console.log('Sidebar state changed to:', sidebarOpen);
-  }, [sidebarOpen]);
-
   const handleAuthSuccess = () => {
     setIsAuthenticated(true);
     checkTelegramStatus();
