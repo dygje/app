@@ -79,7 +79,7 @@ const Dashboard = ({ telegramConfig, setCurrentPage }) => {
           </div>
           
           <div className="material-grid material-grid-cols-3 mb-8">
-            {[1, 2, 3, 4].map((i) => (
+            {[1, 2, 3].map((i) => (
               <div key={i} className="material-card-filled p-6 animate-pulse">
                 <div className="h-12 w-12 bg-surface-200 rounded-full mb-4"></div>
                 <div className="h-4 bg-surface-200 rounded w-24 mb-2"></div>
