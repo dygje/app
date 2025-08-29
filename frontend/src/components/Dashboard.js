@@ -7,7 +7,6 @@ const Dashboard = ({ telegramConfig, setCurrentPage }) => {
   const [stats, setStats] = useState({
     totalMessages: 0,
     totalGroups: 0,
-    blacklistedGroups: 0,
     messagesActive: 0
   });
   const [loading, setLoading] = useState(true);
