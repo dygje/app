@@ -176,32 +176,32 @@ const Dashboard = ({ telegramConfig, setCurrentPage }) => {
       {/* Main Controls */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Automation Control */}
-        <div className="admin-card">
-          <div className="admin-card-header">
+        <div className="card">
+          <div className="card-header">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <span className="material-icons text-white text-lg">smart_toy</span>
+              <div className="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center">
+                <span className="material-icons text-primary-600 text-lg">smart_toy</span>
               </div>
-              <h3 className="text-lg font-semibold text-gray-100">
+              <h3 className="text-lg font-semibold text-gray-900">
                 Automation Control
               </h3>
             </div>
           </div>
           
-          <div className="admin-card-content space-y-4">
+          <div className="card-body space-y-4">
             {/* Status Display */}
-            <div className="admin-card bg-gray-700">
+            <div className="card border border-gray-200">
               <div className="p-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
                     <div className={`w-3 h-3 rounded-full ${
-                      automationConfig?.is_active ? 'bg-green-500' : 'bg-red-500'
+                      automationConfig?.is_active ? 'bg-success-500' : 'bg-gray-400'
                     }`}></div>
                     <div>
-                      <p className="text-sm font-medium text-gray-200">
+                      <p className="text-sm font-medium text-gray-700">
                         Status: {automationConfig?.is_active ? 'Active' : 'Inactive'}
                       </p>
-                      <p className="text-xs text-gray-400">
+                      <p className="text-xs text-gray-500">
                         {automationConfig?.is_active 
                           ? 'System is sending messages' 
                           : 'System is paused'}
@@ -231,27 +231,27 @@ const Dashboard = ({ telegramConfig, setCurrentPage }) => {
             {/* Configuration Details */}
             {automationConfig && (
               <div>
-                <h4 className="text-sm font-medium text-gray-300 mb-3">
+                <h4 className="text-sm font-medium text-gray-700 mb-3">
                   Current Configuration
                 </h4>
                 
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between py-2 px-3 bg-gray-700 rounded">
-                    <span className="text-sm text-gray-300">Message Delay</span>
-                    <span className="text-sm font-medium text-gray-200">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between py-3 px-4 bg-gray-50 rounded-lg">
+                    <span className="text-sm text-gray-600">Message Delay</span>
+                    <span className="text-sm font-medium text-gray-900">
                       {automationConfig.message_delay_min}-{automationConfig.message_delay_max}s
                     </span>
                   </div>
                   
-                  <div className="flex items-center justify-between py-2 px-3 bg-gray-700 rounded">
-                    <span className="text-sm text-gray-300">Cycle Delay</span>
-                    <span className="text-sm font-medium text-gray-200">
+                  <div className="flex items-center justify-between py-3 px-4 bg-gray-50 rounded-lg">
+                    <span className="text-sm text-gray-600">Cycle Delay</span>
+                    <span className="text-sm font-medium text-gray-900">
                       {formatTime(automationConfig.cycle_delay_min)} - {formatTime(automationConfig.cycle_delay_max)}
                     </span>
                   </div>
                   
-                  <div className="flex items-center justify-between py-2 px-3 bg-gray-700 rounded">
-                    <span className="text-sm text-gray-300">Auto Cleanup</span>
+                  <div className="flex items-center justify-between py-3 px-4 bg-gray-50 rounded-lg">
+                    <span className="text-sm text-gray-600">Auto Cleanup</span>
                     <span className="status-online">
                       Enabled
                     </span>
