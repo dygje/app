@@ -7,10 +7,10 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, userProfile, onL
 
   // Close sidebar when route changes on mobile
   useEffect(() => {
-    if (window.innerWidth < 1024 && isOpen) {  
+    if (window.innerWidth < 1024) {  
       onClose();
     }
-  }, [location.pathname, isOpen, onClose]);
+  }, [location.pathname, onClose]);
 
   const menuItems = [
     {
