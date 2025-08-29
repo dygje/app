@@ -46,6 +46,15 @@ telegram_clients: Dict[str, TelegramClient] = {}
 
 # ========================== MODELS ==========================
 
+class UserProfile(BaseModel):
+    user_id: Optional[int] = None
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    username: Optional[str] = None
+    is_verified: Optional[bool] = False
+    is_premium: Optional[bool] = False
+    is_bot: Optional[bool] = False
+
 class TelegramConfig(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     api_id: int
@@ -53,6 +62,7 @@ class TelegramConfig(BaseModel):
     phone_number: str
     session_string: Optional[str] = None
     is_authenticated: bool = False
+    user_profile: Optional[UserProfile] = None  # Add user profile info
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
 
