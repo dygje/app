@@ -132,7 +132,11 @@ function App() {
               <div className="flex items-center space-x-4">
                 {/* Mobile Menu Button - Enhanced */}
                 <button
-                  onClick={() => setSidebarOpen(!sidebarOpen)}
+                  onClick={() => {
+                    console.log('Hamburger clicked. Current sidebarOpen:', sidebarOpen);
+                    setSidebarOpen(!sidebarOpen);
+                    console.log('Setting sidebarOpen to:', !sidebarOpen);
+                  }}
                   className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors flex items-center justify-center relative z-50"
                   aria-label="Toggle menu"
                   style={{ 
