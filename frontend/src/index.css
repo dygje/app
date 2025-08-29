@@ -215,6 +215,143 @@
   .icon-lg {
     @apply w-6 h-6;
   }
+
+  /* ========================================
+     MATERIAL DESIGN SYSTEM
+     ======================================== */
+
+  /* Material Design Typography Scale */
+  .text-headline-large { @apply text-3xl font-normal; }
+  .text-headline-medium { @apply text-2xl font-normal; }
+  .text-title-large { @apply text-xl font-medium; }
+  .text-title-medium { @apply text-lg font-medium; }
+  .text-title-small { @apply text-base font-medium; }
+  .text-body-large { @apply text-base font-normal; }
+  .text-body-medium { @apply text-sm font-normal; }
+  .text-body-small { @apply text-xs font-normal; }
+  .text-label-large { @apply text-sm font-medium; }
+  .text-label-medium { @apply text-xs font-medium; }
+  .text-label-small { @apply text-xs font-medium; }
+
+  /* Material Design Cards */
+  .material-card-filled {
+    @apply bg-white rounded-xl border border-gray-100 shadow-sm;
+  }
+  
+  .material-card-elevated {
+    @apply bg-white rounded-xl shadow-md border border-gray-50;
+  }
+  
+  .material-card-outlined {
+    @apply bg-white rounded-xl border border-gray-200;
+  }
+
+  /* Material Design Buttons */
+  .material-button-filled {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-medium text-sm rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .material-button-outlined {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-white text-blue-600 font-medium text-sm rounded-lg border border-blue-600 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .material-button-text {
+    @apply inline-flex items-center justify-center px-4 py-2 bg-transparent text-blue-600 font-medium text-sm rounded-lg hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  /* Material Design Text Fields */
+  .material-textfield {
+    @apply relative;
+  }
+  
+  .material-textfield-input {
+    @apply w-full px-4 py-3 text-base text-gray-900 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 placeholder-transparent;
+  }
+  
+  .material-textfield-label {
+    @apply absolute left-4 top-3 text-gray-500 text-base transition-all duration-200 pointer-events-none;
+  }
+  
+  .material-textfield-input:focus ~ .material-textfield-label,
+  .material-textfield-input:not(:placeholder-shown) ~ .material-textfield-label {
+    @apply -translate-y-6 scale-75 text-blue-600 bg-white px-2 left-3;
+  }
+
+  /* Material Design Grids */
+  .material-grid {
+    @apply grid gap-4;
+  }
+  
+  .material-grid-cols-1 { @apply grid-cols-1; }
+  .material-grid-cols-2 { @apply grid-cols-1 md:grid-cols-2; }
+  .material-grid-cols-3 { @apply grid-cols-1 md:grid-cols-2 lg:grid-cols-3; }
+  .material-grid-cols-4 { @apply grid-cols-1 md:grid-cols-2 lg:grid-cols-4; }
+
+  /* Material Design Badges */
+  .material-badge-success {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800;
+  }
+  
+  .material-badge-warning {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800;
+  }
+  
+  .material-badge-error {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800;
+  }
+  
+  .material-badge-info {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800;
+  }
+
+  /* Material Design List Items */
+  .material-list-item {
+    @apply flex items-center justify-between p-4 hover:bg-gray-50 transition-colors duration-200;
+  }
+
+  /* Material Design Dialogs */
+  .material-dialog-backdrop {
+    @apply fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center;
+  }
+  
+  .material-dialog {
+    @apply bg-white rounded-xl shadow-xl max-w-md w-full mx-4 overflow-hidden;
+  }
+
+  /* Material Design FAB (Floating Action Button) */
+  .material-fab {
+    @apply fixed bottom-6 right-6 w-14 h-14 bg-blue-600 text-white rounded-full shadow-lg hover:shadow-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 flex items-center justify-center z-40;
+  }
+
+  /* Material Design Status Indicators */
+  .material-status-online {
+    @apply w-2 h-2 bg-green-500 rounded-full;
+  }
+  
+  .material-status-offline {
+    @apply w-2 h-2 bg-gray-400 rounded-full;
+  }
+  
+  .material-status-pending {
+    @apply w-2 h-2 bg-yellow-500 rounded-full animate-pulse;
+  }
+
+  /* Material Design Animations */
+  .material-fade-in {
+    animation: materialFadeIn 0.3s ease-out;
+  }
+  
+  .material-scale-in {
+    animation: materialScaleIn 0.2s ease-out;
+  }
+  
+  .material-loading {
+    @apply relative overflow-hidden;
+  }
+  
+  .material-spinner {
+    @apply w-4 h-4 border-2 border-gray-300 border-t-current rounded-full animate-spin;
+  }
 }
 
 /* Color System */
