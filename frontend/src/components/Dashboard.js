@@ -105,26 +105,8 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
         </p>
       </div>
 
-      {/* Stats Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Messages Stats */}
-        <div className="card">
-          <div className="card-body">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-500 mb-1">Total Messages</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.totalMessages}</p>
-                <p className="text-sm text-success-600 mt-1">
-                  {stats.messagesActive} active
-                </p>
-              </div>
-              <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
-                <span className="material-icons text-primary-600">message</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
+      {/* System Overview - Remove Messages, Focus on Essential Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Groups Stats */}
         <div className="card">
           <div className="card-body">
@@ -133,7 +115,7 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
                 <p className="text-sm font-medium text-gray-500 mb-1">Target Groups</p>
                 <p className="text-2xl font-bold text-gray-900">{stats.totalGroups}</p>
                 <p className="text-sm text-success-600 mt-1">
-                  All active
+                  Ready for automation
                 </p>
               </div>
               <div className="w-12 h-12 bg-success-100 rounded-xl flex items-center justify-center">
@@ -177,8 +159,81 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
         </div>
       </div>
 
-      {/* Main Controls */}
+      {/* Main Dashboard Content */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Quick Actions - Enhanced with Proper Navigation */}
+        <div className="card">
+          <div className="card-header">
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center">
+                <span className="material-icons text-primary-600 text-lg">bolt</span>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900">
+                Quick Actions
+              </h3>
+            </div>
+          </div>
+          
+          <div className="card-body">
+            <div className="space-y-3">
+              {[
+                { 
+                  id: 'messages', 
+                  icon: 'message', 
+                  label: 'Manage Messages', 
+                  description: 'Create and edit message templates',
+                  color: 'primary',
+                  path: '/messages'
+                },
+                { 
+                  id: 'groups', 
+                  icon: 'groups', 
+                  label: 'Manage Groups', 
+                  description: 'Add and manage target groups',
+                  color: 'success',
+                  path: '/groups'
+                },
+                { 
+                  id: 'settings', 
+                  icon: 'settings', 
+                  label: 'Automation Settings', 
+                  description: 'Configure system parameters',
+                  color: 'gray',
+                  path: '/settings'
+                }
+              ].map((action) => (
+                <button
+                  key={action.id}
+                  onClick={() => {
+                    setCurrentPage(action.id);
+                    // Also use proper navigation
+                    window.history.pushState(null, null, action.path);
+                  }}
+                  className="w-full text-left p-4 rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all duration-200 group"
+                >
+                  <div className="flex items-center space-x-4">
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${
+                      action.color === 'primary' ? 'bg-primary-100 group-hover:bg-primary-200' :
+                      action.color === 'success' ? 'bg-success-100 group-hover:bg-success-200' : 
+                      'bg-gray-100 group-hover:bg-gray-200'
+                    }`}>
+                      <span className={`material-icons ${
+                        action.color === 'primary' ? 'text-primary-600' :
+                        action.color === 'success' ? 'text-success-600' : 'text-gray-600'
+                      }`}>{action.icon}</span>
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-semibold text-gray-900 mb-1">{action.label}</p>
+                      <p className="text-sm text-gray-500">{action.description}</p>
+                    </div>
+                    <span className="material-icons text-gray-400 group-hover:text-gray-600">chevron_right</span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
         {/* Automation Control */}
         <div className="card">
           <div className="card-header">
@@ -193,71 +248,66 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
           </div>
           
           <div className="card-body space-y-4">
-            {/* Status Display */}
-            <div className="card border border-gray-200">
-              <div className="p-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <div className={`w-3 h-3 rounded-full ${
-                      automationConfig?.is_active ? 'bg-success-500' : 'bg-gray-400'
-                    }`}></div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-700">
-                        Status: {automationConfig?.is_active ? 'Active' : 'Inactive'}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        {automationConfig?.is_active 
-                          ? 'System is sending messages' 
-                          : 'System is paused'}
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <button
-                    onClick={handleToggleAutomation}
-                    disabled={actionLoading}
-                    className={`${
-                      automationConfig?.is_active 
-                        ? 'btn-danger' 
-                        : 'btn-primary'
-                    } ${actionLoading ? 'opacity-50' : ''}`}
-                  >
-                    {actionLoading && <div className="loading-spinner mr-2"></div>}
-                    <span className="material-icons mr-2 text-sm">
-                      {automationConfig?.is_active ? 'stop' : 'play_arrow'}
-                    </span>
-                    {automationConfig?.is_active ? 'Stop' : 'Start'}
-                  </button>
+            {/* Current Status */}
+            <div className="p-4 rounded-xl border border-gray-200 bg-gray-50">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <div className={`w-3 h-3 rounded-full ${
+                    automationConfig?.is_active ? 'bg-success-500' : 'bg-gray-400'
+                  }`}></div>
+                  <span className="text-sm font-medium text-gray-700">
+                    Status: {automationConfig?.is_active ? 'Running' : 'Stopped'}
+                  </span>
                 </div>
+                <button
+                  onClick={handleToggleAutomation}
+                  disabled={actionLoading}
+                  className={`px-4 py-2 rounded-lg font-medium text-sm transition-colors ${
+                    automationConfig?.is_active 
+                      ? 'bg-red-100 text-red-700 hover:bg-red-200' 
+                      : 'bg-success-100 text-success-700 hover:bg-success-200'
+                  } ${actionLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                >
+                  {actionLoading ? (
+                    <div className="flex items-center space-x-2">
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current"></div>
+                      <span>Processing...</span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center space-x-2">
+                      <span className="material-icons text-sm">
+                        {automationConfig?.is_active ? 'stop' : 'play_arrow'}
+                      </span>
+                      <span>{automationConfig?.is_active ? 'Stop' : 'Start'}</span>
+                    </div>
+                  )}
+                </button>
               </div>
             </div>
 
-            {/* Configuration Details */}
+            {/* Configuration Summary */}
             {automationConfig && (
-              <div>
-                <h4 className="text-sm font-medium text-gray-700 mb-3">
-                  Current Configuration
-                </h4>
-                
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between py-3 px-4 bg-gray-50 rounded-lg">
+              <div className="space-y-3">
+                <h4 className="text-sm font-semibold text-gray-700">Current Configuration</h4>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between py-2 px-3 bg-gray-50 rounded-lg">
                     <span className="text-sm text-gray-600">Message Delay</span>
                     <span className="text-sm font-medium text-gray-900">
                       {automationConfig.message_delay_min}-{automationConfig.message_delay_max}s
                     </span>
                   </div>
                   
-                  <div className="flex items-center justify-between py-3 px-4 bg-gray-50 rounded-lg">
+                  <div className="flex items-center justify-between py-2 px-3 bg-gray-50 rounded-lg">
                     <span className="text-sm text-gray-600">Cycle Delay</span>
                     <span className="text-sm font-medium text-gray-900">
                       {formatTime(automationConfig.cycle_delay_min)} - {formatTime(automationConfig.cycle_delay_max)}
                     </span>
                   </div>
                   
-                  <div className="flex items-center justify-between py-3 px-4 bg-gray-50 rounded-lg">
+                  <div className="flex items-center justify-between py-2 px-3 bg-gray-50 rounded-lg">
                     <span className="text-sm text-gray-600">Auto Cleanup</span>
-                    <span className="status-online">
-                      Enabled
+                    <span className="text-sm font-medium text-success-600">
+                      Always Enabled
                     </span>
                   </div>
                 </div>
@@ -265,68 +315,22 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
             )}
           </div>
         </div>
-
-        {/* Quick Actions */}
-        <div className="card">
-          <div className="card-header">
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
-                <span className="material-icons text-gray-600 text-lg">bolt</span>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900">
-                Quick Actions
-              </h3>
-            </div>
-          </div>
-          
-          <div className="card-body">
-            <div className="grid grid-cols-1 gap-3">
-              {[
-                { id: 'messages', icon: 'message', label: 'Manage Messages', color: 'primary' },
-                { id: 'groups', icon: 'groups', label: 'Manage Groups', color: 'success' },
-                { id: 'settings', icon: 'settings', label: 'System Settings', color: 'gray' }
-              ].map((action) => (
-                <button
-                  key={action.id}
-                  onClick={() => setCurrentPage(action.id)}
-                  className="btn-outline text-left p-4 rounded-lg hover:bg-gray-50 transition-all"
-                >
-                  <div className="flex items-center space-x-4">
-                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                      action.color === 'primary' ? 'bg-primary-100' :
-                      action.color === 'success' ? 'bg-success-100' : 'bg-gray-100'
-                    }`}>
-                      <span className={`material-icons ${
-                        action.color === 'primary' ? 'text-primary-600' :
-                        action.color === 'success' ? 'text-success-600' : 'text-gray-600'
-                      }`}>{action.icon}</span>
-                    </div>
-                    <div>
-                      <p className="font-medium text-gray-900">{action.label}</p>
-                      <p className="text-sm text-gray-500">
-                        {action.id === 'messages' && 'Create and manage templates'}
-                        {action.id === 'groups' && 'Add target groups'}
-                        {action.id === 'settings' && 'Configure automation'}
-                      </p>
-                    </div>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
       </div>
 
-      {/* Connection Status */}
+      {/* Connection Status - More Compact */}
       <div className="card">
         <div className="card-header">
-          <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-success-100 rounded-lg flex items-center justify-center">
-              <span className="material-icons text-success-600 text-lg">wifi</span>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-success-100 rounded-lg flex items-center justify-center">
+                <span className="material-icons text-success-600 text-lg">wifi</span>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900">Connection Status</h3>
             </div>
-            <h3 className="text-lg font-semibold text-gray-900">
-              Connection Status
-            </h3>
+            <div className="flex items-center space-x-2">
+              <div className="w-2 h-2 bg-success-500 rounded-full"></div>
+              <span className="text-sm text-success-600">All Systems Online</span>
+            </div>
           </div>
         </div>
         
@@ -341,23 +345,21 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
                 <div className="flex items-center space-x-2 mt-1">
                   <div className="w-2 h-2 bg-success-500 rounded-full"></div>
                   <span className="text-sm text-success-600">
-                    Connected as {telegramConfig?.phone_number}
+                    Connected {userProfile ? `as ${userProfile.first_name}` : telegramConfig?.phone_number}
                   </span>
                 </div>
               </div>
             </div>
             
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-success-100 rounded-lg flex items-center justify-center">
-                <span className="material-icons text-success-600">storage</span>
+              <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                <span className="material-icons text-gray-600">storage</span>
               </div>
               <div>
                 <h4 className="text-sm font-semibold text-gray-700">Database</h4>
                 <div className="flex items-center space-x-2 mt-1">
                   <div className="w-2 h-2 bg-success-500 rounded-full"></div>
-                  <span className="text-sm text-success-600">
-                    MongoDB Active
-                  </span>
+                  <span className="text-sm text-success-600">Operational</span>
                 </div>
               </div>
             </div>
