@@ -494,7 +494,7 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                       </>
                     ) : (
                       <>
-                        <div className="mr-2">🔓</div>
+                        <div className="mr-2">🔒</div>
                         Complete Authentication
                       </>
                     )}
