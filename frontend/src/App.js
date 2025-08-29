@@ -57,11 +57,11 @@ function App() {
 
   if (loading) {
     return (
-      <div className="admin-container flex items-center justify-center">
+      <div className="app-container flex items-center justify-center">
         <div className="text-center fade-in">
-          <div className="loading-spinner mx-auto mb-4"></div>
-          <h2 className="text-xl font-medium text-gray-200 mb-2">Loading Application</h2>
-          <p className="text-gray-400">Initializing Telegram automation system...</p>
+          <div className="loading-spinner mx-auto mb-6 w-8 h-8"></div>
+          <h2 className="text-xl font-semibold text-gray-900 mb-2">Loading Telegram Automation</h2>
+          <p className="text-gray-600">Initializing system...</p>
         </div>
       </div>
     );
@@ -71,17 +71,17 @@ function App() {
   if (!isAuthenticated) {
     return (
       <BrowserRouter>
-        <div className="admin-container">
+        <div className="app-container">
           <TelegramSetup onAuthSuccess={handleAuthSuccess} />
         </div>
       </BrowserRouter>
     );
   }
 
-  // Main application with dark admin layout
+  // Main application with clean layout
   return (
     <BrowserRouter>
-      <div className="admin-container">
+      <div className="app-container">
         {/* Sidebar Navigation */}
         <Sidebar 
           currentPage={currentPage} 
@@ -101,9 +101,9 @@ function App() {
         )}
         
         {/* Main Content Area */}
-        <div className="admin-main">
+        <div className={`main-content ${!sidebarOpen ? 'sidebar-closed' : ''} md:sidebar-closed-false`}>
           {/* Header */}
-          <header className="admin-header">
+          <header className="header">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 {/* Mobile Menu Button */}
@@ -117,23 +117,23 @@ function App() {
                 
                 {/* Page Title */}
                 <div>
-                  <h1 className="text-xl font-semibold text-gray-100">
+                  <h1 className="text-xl font-semibold text-gray-900">
                     {currentPage === 'dashboard' && 'Dashboard'}
                     {currentPage === 'messages' && 'Message Templates'}
                     {currentPage === 'groups' && 'Group Management'}
                     {currentPage === 'settings' && 'Settings'}
                   </h1>
-                  <p className="text-sm text-gray-400 hidden sm:block">
+                  <p className="text-sm text-gray-500 hidden sm:block">
                     Telegram Automation System
                   </p>
                 </div>
               </div>
 
               {/* Header Actions */}
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-4">
                 <div className="hidden sm:flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span className="text-sm text-gray-300">
+                  <div className="w-2 h-2 bg-success-500 rounded-full"></div>
+                  <span className="text-sm text-gray-600">
                     {telegramConfig?.phone_number || 'Connected'}
                   </span>
                 </div>
@@ -150,7 +150,7 @@ function App() {
           </header>
 
           {/* Page Content */}
-          <main className="admin-content">
+          <main className="p-6 space-y-6">
             <Routes>
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route 
