@@ -413,8 +413,11 @@ async def verify_auth_code(auth_request: AuthRequest):
     if not temp_auth:
         raise HTTPException(status_code=400, detail="No pending authentication found. Please request a new verification code.")
     
-    # Check if temp_auth has expired (beyond our application timeout)
-    if 'expires_at' in temp_auth and temp_auth['expires_at'] < datetime.utcnow():
+    # Check if temp_auth has expired (beyond our application timeout) with buffer
+    current_time = datetime.utcnow()
+    if 'expires_at' in temp_auth and temp_auth['expires_at'] < current_time:
+        # Log the timing details for debugging
+        logging.warning(f"Authentication expired - Current: {current_time}, Expires: {temp_auth['expires_at']}")
         # Clean up expired temp auth
         await db.temp_auth.delete_one({"phone_number": config.phone_number})
         raise HTTPException(status_code=400, detail="The verification session has expired. Please request a new verification code.")
