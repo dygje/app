@@ -441,7 +441,11 @@ async def send_auth_code():
         
         await client.disconnect()
         logging.info(f"Authentication code sent successfully for phone: {config.phone_number}")
-        return {"message": "Authentication code sent successfully", "phone_code_hash": sent_code.phone_code_hash}
+        return {
+            "success": True, 
+            "message": "Authentication code sent successfully", 
+            "phone_code_hash": sent_code.phone_code_hash
+        }
     
     except Exception as e:
         logging.error(f"Failed to send auth code: {e}")
