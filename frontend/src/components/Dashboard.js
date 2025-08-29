@@ -62,6 +62,11 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
     }
   };
 
+  const handleNavigate = (page, path) => {
+    setCurrentPage(page);
+    window.history.pushState(null, null, path);
+  };
+
   const formatTime = (hours) => {
     const h = Math.floor(hours);
     const m = Math.floor((hours - h) * 60);
@@ -76,8 +81,8 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
             <div className="card-body">
               <div className="animate-pulse space-y-4">
                 <div className="h-4 bg-gray-200 rounded w-1/4"></div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {[1, 2, 3].map((i) => (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {[1, 2].map((i) => (
                     <div key={i} className="h-24 bg-gray-200 rounded"></div>
                   ))}
                 </div>
@@ -105,8 +110,8 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
         </p>
       </div>
 
-      {/* System Overview - Remove Messages, Focus on Essential Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* System Overview */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Groups Stats */}
         <div className="card">
           <div className="card-body">
@@ -161,12 +166,12 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
 
       {/* Main Dashboard Content */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Quick Actions - Enhanced with Proper Navigation */}
+        {/* Quick Actions - Improved Compact Design */}
         <div className="card">
           <div className="card-header">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center">
-                <span className="material-icons text-primary-600 text-lg">bolt</span>
+              <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                <span className="material-icons text-blue-600 text-lg">bolt</span>
               </div>
               <h3 className="text-lg font-semibold text-gray-900">
                 Quick Actions
@@ -175,58 +180,54 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
           </div>
           
           <div className="card-body">
-            <div className="space-y-3">
+            <div className="space-y-2">
               {[
                 { 
                   id: 'messages', 
                   icon: 'message', 
                   label: 'Manage Messages', 
-                  description: 'Create and edit message templates',
-                  color: 'primary',
+                  description: 'Create and edit templates',
+                  color: 'blue',
                   path: '/messages'
                 },
                 { 
                   id: 'groups', 
                   icon: 'groups', 
                   label: 'Manage Groups', 
-                  description: 'Add and manage target groups',
-                  color: 'success',
+                  description: 'Add and manage targets',
+                  color: 'green',
                   path: '/groups'
                 },
                 { 
                   id: 'settings', 
                   icon: 'settings', 
                   label: 'Automation Settings', 
-                  description: 'Configure system parameters',
+                  description: 'Configure parameters',
                   color: 'gray',
                   path: '/settings'
                 }
               ].map((action) => (
                 <button
                   key={action.id}
-                  onClick={() => {
-                    setCurrentPage(action.id);
-                    // Also use proper navigation
-                    window.history.pushState(null, null, action.path);
-                  }}
-                  className="w-full text-left p-4 rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all duration-200 group"
+                  onClick={() => handleNavigate(action.id, action.path)}
+                  className="btn-action"
                 >
-                  <div className="flex items-center space-x-4">
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${
-                      action.color === 'primary' ? 'bg-primary-100 group-hover:bg-primary-200' :
-                      action.color === 'success' ? 'bg-success-100 group-hover:bg-success-200' : 
+                  <div className="btn-action-content">
+                    <div className={`btn-action-icon ${
+                      action.color === 'blue' ? 'bg-blue-100 group-hover:bg-blue-200' :
+                      action.color === 'green' ? 'bg-green-100 group-hover:bg-green-200' : 
                       'bg-gray-100 group-hover:bg-gray-200'
                     }`}>
-                      <span className={`material-icons ${
-                        action.color === 'primary' ? 'text-primary-600' :
-                        action.color === 'success' ? 'text-success-600' : 'text-gray-600'
+                      <span className={`material-icons text-sm ${
+                        action.color === 'blue' ? 'text-blue-600' :
+                        action.color === 'green' ? 'text-green-600' : 'text-gray-600'
                       }`}>{action.icon}</span>
                     </div>
-                    <div className="flex-1">
-                      <p className="font-semibold text-gray-900 mb-1">{action.label}</p>
-                      <p className="text-sm text-gray-500">{action.description}</p>
+                    <div className="btn-action-text">
+                      <p className="btn-action-label">{action.label}</p>
+                      <p className="btn-action-description">{action.description}</p>
                     </div>
-                    <span className="material-icons text-gray-400 group-hover:text-gray-600">chevron_right</span>
+                    <span className="material-icons text-gray-400 group-hover:text-blue-600 text-lg">chevron_right</span>
                   </div>
                 </button>
               ))}
@@ -238,8 +239,8 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
         <div className="card">
           <div className="card-header">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center">
-                <span className="material-icons text-primary-600 text-lg">smart_toy</span>
+              <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                <span className="material-icons text-blue-600 text-lg">smart_toy</span>
               </div>
               <h3 className="text-lg font-semibold text-gray-900">
                 Automation Control
@@ -265,7 +266,7 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
                   className={`px-4 py-2 rounded-lg font-medium text-sm transition-colors ${
                     automationConfig?.is_active 
                       ? 'bg-red-100 text-red-700 hover:bg-red-200' 
-                      : 'bg-success-100 text-success-700 hover:bg-success-200'
+                      : 'bg-green-100 text-green-700 hover:bg-green-200'
                   } ${actionLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                   {actionLoading ? (
@@ -317,7 +318,7 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
         </div>
       </div>
 
-      {/* Connection Status - More Compact */}
+      {/* Connection Status */}
       <div className="card">
         <div className="card-header">
           <div className="flex items-center justify-between">
@@ -337,8 +338,8 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
         <div className="card-body">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
-                <span className="material-icons text-primary-600">telegram</span>
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <span className="material-icons text-blue-600">telegram</span>
               </div>
               <div>
                 <h4 className="text-sm font-semibold text-gray-700">Telegram API</h4>
@@ -389,7 +390,7 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
                       </ol>
                     </div>
                     <button
-                      onClick={() => setCurrentPage('settings')}
+                      onClick={() => handleNavigate('settings', '/settings')}
                       className="btn-primary"
                     >
                       <span className="material-icons mr-2 text-sm">settings</span>
