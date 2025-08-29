@@ -961,6 +961,7 @@ class TelegramAutomationAPITester:
             # Test all endpoints
             self.test_root_endpoint()
             self.test_telegram_config_endpoints()
+            self.test_user_profile_functionality()  # NEW: Test user profile functionality
             self.test_authentication_error_handling()  # New focused test for auth error handling
             self.test_authentication_flow_comprehensive()  # Comprehensive auth flow test
             self.test_logout_functionality()  # NEW: Test logout functionality
