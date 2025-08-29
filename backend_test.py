@@ -11,7 +11,7 @@ from datetime import datetime
 import uuid
 
 # Use the production URL from frontend/.env
-BASE_URL = "https://ui-navigation-fix-1.preview.emergentagent.com/api"
+BASE_URL = "https://interface-lab-2.preview.emergentagent.com/api"
 
 class BackendTester:
     def __init__(self):
