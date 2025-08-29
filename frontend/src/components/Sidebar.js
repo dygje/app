@@ -45,63 +45,63 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, userProfile, onL
   return (
     <aside className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
       
-      {/* App Header */}
-      <div className="p-6 border-b border-gray-200">
+      {/* App Header - Material Design */}
+      <div className="p-6 border-b border-surface-200">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-primary-600 rounded-xl flex items-center justify-center">
+          <div className="w-12 h-12 bg-primary-600 rounded-2xl flex items-center justify-center">
             <span className="material-icons text-white text-xl">telegram</span>
           </div>
           <div>
-            <h1 className="text-lg font-semibold text-gray-900">
+            <h1 className="text-title-large font-medium text-surface-900">
               TG Automation
             </h1>
-            <p className="text-xs text-gray-500">
+            <p className="text-body-small text-surface-600">
               Smart messaging system
             </p>
           </div>
         </div>
       </div>
 
-      {/* User Status */}
+      {/* User Status - Material Design */}
       {telegramConfig && (
-        <div className="p-4 border-b border-gray-200">
-          <div className="card p-3">
+        <div className="p-6 border-b border-surface-200">
+          <div className="material-card-outlined p-4 rounded-xl bg-surface-50">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
-                <span className="material-icons text-primary-600">person</span>
+              <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                <span className="material-icons text-primary-700">person</span>
               </div>
               <div className="flex-1 min-w-0">
                 {userProfile ? (
                   <>
-                    <p className="text-sm font-medium text-gray-700 truncate">
+                    <p className="text-body-medium font-medium text-surface-900 truncate">
                       {userProfile.first_name || 'User'} {userProfile.last_name || ''}
                     </p>
                     {userProfile.username && (
-                      <p className="text-xs text-gray-500 truncate">
+                      <p className="text-body-small text-surface-600 truncate">
                         @{userProfile.username}
                       </p>
                     )}
-                    <div className="flex items-center space-x-1 mt-1">
-                      <div className="w-2 h-2 bg-success-500 rounded-full"></div>
-                      <span className="text-xs text-success-600">
+                    <div className="flex items-center space-x-2 mt-2">
+                      <div className="material-status-online"></div>
+                      <span className="text-body-small text-success-700 font-medium">
                         Connected
                         {userProfile.is_verified && (
-                          <span className="material-icons text-xs ml-1 text-blue-500" title="Verified">verified</span>
+                          <span className="material-icons text-sm ml-1 text-primary-600" title="Verified">verified</span>
                         )}
                         {userProfile.is_premium && (
-                          <span className="material-icons text-xs ml-1 text-yellow-500" title="Premium">stars</span>
+                          <span className="material-icons text-sm ml-1 text-warning-600" title="Premium">stars</span>
                         )}
                       </span>
                     </div>
                   </>
                 ) : (
                   <>
-                    <p className="text-sm font-medium text-gray-700 truncate">
+                    <p className="text-body-medium font-medium text-surface-900 truncate">
                       {telegramConfig.phone_number || 'Unknown User'}
                     </p>
-                    <div className="flex items-center space-x-1 mt-1">
-                      <div className="w-2 h-2 bg-success-500 rounded-full"></div>
-                      <span className="text-xs text-success-600">Connected</span>
+                    <div className="flex items-center space-x-2 mt-2">
+                      <div className="material-status-online"></div>
+                      <span className="text-body-small text-success-700 font-medium">Connected</span>
                     </div>
                   </>
                 )}
@@ -111,27 +111,33 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, userProfile, onL
         </div>
       )}
 
-      {/* Navigation Menu */}
-      <nav className="flex-1 p-4 space-y-2">
+      {/* Navigation Menu - Material Design */}
+      <nav className="flex-1 p-4 space-y-1">
         {menuItems.map((item) => {
           const isActive = location.pathname === item.path;
           return (
             <button
               key={item.id}
               onClick={() => handleMenuClick(item)}
-              className={isActive ? 'nav-item-active w-full text-left' : 'nav-item w-full text-left'}
+              className={`w-full flex items-center space-x-4 px-4 py-3 rounded-xl text-left transition-all duration-200 ${
+                isActive 
+                  ? 'bg-primary-100 text-primary-700' 
+                  : 'text-surface-700 hover:bg-surface-100 hover:text-surface-900'
+              }`}
             >
-              <span className="material-icons text-lg mr-3">
+              <span className={`material-icons text-xl ${
+                isActive ? 'text-primary-700' : 'text-surface-600'
+              }`}>
                 {item.icon}
               </span>
-              <span className="text-sm font-medium">{item.name}</span>
+              <span className="text-body-medium font-medium">{item.name}</span>
             </button>
           );
         })}
       </nav>
 
-      {/* Footer Actions */}
-      <div className="p-4 border-t border-gray-200 space-y-2">
+      {/* Footer Actions - Material Design */}
+      <div className="p-4 border-t border-surface-200 space-y-2">
         {/* New Session */}
         <button
           onClick={() => {
@@ -139,31 +145,31 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, userProfile, onL
               onLogout();
             }
           }}
-          className="nav-item w-full text-left text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+          className="w-full flex items-center space-x-4 px-4 py-3 rounded-xl text-left text-primary-700 hover:text-primary-800 hover:bg-primary-50 transition-all duration-200"
         >
-          <span className="material-icons text-lg mr-3">refresh</span>
-          <span className="text-sm">New Session</span>
+          <span className="material-icons text-xl">refresh</span>
+          <span className="text-body-medium font-medium">New Session</span>
         </button>
 
         {/* Help */}
-        <button className="nav-item w-full text-left">
-          <span className="material-icons text-lg mr-3">help_outline</span>
-          <span className="text-sm">Help & Support</span>
+        <button className="w-full flex items-center space-x-4 px-4 py-3 rounded-xl text-left text-surface-700 hover:text-surface-900 hover:bg-surface-100 transition-all duration-200">
+          <span className="material-icons text-xl">help_outline</span>
+          <span className="text-body-medium font-medium">Help & Support</span>
         </button>
 
         {/* Logout */}
         <button
           onClick={onLogout}
-          className="nav-item w-full text-left text-danger-600 hover:text-danger-700 hover:bg-danger-50"
+          className="w-full flex items-center space-x-4 px-4 py-3 rounded-xl text-left text-error-700 hover:text-error-800 hover:bg-error-50 transition-all duration-200"
         >
-          <span className="material-icons text-lg mr-3">logout</span>
-          <span className="text-sm">Sign Out</span>
+          <span className="material-icons text-xl">logout</span>
+          <span className="text-body-medium font-medium">Sign Out</span>
         </button>
 
         {/* Version */}
-        <div className="pt-2 mt-2 border-t border-gray-200">
-          <p className="text-xs text-gray-400 text-center">
-            v3.1.0 - Enhanced Edition
+        <div className="pt-4 mt-4 border-t border-surface-200">
+          <p className="text-body-small text-surface-400 text-center">
+            v3.2.0 - Enhanced Edition
           </p>
         </div>
       </div>
