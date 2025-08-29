@@ -289,9 +289,11 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                     ? 'text-green-500'
                     : 'text-blue-500'
                 }`}>
-                  {notification.type === 'error' && '❌'}
-                  {notification.type === 'success' && '✅'}
-                  {notification.type === 'info' && '📱'}
+                  <span className="material-icons text-sm">
+                    {notification.type === 'error' && 'error'}
+                    {notification.type === 'success' && 'check_circle'}
+                    {notification.type === 'info' && 'info'}
+                  </span>
                 </div>
                 {notification.message}
               </div>
