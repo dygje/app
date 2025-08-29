@@ -499,10 +499,16 @@ async def verify_auth_code(auth_request: AuthRequest):
             )
             logging.info(f"Sign-in successful for phone: {config.phone_number}")
             
-            # Get session string and save
+            # Fetch user profile information
+            user_profile = await fetch_user_profile(client)
+            logging.info(f"Fetched user profile: {user_profile.first_name} (@{user_profile.username})")
+            
+            # Get session string and save with user profile
             session_string = client.session.save()
             config.session_string = session_string
             config.is_authenticated = True
+            config.user_profile = user_profile
+            config.updated_at = datetime.utcnow()
             await save_telegram_config(config)
             
             await client.disconnect()
