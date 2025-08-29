@@ -158,7 +158,11 @@ function App() {
                 <div className="hidden sm:flex items-center space-x-2">
                   <div className="w-2 h-2 bg-success-500 rounded-full"></div>
                   <span className="text-sm text-gray-600">
-                    {telegramConfig?.phone_number || 'Connected'}
+                    {userProfile ? (
+                      `${userProfile.first_name || 'User'} ${userProfile.username ? `(@${userProfile.username})` : ''}`
+                    ) : (
+                      telegramConfig?.phone_number || 'Connected'
+                    )}
                   </span>
                 </div>
                 
