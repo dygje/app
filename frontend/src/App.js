@@ -139,15 +139,16 @@ function App() {
                     console.log('Hamburger clicked, current state:', sidebarOpen);
                     setSidebarOpen(!sidebarOpen);
                   }}
-                  className="btn-ghost p-2 lg:hidden flex items-center justify-center relative z-50"
+                  className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors flex items-center justify-center relative z-50"
                   aria-label="Toggle menu"
                   style={{ 
                     minWidth: '44px', 
-                    minHeight: '44px',
-                    border: '2px solid transparent' 
+                    minHeight: '44px'
                   }}
                 >
-                  <span className="material-icons text-xl">menu</span>
+                  <span className="material-icons text-xl text-gray-700">
+                    {sidebarOpen ? 'close' : 'menu'}
+                  </span>
                 </button>
                 
                 {/* Page Title */}
