@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
+  const navigate = useNavigate();
   const [automationStatus, setAutomationStatus] = useState(null);
   const [automationConfig, setAutomationConfig] = useState(null);
   const [stats, setStats] = useState({
