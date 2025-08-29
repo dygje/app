@@ -385,7 +385,7 @@ const TelegramSetup = ({ onAuthSuccess }) => {
               <form onSubmit={handlePhoneCodeSubmit} className="space-y-4">
                 <div className="text-center mb-6">
                   <div className="inline-flex items-center justify-center w-12 h-12 bg-green-100 rounded-full mb-3">
-                    <div className="text-green-500">📱</div>
+                    <span className="material-icons text-green-500">smartphone</span>
                   </div>
                   <p className="text-sm text-gray-600">
                     We sent a verification code to your phone number
@@ -417,7 +417,7 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                       disabled={loading}
                       className="text-xs text-blue-600 hover:text-blue-700 font-medium flex items-center"
                     >
-                      <div className="text-blue-500 mr-1">🔄</div>
+                      <span className="material-icons text-sm mr-1">refresh</span>
                       Resend Code
                     </button>
                   </div>
@@ -436,7 +436,7 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                       </>
                     ) : (
                       <>
-                        <div className="mr-2">🔐</div>
+                        <span className="material-icons text-sm mr-2">verified</span>
                         Verify Code
                       </>
                     )}
@@ -451,8 +451,8 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                     }}
                     className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200 flex items-center justify-center"
                   >
-                    <div className="mr-2">⬅️</div>
-                    Back
+                    <span className="material-icons text-sm mr-2">arrow_back</span>
+                    Change Credentials
                   </button>
                 </div>
               </form>
