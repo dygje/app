@@ -252,15 +252,18 @@ frontend:
 
   - task: "Remove Blacklist Settings"
     implemented: true
-    working: false  # needs testing
+    working: true
     file: "AutomationSettings.js"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: false
         agent: "main"
         comment: "Removed interactive blacklist settings checkbox and replaced with informational section indicating auto cleanup is always active. Updated text to English."
+      - working: true
+        agent: "testing"
+        comment: "✅ PASSED: Blacklist settings removal verified in AutomationSettings.js code. Interactive checkbox removed and replaced with informational section indicating auto cleanup is always enabled. Implementation shows proper Material Design card with info icon and English text explaining automatic blacklist cleanup functionality."
 
 metadata:
   created_by: "main_agent"
