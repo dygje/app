@@ -260,94 +260,83 @@ const TelegramSetup = ({ onAuthSuccess }) => {
           </div>
 
           {/* Content */}
-          <div className="card-body">
+          <div className="p-6">
             {/* Notification */}
             {notification.show && (
-              <div className={`p-4 rounded-lg mb-6 border-l-4 ${
+              <div className={`flex items-center p-3 mb-4 rounded-md text-sm ${
                 notification.type === 'error' 
-                  ? 'bg-danger-50 border-danger-500' 
+                  ? 'bg-red-50 text-red-700 border border-red-200' 
                   : notification.type === 'success' 
-                  ? 'bg-success-50 border-success-500'
-                  : 'bg-primary-50 border-primary-500'
+                  ? 'bg-green-50 text-green-700 border border-green-200'
+                  : 'bg-blue-50 text-blue-700 border border-blue-200'
               }`}>
-                <div className="flex items-center space-x-3">
-                  <span className={`material-icons ${
-                    notification.type === 'error' 
-                      ? 'text-danger-600' 
-                      : notification.type === 'success' 
-                      ? 'text-success-600'
-                      : 'text-primary-600'
-                  }`}>
-                    {notification.type === 'error' 
-                      ? 'error' 
-                      : notification.type === 'success' 
-                      ? 'check_circle'
-                      : 'info'}
-                  </span>
-                  <p className={`text-sm font-medium ${
-                    notification.type === 'error' 
-                      ? 'text-danger-800' 
-                      : notification.type === 'success' 
-                      ? 'text-success-800'
-                      : 'text-primary-800'
-                  }`}>
-                    {notification.message}
-                  </p>
+                <div className={`w-4 h-4 mr-2 ${
+                  notification.type === 'error' 
+                    ? 'text-red-500' 
+                    : notification.type === 'success' 
+                    ? 'text-green-500'
+                    : 'text-blue-500'
+                }`}>
+                  {notification.type === 'error' && '⚠️'}
+                  {notification.type === 'success' && '✅'}
+                  {notification.type === 'info' && 'ℹ️'}
                 </div>
+                {notification.message}
               </div>
             )}
 
             {/* Step 1: API Configuration */}
             {step === 'config' && (
-              <form onSubmit={handleConfigSubmit} className="space-y-6">
-                <div className="space-y-4">
-                  <div className="form-group">
-                    <label className="form-label">API ID</label>
+              <form onSubmit={handleConfigSubmit} className="space-y-4">
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">API ID</label>
                     <input
                       type="text"
                       value={config.api_id}
                       onChange={(e) => setConfig({...config, api_id: e.target.value})}
-                      className="form-input"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="Enter your API ID"
                       required
                     />
                   </div>
 
-                  <div className="form-group">
-                    <label className="form-label">API Hash</label>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">API Hash</label>
                     <input
                       type="text"
                       value={config.api_hash}
                       onChange={(e) => setConfig({...config, api_hash: e.target.value})}
-                      className="form-input"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="Enter your API Hash"
                       required
                     />
                   </div>
 
-                  <div className="form-group">
-                    <label className="form-label">Phone Number</label>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
                     <input
                       type="tel"
                       value={config.phone_number}
                       onChange={(e) => setConfig({...config, phone_number: e.target.value})}
-                      className="form-input"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="+1234567890"
                       required
                     />
                   </div>
                 </div>
 
-                {/* Help Card */}
-                <div className="card bg-primary-50 border border-primary-200">
-                  <div className="p-4">
-                    <div className="flex items-start space-x-3">
-                      <span className="material-icons text-primary-600 text-lg mt-0.5">help</span>
-                      <div>
-                        <h4 className="text-sm font-semibold text-primary-800 mb-1">
-                          Need API Credentials?
-                        </h4>
-                        <p className="text-sm text-primary-700 mb-2">
+                {/* Help Section */}
+                <div className="bg-gray-50 border border-gray-200 rounded-md p-3 mt-4">
+                  <div className="flex items-start">
+                    <div className="text-blue-500 mr-2">💡</div>
+                    <div>
+                      <p className="text-xs font-medium text-gray-700 mb-1">
+                        Need API Credentials?
+                      </p>
+                      <p className="text-xs text-gray-600 mb-2">
+                        Get your API ID and Hash from my.telegram.org
+                      </p>
                           Get your API ID and Hash from my.telegram.org
                         </p>
                         <a 
