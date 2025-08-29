@@ -544,21 +544,27 @@ async def verify_2fa_password(two_fa_auth: TwoFactorAuth):
         logging.error("No session_string found for 2FA - session continuity broken")
         raise HTTPException(status_code=400, detail="Authentication session invalid. Please restart authentication process.")
     
+    # Verify this is actually a 2FA state
+    if not temp_auth.get('requires_2fa'):
+        logging.error("2FA not required for this session")
+        raise HTTPException(status_code=400, detail="2FA not required. Please complete phone verification first.")
+    
     try:
-        # Use the SAME session from verify-code step
+        # Use the SAME session from verify-code step that's in 2FA state
         session_string = temp_auth['session_string']
-        logging.info(f"Using stored session for 2FA: {session_string[:20]}...")
+        logging.info(f"Using 2FA session for password verification: {session_string[:20]}...")
         
         client = await initialize_telegram_client(session_string=session_string)
         if not client:
-            raise HTTPException(status_code=400, detail="Failed to initialize Telegram client with session")
+            raise HTTPException(status_code=400, detail="Failed to initialize Telegram client with 2FA session")
         
         await client.connect()
-        logging.info(f"Client connected with stored session for 2FA")
+        logging.info(f"Client connected with 2FA session for phone: {config.phone_number}")
         
-        # Complete 2FA authentication using the continued session
+        # Complete 2FA authentication - client should be in password-needed state
+        logging.info(f"Attempting 2FA password verification...")
         signed_in = await client.sign_in(password=two_fa_auth.password)
-        logging.info(f"2FA sign-in successful")
+        logging.info(f"2FA authentication successful!")
         
         # Get session string and save
         session_string = client.session.save()
