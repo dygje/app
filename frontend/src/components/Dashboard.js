@@ -93,10 +93,10 @@ const Dashboard = ({ telegramConfig, setCurrentPage }) => {
     <div className="space-y-6 fade-in">
       {/* Welcome Header */}
       <div>
-        <h2 className="text-2xl font-semibold text-gray-100 mb-2">
+        <h2 className="text-2xl font-semibold text-gray-900 mb-2">
           Welcome Back
         </h2>
-        <p className="text-gray-400">
+        <p className="text-gray-600">
           Monitor and manage your Telegram automation system
         </p>
       </div>
@@ -104,65 +104,67 @@ const Dashboard = ({ telegramConfig, setCurrentPage }) => {
       {/* Stats Overview */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Messages Stats */}
-        <div className="admin-card">
-          <div className="admin-card-content">
+        <div className="card">
+          <div className="card-body">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-400 mb-1">Total Messages</p>
-                <p className="text-2xl font-bold text-gray-100">{stats.totalMessages}</p>
-                <p className="text-sm text-green-400 mt-1">
+                <p className="text-sm font-medium text-gray-500 mb-1">Total Messages</p>
+                <p className="text-2xl font-bold text-gray-900">{stats.totalMessages}</p>
+                <p className="text-sm text-success-600 mt-1">
                   {stats.messagesActive} active
                 </p>
               </div>
-              <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
-                <span className="material-icons text-white">message</span>
+              <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
+                <span className="material-icons text-primary-600">message</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Groups Stats */}
-        <div className="admin-card">
-          <div className="admin-card-content">
+        <div className="card">
+          <div className="card-body">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-400 mb-1">Target Groups</p>
-                <p className="text-2xl font-bold text-gray-100">{stats.totalGroups}</p>
-                <p className="text-sm text-green-400 mt-1">
+                <p className="text-sm font-medium text-gray-500 mb-1">Target Groups</p>
+                <p className="text-2xl font-bold text-gray-900">{stats.totalGroups}</p>
+                <p className="text-sm text-success-600 mt-1">
                   All active
                 </p>
               </div>
-              <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center">
-                <span className="material-icons text-white">groups</span>
+              <div className="w-12 h-12 bg-success-100 rounded-xl flex items-center justify-center">
+                <span className="material-icons text-success-600">groups</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* System Status */}
-        <div className="admin-card">
-          <div className="admin-card-content">
+        <div className="card">
+          <div className="card-body">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-400 mb-1">System Status</p>
-                <p className="text-2xl font-bold text-gray-100">
+                <p className="text-sm font-medium text-gray-500 mb-1">System Status</p>
+                <p className="text-2xl font-bold text-gray-900">
                   {automationConfig?.is_active ? 'Running' : 'Stopped'}
                 </p>
                 <div className="flex items-center space-x-2 mt-1">
                   <div className={`w-2 h-2 rounded-full ${
-                    automationConfig?.is_active ? 'bg-green-500' : 'bg-red-500'
+                    automationConfig?.is_active ? 'bg-success-500' : 'bg-gray-400'
                   }`}></div>
                   <span className={`text-sm ${
-                    automationConfig?.is_active ? 'text-green-400' : 'text-red-400'
+                    automationConfig?.is_active ? 'text-success-600' : 'text-gray-500'
                   }`}>
                     {automationConfig?.is_active ? 'Active' : 'Inactive'}
                   </span>
                 </div>
               </div>
-              <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
-                automationConfig?.is_active ? 'bg-green-600' : 'bg-gray-600'
+              <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                automationConfig?.is_active ? 'bg-success-100' : 'bg-gray-100'
               }`}>
-                <span className="material-icons text-white">
+                <span className={`material-icons ${
+                  automationConfig?.is_active ? 'text-success-600' : 'text-gray-500'
+                }`}>
                   {automationConfig?.is_active ? 'play_circle' : 'pause_circle'}
                 </span>
               </div>
