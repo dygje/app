@@ -427,8 +427,8 @@ async def verify_auth_code(auth_request: AuthRequest):
         
         try:
             signed_in = await client.sign_in(
-                phone=config.phone_number,
-                code=auth_request.phone_code,
+                config.phone_number,
+                auth_request.phone_code,
                 phone_code_hash=temp_auth['phone_code_hash']
             )
             
