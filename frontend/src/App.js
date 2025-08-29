@@ -186,6 +186,7 @@ function App() {
                 element={
                   <Dashboard 
                     telegramConfig={telegramConfig}
+                    userProfile={userProfile}  // Pass user profile to Dashboard
                     setCurrentPage={setCurrentPage}
                   />
                 } 
