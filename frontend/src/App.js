@@ -84,11 +84,11 @@ function App() {
 
   if (loading) {
     return (
-      <div className="app-container flex items-center justify-center">
-        <div className="text-center fade-in">
-          <div className="loading-spinner mx-auto mb-6 w-8 h-8"></div>
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">Loading Telegram Automation</h2>
-          <p className="text-gray-600">Initializing system...</p>
+      <div className="min-h-screen bg-surface-50 flex items-center justify-center">
+        <div className="text-center material-fade-in">
+          <div className="material-spinner mx-auto mb-6 w-8 h-8"></div>
+          <h2 className="text-title-large font-medium text-surface-900 mb-2">Loading Telegram Automation</h2>
+          <p className="text-body-medium text-surface-600">Initializing system...</p>
         </div>
       </div>
     );
