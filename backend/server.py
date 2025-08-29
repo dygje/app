@@ -598,6 +598,49 @@ async def get_telegram_status():
         "has_session": bool(config.session_string)
     }
 
+@api_router.post("/telegram/logout")
+async def logout_telegram():
+    """Logout from Telegram and clear session data"""
+    try:
+        # Get current config
+        config = await get_telegram_config()
+        if not config:
+            return {"message": "No active session found"}
+        
+        # Disconnect and clean up active client if exists
+        client_key = f"{config.api_id}_{config.phone_number}"
+        if client_key in telegram_clients:
+            client = telegram_clients[client_key]
+            try:
+                if client.is_connected():
+                    await client.disconnect()
+                del telegram_clients[client_key]
+                logging.info(f"Disconnected and removed client for {config.phone_number}")
+            except Exception as e:
+                logging.warning(f"Error disconnecting client: {e}")
+        
+        # Clear session data in database
+        await db.telegram_config.update_one(
+            {"phone_number": config.phone_number},
+            {
+                "$set": {
+                    "session_string": None,
+                    "is_authenticated": False,
+                    "updated_at": datetime.utcnow()
+                }
+            }
+        )
+        
+        # Clean up temporary auth data if exists
+        await db.temp_auth.delete_many({"phone_number": config.phone_number})
+        
+        logging.info(f"Successfully logged out user {config.phone_number}")
+        return {"message": "Successfully logged out from Telegram"}
+        
+    except Exception as e:
+        logging.error(f"Error during logout: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to logout: {str(e)}")
+
 # ========================== MESSAGE TEMPLATES ==========================
 
 @api_router.post("/messages", response_model=MessageTemplate)
