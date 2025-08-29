@@ -1,0 +1,146 @@
+{
+  "timestamp": "2025-08-29T10:08:08.082563",
+  "total_tests": 23,
+  "passed_tests": 22,
+  "success_rate": "95.7%",
+  "results": [
+    {
+      "test": "API Health Check",
+      "status": true,
+      "details": "Version: 2.0.0",
+      "timestamp": "2025-08-29T10:08:05.178952"
+    },
+    {
+      "test": "Telegram Status Endpoint",
+      "status": false,
+      "details": "Missing fields: ['has_session']",
+      "timestamp": "2025-08-29T10:08:05.227901"
+    },
+    {
+      "test": "Telegram Config GET",
+      "status": true,
+      "details": "Config retrieved successfully",
+      "timestamp": "2025-08-29T10:08:05.239516"
+    },
+    {
+      "test": "Telegram Config POST",
+      "status": true,
+      "details": "Config created/updated successfully",
+      "timestamp": "2025-08-29T10:08:05.293852"
+    },
+    {
+      "test": "Groups POST (Create)",
+      "status": true,
+      "details": "Group created with ID: 04480638-2fdd-4fa3-80cb-1df0b048ff7c",
+      "timestamp": "2025-08-29T10:08:05.302578"
+    },
+    {
+      "test": "Groups GET (List)",
+      "status": true,
+      "details": "Retrieved 1 groups",
+      "timestamp": "2025-08-29T10:08:05.351375"
+    },
+    {
+      "test": "Groups PUT (Update)",
+      "status": true,
+      "details": "Group updated successfully",
+      "timestamp": "2025-08-29T10:08:05.365182"
+    },
+    {
+      "test": "Groups DELETE",
+      "status": true,
+      "details": "Group deleted successfully",
+      "timestamp": "2025-08-29T10:08:05.414511"
+    },
+    {
+      "test": "Groups Bulk Import",
+      "status": true,
+      "details": "Created 4 groups from bulk import",
+      "timestamp": "2025-08-29T10:08:05.428869"
+    },
+    {
+      "test": "Message Templates POST (Create)",
+      "status": true,
+      "details": "Template created with ID: beaf3f37-e5c4-446d-9693-fd61cc4b4150",
+      "timestamp": "2025-08-29T10:08:05.548383"
+    },
+    {
+      "test": "Message Templates GET (List)",
+      "status": true,
+      "details": "Retrieved 1 templates",
+      "timestamp": "2025-08-29T10:08:05.597478"
+    },
+    {
+      "test": "Message Templates GET (Single)",
+      "status": true,
+      "details": "Template retrieved successfully",
+      "timestamp": "2025-08-29T10:08:05.605906"
+    },
+    {
+      "test": "Message Templates PUT (Update)",
+      "status": true,
+      "details": "Template updated successfully",
+      "timestamp": "2025-08-29T10:08:05.615020"
+    },
+    {
+      "test": "Message Templates DELETE",
+      "status": true,
+      "details": "Template deleted successfully",
+      "timestamp": "2025-08-29T10:08:05.662287"
+    },
+    {
+      "test": "Automation Config GET",
+      "status": true,
+      "details": "Config retrieved, auto_cleanup: True",
+      "timestamp": "2025-08-29T10:08:05.671014"
+    },
+    {
+      "test": "Automation Config PUT",
+      "status": true,
+      "details": "Config updated successfully, auto_cleanup preserved",
+      "timestamp": "2025-08-29T10:08:05.720517"
+    },
+    {
+      "test": "Automation Status GET",
+      "status": true,
+      "details": "Running: False",
+      "timestamp": "2025-08-29T10:08:05.768602"
+    },
+    {
+      "test": "Automation Start POST",
+      "status": true,
+      "details": "Endpoint exists and handles unauthenticated requests",
+      "timestamp": "2025-08-29T10:08:05.777752"
+    },
+    {
+      "test": "Automation Stop POST",
+      "status": true,
+      "details": "Automation stopped successfully",
+      "timestamp": "2025-08-29T10:08:05.826578"
+    },
+    {
+      "test": "Telegram Send-Code Endpoint",
+      "status": true,
+      "details": "Endpoint exists and handles requests",
+      "timestamp": "2025-08-29T10:08:08.016529"
+    },
+    {
+      "test": "Telegram Verify-Code Endpoint",
+      "status": true,
+      "details": "Endpoint exists and handles requests",
+      "timestamp": "2025-08-29T10:08:08.025467"
+    },
+    {
+      "test": "Telegram Profile Endpoint",
+      "status": true,
+      "details": "Endpoint exists and requires authentication",
+      "timestamp": "2025-08-29T10:08:08.032878"
+    },
+    {
+      "test": "Telegram Logout Endpoint",
+      "status": true,
+      "details": "Endpoint works correctly",
+      "timestamp": "2025-08-29T10:08:08.082420"
+    }
+  ]
+}
