@@ -11,7 +11,7 @@ from datetime import datetime
 import time
 
 class DetailedAuthTester:
-    def __init__(self, base_url="https://modern-layout-1.preview.emergentagent.com"):
+    def __init__(self, base_url="https://teleapi-sync.preview.emergentagent.com"):
         self.base_url = base_url
         self.api_url = f"{base_url}/api"
 
