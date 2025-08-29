@@ -442,13 +442,7 @@ body {
     @apply text-blue-800;
   }
 
-  .border-primary-200 {
-    @apply border-primary-200;
-  }
 
-  .border-primary-300 {
-    @apply border-primary-300;
-  }
 
   .border-warning-300 {
     @apply border-yellow-300;
