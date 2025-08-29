@@ -63,6 +63,7 @@ function App() {
       // Reset local state
       setIsAuthenticated(false);
       setTelegramConfig(null);
+      setUserProfile(null);  // Clear user profile
       setCurrentPage('dashboard');
       
       console.log('Successfully logged out');
@@ -72,6 +73,7 @@ function App() {
       // Even if backend fails, clear local state for better UX
       setIsAuthenticated(false);
       setTelegramConfig(null);
+      setUserProfile(null);
       setCurrentPage('dashboard');
     }
   };
