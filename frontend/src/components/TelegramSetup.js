@@ -125,6 +125,18 @@ const TelegramSetup = ({ onAuthSuccess }) => {
       
       if (err.response?.data?.detail) {
         errorMsg = err.response.data.detail;
+        
+        // Check if it's an expired code error
+        if (errorMsg.toLowerCase().includes('expired')) {
+          showNotification('error', errorMsg);
+          // Auto-clear the code input for expired codes
+          setPhoneCode('');
+          // Optionally auto-request new code after showing error
+          setTimeout(() => {
+            showNotification('info', 'You can click "Resend Code" to get a new verification code');
+          }, 3000);
+          return;
+        }
       }
       
       showNotification('error', errorMsg);
