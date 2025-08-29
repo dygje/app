@@ -120,10 +120,7 @@ function App() {
         {sidebarOpen && (
           <div 
             className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
-            onClick={() => {
-              console.log('Backdrop clicked, closing sidebar');
-              setSidebarOpen(false);
-            }}
+            onClick={() => setSidebarOpen(false)}
           />
         )}
         
