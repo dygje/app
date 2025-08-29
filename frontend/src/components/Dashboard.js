@@ -98,60 +98,6 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
 
   return (
     <div className="space-y-6 fade-in">
-      {/* System Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Groups Stats */}
-        <div className="card">
-          <div className="card-body">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-500 mb-1">Target Groups</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.totalGroups}</p>
-                <p className="text-sm text-success-600 mt-1">
-                  Ready for automation
-                </p>
-              </div>
-              <div className="w-12 h-12 bg-success-100 rounded-xl flex items-center justify-center">
-                <span className="material-icons text-success-600">groups</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* System Status */}
-        <div className="card">
-          <div className="card-body">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-500 mb-1">System Status</p>
-                <p className="text-2xl font-bold text-gray-900">
-                  {automationConfig?.is_active ? 'Running' : 'Stopped'}
-                </p>
-                <div className="flex items-center space-x-2 mt-1">
-                  <div className={`w-2 h-2 rounded-full ${
-                    automationConfig?.is_active ? 'bg-success-500' : 'bg-gray-400'
-                  }`}></div>
-                  <span className={`text-sm ${
-                    automationConfig?.is_active ? 'text-success-600' : 'text-gray-500'
-                  }`}>
-                    {automationConfig?.is_active ? 'Active' : 'Inactive'}
-                  </span>
-                </div>
-              </div>
-              <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                automationConfig?.is_active ? 'bg-success-100' : 'bg-gray-100'
-              }`}>
-                <span className={`material-icons ${
-                  automationConfig?.is_active ? 'text-success-600' : 'text-gray-500'
-                }`}>
-                  {automationConfig?.is_active ? 'play_circle' : 'pause_circle'}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Main Dashboard Content */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Quick Actions - Compact Design */}
