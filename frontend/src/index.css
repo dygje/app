@@ -70,8 +70,26 @@ body {
     @apply -translate-x-full;
   }
 
+  .sidebar.open {
+    @apply translate-x-0;
+  }
+
   .main-content {
-    @apply ml-64 min-h-screen transition-all duration-300;
+    @apply ml-0 min-h-screen transition-all duration-300;
+  }
+
+  @media (min-width: 768px) {
+    .sidebar {
+      @apply translate-x-0;
+    }
+    
+    .main-content {
+      @apply ml-64;
+    }
+    
+    .main-content.sidebar-closed {
+      @apply ml-64;
+    }
   }
 
   .main-content.sidebar-closed {
