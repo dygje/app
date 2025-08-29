@@ -423,7 +423,7 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                   </div>
                 </div>
 
-                <div className="space-y-2 pt-4">
+                <div className="pt-4">
                   <button
                     type="submit"
                     disabled={loading || phoneCode.length < 5}
@@ -440,19 +440,6 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                         Verify Code
                       </>
                     )}
-                  </button>
-                  
-                  <button
-                    type="button"
-                    onClick={() => {
-                      resetState();
-                      setStep('config');
-                      setPhoneCode('');
-                    }}
-                    className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200 flex items-center justify-center"
-                  >
-                    <span className="material-icons text-sm mr-2">arrow_back</span>
-                    Change Credentials
                   </button>
                 </div>
               </form>
