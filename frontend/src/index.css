@@ -1,313 +1,230 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Dark Theme Color System */
+  --bg-primary: #0a0a0b;
+  --bg-secondary: #111827;
+  --bg-tertiary: #1f2937;
+  --bg-card: #374151;
+  --text-primary: #f9fafb;
+  --text-secondary: #d1d5db;
+  --text-muted: #9ca3af;
+  --accent-primary: #3b82f6;
+  --accent-secondary: #10b981;
+  --border-primary: #374151;
+  --border-secondary: #4b5563;
+}
+
 body {
-    margin: 0;
-    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI",
-        "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-        "Helvetica Neue", sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background-color: #fafafa; /* Material Design background */
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-code {
-    font-family: 'Roboto Mono', source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-        monospace;
-}
-
-@layer base {
-  :root {
-        --background: 0 0% 100%;
-        --foreground: 0 0% 3.9%;
-        --card: 0 0% 100%;
-        --card-foreground: 0 0% 3.9%;
-        --popover: 0 0% 100%;
-        --popover-foreground: 0 0% 3.9%;
-        --primary: 0 0% 9%;
-        --primary-foreground: 0 0% 98%;
-        --secondary: 0 0% 96.1%;
-        --secondary-foreground: 0 0% 9%;
-        --muted: 0 0% 96.1%;
-        --muted-foreground: 0 0% 45.1%;
-        --accent: 0 0% 96.1%;
-        --accent-foreground: 0 0% 9%;
-        --destructive: 0 84.2% 60.2%;
-        --destructive-foreground: 0 0% 98%;
-        --border: 0 0% 89.8%;
-        --input: 0 0% 89.8%;
-        --ring: 0 0% 3.9%;
-        --chart-1: 12 76% 61%;
-        --chart-2: 173 58% 39%;
-        --chart-3: 197 37% 24%;
-        --chart-4: 43 74% 66%;
-        --chart-5: 27 87% 67%;
-        --radius: 0.5rem;
-    }
-  .dark {
-        --background: 0 0% 3.9%;
-        --foreground: 0 0% 98%;
-        --card: 0 0% 3.9%;
-        --card-foreground: 0 0% 98%;
-        --popover: 0 0% 3.9%;
-        --popover-foreground: 0 0% 98%;
-        --primary: 0 0% 98%;
-        --primary-foreground: 0 0% 9%;
-        --secondary: 0 0% 14.9%;
-        --secondary-foreground: 0 0% 98%;
-        --muted: 0 0% 14.9%;
-        --muted-foreground: 0 0% 63.9%;
-        --accent: 0 0% 14.9%;
-        --accent-foreground: 0 0% 98%;
-        --destructive: 0 62.8% 30.6%;
-        --destructive-foreground: 0 0% 98%;
-        --border: 0 0% 14.9%;
-        --input: 0 0% 14.9%;
-        --ring: 0 0% 83.1%;
-        --chart-1: 220 70% 50%;
-        --chart-2: 160 60% 45%;
-        --chart-3: 30 80% 55%;
-        --chart-4: 280 65% 60%;
-        --chart-5: 340 75% 55%;
-    }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-    }
-  body {
-    @apply bg-background text-foreground;
-    }
-}
-
-/* ===== MATERIAL DESIGN COMPONENTS ===== */
+/* ===== DARK ADMIN THEME COMPONENTS ===== */
 
 @layer components {
-  /* Material Design Buttons */
-  .material-button {
-    @apply relative inline-flex items-center justify-center min-w-16 h-10 px-6 
-           rounded-full text-sm font-medium transition-all duration-200
-           focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
-           disabled:opacity-50 disabled:pointer-events-none overflow-hidden
-           active:scale-95;
+  /* Layout Components */
+  .admin-container {
+    @apply min-h-screen bg-gray-900 text-gray-100;
+  }
+  
+  .admin-sidebar {
+    @apply w-64 bg-gray-800 border-r border-gray-700 fixed left-0 top-0 h-full z-40;
+  }
+  
+  .admin-main {
+    @apply ml-64 min-h-screen bg-gray-900;
+  }
+  
+  .admin-header {
+    @apply bg-gray-800 border-b border-gray-700 px-6 py-4 sticky top-0 z-30;
+  }
+  
+  .admin-content {
+    @apply p-6 space-y-6;
   }
 
-  .material-button-filled {
-    @apply material-button bg-primary-600 text-white hover:bg-primary-700 
-           shadow-sm hover:shadow-md active:bg-primary-800;
+  /* Navigation Components */
+  .nav-item {
+    @apply flex items-center px-4 py-3 mx-2 rounded-lg text-gray-300 
+           hover:bg-gray-700 hover:text-white transition-all duration-200
+           cursor-pointer group;
+  }
+  
+  .nav-item-active {
+    @apply nav-item bg-blue-600 text-white hover:bg-blue-500;
+  }
+  
+  .nav-icon {
+    @apply w-5 h-5 mr-3 text-gray-400 group-hover:text-white;
+  }
+  
+  .nav-icon-active {
+    @apply nav-icon text-white;
   }
 
-  .material-button-outlined {
-    @apply material-button border border-primary-600 text-primary-600 hover:bg-primary-50 
-           active:bg-primary-100;
+  /* Card Components */
+  .admin-card {
+    @apply bg-gray-800 border border-gray-700 rounded-lg shadow-sm;
+  }
+  
+  .admin-card-header {
+    @apply px-6 py-4 border-b border-gray-700;
+  }
+  
+  .admin-card-content {
+    @apply p-6;
+  }
+  
+  /* Form Components */
+  .form-group {
+    @apply space-y-2;
+  }
+  
+  .form-label {
+    @apply block text-sm font-medium text-gray-300;
+  }
+  
+  .form-input {
+    @apply w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg
+           text-white placeholder-gray-400 transition-colors
+           focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none
+           disabled:bg-gray-800 disabled:text-gray-500;
+  }
+  
+  .form-textarea {
+    @apply form-input resize-vertical min-h-24;
   }
 
-  .material-button-text {
-    @apply material-button text-primary-600 hover:bg-primary-50 active:bg-primary-100;
+  /* Button Components */
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium
+           transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2
+           focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .btn-primary {
+    @apply btn bg-blue-600 text-white hover:bg-blue-500 focus:ring-blue-500;
+  }
+  
+  .btn-secondary {
+    @apply btn bg-gray-700 text-gray-200 border border-gray-600 
+           hover:bg-gray-600 hover:border-gray-500 focus:ring-gray-500;
+  }
+  
+  .btn-danger {
+    @apply btn bg-red-600 text-white hover:bg-red-500 focus:ring-red-500;
+  }
+  
+  .btn-ghost {
+    @apply btn text-gray-300 hover:bg-gray-700 hover:text-white focus:ring-gray-500;
   }
 
-  .material-button-tonal {
-    @apply material-button bg-secondary-100 text-secondary-700 hover:bg-secondary-200 
-           active:bg-secondary-300;
+  /* Status Components */
+  .status-badge {
+    @apply inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium;
+  }
+  
+  .status-online {
+    @apply status-badge bg-green-900 text-green-300 border border-green-700;
+  }
+  
+  .status-offline {
+    @apply status-badge bg-red-900 text-red-300 border border-red-700;
+  }
+  
+  .status-pending {
+    @apply status-badge bg-yellow-900 text-yellow-300 border border-yellow-700;
   }
 
-  /* Material Design Cards */
-  .material-card {
-    @apply bg-white rounded-xl transition-shadow duration-200;
+  /* Table Components */
+  .admin-table {
+    @apply w-full border-collapse bg-gray-800 rounded-lg overflow-hidden;
+  }
+  
+  .admin-table thead {
+    @apply bg-gray-700;
+  }
+  
+  .admin-table th {
+    @apply px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider;
+  }
+  
+  .admin-table td {
+    @apply px-6 py-4 text-sm text-gray-200 border-t border-gray-700;
+  }
+  
+  .admin-table tr:hover {
+    @apply bg-gray-700;
   }
 
-  .material-card-filled {
-    @apply material-card shadow-sm hover:shadow-md;
+  /* Utility Components */
+  .icon {
+    @apply w-5 h-5;
+  }
+  
+  .icon-sm {
+    @apply w-4 h-4;
+  }
+  
+  .icon-lg {
+    @apply w-6 h-6;
   }
 
-  .material-card-outlined {
-    @apply material-card border border-surface-300;
+  /* Loading States */
+  .loading-spinner {
+    @apply w-5 h-5 border-2 border-gray-600 border-t-blue-500 rounded-full animate-spin;
   }
 
-  .material-card-elevated {
-    @apply material-card shadow-md hover:shadow-lg;
-  }
-
-  /* Material Design Inputs */
-  .material-input {
-    @apply w-full px-4 py-3 text-sm border border-surface-300 rounded-sm
-           bg-surface-50 transition-all duration-200
-           focus:border-primary-600 focus:bg-white focus:outline-none focus:ring-2 
-           focus:ring-primary-500 focus:ring-opacity-20
-           disabled:bg-surface-100 disabled:text-surface-500;
-  }
-
-  .material-input-outlined {
-    @apply material-input bg-transparent border-2 rounded-sm;
-  }
-
-  .material-input-filled {
-    @apply material-input bg-surface-50 border-0 border-b-2 rounded-t-sm rounded-b-none
-           focus:bg-surface-100;
-  }
-
-  /* Material Design Navigation */
-  .material-nav-item {
-    @apply flex items-center w-full px-6 py-3 text-sm font-medium
-           rounded-full transition-all duration-200
-           hover:bg-primary-50 active:bg-primary-100
-           focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-inset;
-  }
-
-  .material-nav-item-active {
-    @apply material-nav-item bg-secondary-100 text-secondary-800;
-  }
-
-  /* Material Design Badges */
-  .material-badge {
-    @apply inline-flex items-center px-2 py-1 text-xs font-medium 
-           rounded-full transition-colors duration-200;
-  }
-
-  .material-badge-success {
-    @apply material-badge bg-success-100 text-success-800;
-  }
-
-  .material-badge-error {
-    @apply material-badge bg-error-100 text-error-800;
-  }
-
-  .material-badge-warning {
-    @apply material-badge bg-warning-100 text-warning-800;
-  }
-
-  .material-badge-info {
-    @apply material-badge bg-primary-100 text-primary-800;
-  }
-
-  /* Material Design Status Indicators */
-  .material-status-dot {
-    @apply w-2 h-2 rounded-full inline-block;
-  }
-
-  .material-status-online {
-    @apply material-status-dot bg-success-500;
-    animation: material-pulse 2s infinite;
-  }
-
-  .material-status-offline {
-    @apply material-status-dot bg-error-500;
-  }
-
-  /* Material Design Loading States */
-  .material-loading {
-    @apply opacity-60 pointer-events-none;
-  }
-
-  .material-spinner {
-    @apply w-5 h-5 border-2 border-surface-300 border-t-primary-600 
-           rounded-full animate-spin;
-  }
-
-  /* Material Design Elevation Utilities */
-  .elevation-0 { box-shadow: none; }
-  .elevation-1 { @apply shadow-elevation-1; }
-  .elevation-2 { @apply shadow-elevation-2; }
-  .elevation-3 { @apply shadow-elevation-3; }
-  .elevation-4 { @apply shadow-elevation-4; }
-  .elevation-6 { @apply shadow-elevation-6; }
-  .elevation-8 { @apply shadow-elevation-8; }
-  .elevation-12 { @apply shadow-elevation-12; }
-  .elevation-16 { @apply shadow-elevation-16; }
-  .elevation-24 { @apply shadow-elevation-24; }
-
-  /* Material Design Typography Classes */
-  .text-display-large { font-size: 57px; line-height: 64px; letter-spacing: -0.25px; font-weight: normal; }
-  .text-display-medium { font-size: 45px; line-height: 52px; letter-spacing: 0; font-weight: normal; }
-  .text-display-small { font-size: 36px; line-height: 44px; letter-spacing: 0; font-weight: normal; }
-  .text-headline-large { font-size: 32px; line-height: 40px; letter-spacing: 0; font-weight: normal; }
-  .text-headline-medium { font-size: 28px; line-height: 36px; letter-spacing: 0; font-weight: normal; }
-  .text-headline-small { font-size: 24px; line-height: 32px; letter-spacing: 0; font-weight: normal; }
-  .text-title-large { font-size: 22px; line-height: 28px; letter-spacing: 0; font-weight: normal; }
-  .text-title-medium { font-size: 16px; line-height: 24px; letter-spacing: 0.15px; font-weight: 500; }
-  .text-title-small { font-size: 14px; line-height: 20px; letter-spacing: 0.1px; font-weight: 500; }
-  .text-label-large { font-size: 14px; line-height: 20px; letter-spacing: 0.1px; font-weight: 500; }
-  .text-label-medium { font-size: 12px; line-height: 16px; letter-spacing: 0.5px; font-weight: 500; }
-  .text-label-small { font-size: 11px; line-height: 16px; letter-spacing: 0.5px; font-weight: 500; }
-  .text-body-large { font-size: 16px; line-height: 24px; letter-spacing: 0.15px; font-weight: normal; }
-  .text-body-medium { font-size: 14px; line-height: 20px; letter-spacing: 0.25px; font-weight: normal; }
-  .text-body-small { font-size: 12px; line-height: 16px; letter-spacing: 0.4px; font-weight: normal; }
-
-  /* Material Design Ripple Effect */
-  .material-ripple {
-    @apply relative overflow-hidden;
-  }
-
-  .material-ripple::before {
-    content: '';
-    @apply absolute inset-0 pointer-events-none;
-    background: radial-gradient(circle, rgba(255,255,255,0.3) 10%, transparent 10%);
-    transform: scale(10, 10);
-    opacity: 0;
-    transition: transform 0.5s, opacity 0.5s;
-  }
-
-  .material-ripple:active::before {
-    transform: scale(0, 0);
-    opacity: 1;
-    transition: 0s;
-  }
-
-  /* Material Design Grid System */
-  .material-grid {
-    @apply grid gap-4;
-  }
-
-  .material-grid-cols-1 { @apply grid-cols-1; }
-  .material-grid-cols-2 { @apply grid-cols-1 md:grid-cols-2; }
-  .material-grid-cols-3 { @apply grid-cols-1 md:grid-cols-2 lg:grid-cols-3; }
-  .material-grid-cols-4 { @apply grid-cols-2 md:grid-cols-3 lg:grid-cols-4; }
-
-  /* Material Design Text Fields */
-  .material-textfield {
-    @apply relative w-full;
-  }
-
-  .material-textfield-input {
-    @apply w-full px-4 pt-6 pb-2 text-base border border-surface-300 rounded-lg
-           bg-surface-50 transition-all duration-200
-           focus:border-primary-600 focus:bg-white focus:outline-none focus:ring-2 
-           focus:ring-primary-500 focus:ring-opacity-20
-           disabled:bg-surface-100 disabled:text-surface-500
-           placeholder-transparent;
-  }
-
-  .material-textfield-label {
-    @apply absolute left-4 top-2 text-xs font-medium text-surface-600 
-           transition-all duration-200 pointer-events-none
-           peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-surface-500
-           peer-focus:top-2 peer-focus:text-xs peer-focus:font-medium peer-focus:text-primary-600;
-  }
-
-  .material-textfield-input:not(:placeholder-shown) + .material-textfield-label {
-    @apply top-2 text-xs font-medium text-primary-600;
-  }
-
-  /* Material Design Animations */
-  .material-fade-in {
-    @apply animate-material-fade-in;
-  }
-
-  .material-slide-in {
-    @apply animate-material-slide-in;
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .admin-sidebar {
+      @apply transform -translate-x-full transition-transform;
+    }
+    
+    .admin-sidebar.mobile-open {
+      @apply translate-x-0;
+    }
+    
+    .admin-main {
+      @apply ml-0;
+    }
   }
 }
 
-/* Material Design Icons */
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1f2937;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4b5563;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+
+/* Material Icons */
 .material-icons {
   font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
-  font-size: 24px;
+  font-size: 20px;
   line-height: 1;
   letter-spacing: normal;
   text-transform: none;
@@ -319,120 +236,26 @@ code {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Material Design Custom Keyframes */
-@keyframes material-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
+/* Animations */
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
 }
 
-@keyframes material-fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* Mobile optimizations for Android browsers */
-@layer utilities {
-  /* Improved touch targets for mobile */
-  .touch-target {
-    min-height: 48px; /* Material Design minimum touch target */
-    min-width: 48px;
-  }
-
-  /* Material Design Responsive Breakpoints */
-  .container-material {
-    @apply max-w-none mx-auto px-4 sm:px-6 lg:px-8;
-  }
-
-  @screen sm {
-    .container-material { @apply max-w-sm; }
-  }
-
-  @screen md {
-    .container-material { @apply max-w-md; }
-  }
-
-  @screen lg {
-    .container-material { @apply max-w-4xl; }
-  }
-
-  @screen xl {
-    .container-material { @apply max-w-6xl; }
-  }
-
-  /* Material Design Safe Areas */
-  .safe-area-top {
-    padding-top: env(safe-area-inset-top);
-  }
-
-  .safe-area-bottom {
-    padding-bottom: env(safe-area-inset-bottom);
-  }
+.slide-in {
+  animation: slideIn 0.3s ease-out;
 }
 
-/* Android-specific optimizations */
-@media screen and (-webkit-min-device-pixel-ratio: 1) {
-  /* Prevent zoom on input focus for Android */
-  input[type="text"],
-  input[type="email"], 
-  input[type="tel"],
-  input[type="password"],
-  textarea,
-  select {
-    font-size: 16px !important;
-  }
-  
-  /* Improve touch scrolling */
-  * {
-    -webkit-overflow-scrolling: touch;
-  }
-  
-  /* Better tap highlights */
-  button, a, [role="button"] {
-    -webkit-tap-highlight-color: rgba(33, 150, 243, 0.1);
-    tap-highlight-color: rgba(33, 150, 243, 0.1);
-  }
+@keyframes slideIn {
+  from { transform: translateX(-20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
 }
 
-/* Responsive improvements for small screens */
-@media (max-width: 640px) {
-  /* Reduce padding on mobile */
-  .p-6 {
-    @apply p-4;
-  }
-  
-  /* Stack modal buttons on mobile */
-  .modal-backdrop .space-x-3 {
-    @apply space-x-0 space-y-2 flex-col;
-  }
-  
-  /* Improve table scrolling on mobile */
-  .overflow-x-auto {
-    scrollbar-width: thin;
-  }
-  
-  .overflow-x-auto::-webkit-scrollbar {
-    height: 4px;
-  }
-  
-  .overflow-x-auto::-webkit-scrollbar-track {
-    background: #f5f5f5;
-  }
-  
-  .overflow-x-auto::-webkit-scrollbar-thumb {
-    background: #bdbdbd;
-    border-radius: 2px;
-  }
-}
-
-/* Fix for Safari mobile viewport issues */
-@supports (-webkit-touch-callout: none) {
-  .min-h-screen {
-    min-height: -webkit-fill-available;
-  }
+/* Focus states for accessibility */
+.focus-visible {
+  @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900;
 }
