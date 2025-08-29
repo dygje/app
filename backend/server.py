@@ -446,19 +446,29 @@ async def verify_auth_code(auth_request: AuthRequest):
         raise HTTPException(status_code=400, detail="The verification session has expired. Please request a new verification code.")
     
     try:
-        client = await initialize_telegram_client()
+        # Use the SAME session from send-code to maintain continuity
+        session_string = temp_auth.get('session_string')
+        if not session_string:
+            logging.error("No session_string found in temp_auth - session continuity broken")
+            raise HTTPException(status_code=400, detail="Authentication session invalid. Please request a new verification code.")
+        
+        logging.info(f"Using stored session for continuity: {session_string[:20]}...")
+        client = await initialize_telegram_client(session_string=session_string)
         if not client:
-            raise HTTPException(status_code=400, detail="Failed to initialize Telegram client")
+            raise HTTPException(status_code=400, detail="Failed to initialize Telegram client with session")
         
         await client.connect()
+        logging.info(f"Client connected with stored session for phone: {config.phone_number}")
         
         try:
-            # Use correct parameter order according to Telethon docs
+            # Use correct parameter order according to Telethon docs with session continuity
+            logging.info(f"Attempting sign_in with phone_code_hash: {temp_auth['phone_code_hash'][:10]}...")
             signed_in = await client.sign_in(
                 config.phone_number,
                 auth_request.phone_code,
                 phone_code_hash=temp_auth['phone_code_hash']
             )
+            logging.info(f"Sign-in successful for phone: {config.phone_number}")
             
             # Get session string and save
             session_string = client.session.save()
