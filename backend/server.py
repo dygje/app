@@ -381,13 +381,14 @@ async def send_auth_code():
         await client.connect()
         sent_code = await client.send_code_request(config.phone_number)
         
-        # Store phone_code_hash for later use
+        # Store phone_code_hash for later use with extended timeout
         await db.temp_auth.replace_one(
             {"phone_number": config.phone_number},
             {
                 "phone_number": config.phone_number,
                 "phone_code_hash": sent_code.phone_code_hash,
-                "created_at": datetime.utcnow()
+                "created_at": datetime.utcnow(),
+                "expires_at": datetime.utcnow() + timedelta(minutes=10)  # Extended timeout
             },
             upsert=True
         )
