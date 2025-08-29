@@ -217,6 +217,270 @@ body {
   }
 }
 
+  /* Material Design Components */
+  .material-fade-in {
+    @apply fade-in;
+  }
+
+  .material-card-filled {
+    @apply card bg-white;
+  }
+
+  .material-card-elevated {
+    @apply card shadow-medium;
+  }
+
+  .material-card-outlined {
+    @apply card border border-gray-300;
+  }
+
+  .material-button-filled {
+    @apply btn-primary;
+  }
+
+  .material-button-outlined {
+    @apply btn-outline;
+  }
+
+  .material-button-text {
+    @apply btn-ghost;
+  }
+
+  .material-textfield {
+    @apply form-group relative;
+  }
+
+  .material-textfield-input {
+    @apply form-input peer placeholder-transparent;
+  }
+
+  .material-textfield-label {
+    @apply absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-primary-600;
+  }
+
+  .material-dialog {
+    @apply card max-h-screen overflow-y-auto;
+  }
+
+  .material-dialog-backdrop {
+    @apply fixed inset-0 bg-black bg-opacity-50 z-50;
+  }
+
+  .material-scale-in {
+    animation: scaleIn 0.2s ease-out;
+  }
+
+  .material-grid {
+    @apply grid gap-6;
+  }
+
+  .material-grid-cols-2 {
+    @apply grid-cols-1 md:grid-cols-2;
+  }
+
+  .material-grid-cols-3 {
+    @apply grid-cols-1 md:grid-cols-3;
+  }
+
+  .material-list-item {
+    @apply flex items-center;
+  }
+
+  .material-badge-success {
+    @apply status-online;
+  }
+
+  .material-badge-warning {
+    @apply status-pending;
+  }
+
+  .material-spinner {
+    @apply loading-spinner;
+  }
+
+  .material-loading {
+    @apply opacity-75;
+  }
+
+  .material-fab {
+    @apply fixed bottom-6 right-6 w-14 h-14 bg-primary-600 text-white rounded-full shadow-large hover:bg-primary-700 flex items-center justify-center z-30 transition-all;
+  }
+
+  .material-status-online {
+    @apply w-2 h-2 bg-green-500 rounded-full;
+  }
+
+  .material-status-offline {
+    @apply w-2 h-2 bg-gray-400 rounded-full;
+  }
+
+  /* Typography classes */
+  .text-headline-medium {
+    @apply text-3xl font-normal;
+  }
+
+  .text-title-large {
+    @apply text-xl font-medium;
+  }
+
+  .text-title-medium {
+    @apply text-lg font-medium;
+  }
+
+  .text-title-small {
+    @apply text-base font-medium;
+  }
+
+  .text-body-large {
+    @apply text-base;
+  }
+
+  .text-body-medium {
+    @apply text-sm;
+  }
+
+  .text-body-small {
+    @apply text-xs;
+  }
+
+  .text-label-small {
+    @apply text-xs font-medium;
+  }
+
+  /* Surface colors */
+  .text-surface-900 {
+    @apply text-gray-900;
+  }
+
+  .text-surface-700 {
+    @apply text-gray-700;
+  }
+
+  .text-surface-600 {
+    @apply text-gray-600;
+  }
+
+  .text-surface-500 {
+    @apply text-gray-500;
+  }
+
+  .bg-surface-50 {
+    @apply bg-gray-50;
+  }
+
+  .bg-surface-100 {
+    @apply bg-gray-100;
+  }
+
+  .bg-surface-200 {
+    @apply bg-gray-200;
+  }
+
+  .border-surface-100 {
+    @apply border-gray-100;
+  }
+
+  .border-surface-200 {
+    @apply border-gray-200;
+  }
+
+  .border-surface-300 {
+    @apply border-gray-300;
+  }
+
+  /* Additional color variants */
+  .text-primary-700 {
+    @apply text-primary-700;
+  }
+
+  .text-primary-800 {
+    @apply text-primary-800;
+  }
+
+  .text-success-700 {
+    @apply text-green-700;
+  }
+
+  .text-success-800 {
+    @apply text-green-800;
+  }
+
+  .text-warning-700 {
+    @apply text-yellow-700;
+  }
+
+  .text-warning-800 {
+    @apply text-yellow-800;
+  }
+
+  .text-error-600 {
+    @apply text-red-600;
+  }
+
+  .bg-primary-100 {
+    @apply bg-primary-100;
+  }
+
+  .bg-success-100 {
+    @apply bg-green-100;
+  }
+
+  .bg-warning-100 {
+    @apply bg-yellow-100;
+  }
+
+  .bg-secondary-50 {
+    @apply bg-blue-50;
+  }
+
+  .bg-secondary-100 {
+    @apply bg-blue-100;
+  }
+
+  .text-secondary-600 {
+    @apply text-blue-600;
+  }
+
+  .text-secondary-700 {
+    @apply text-blue-700;
+  }
+
+  .text-secondary-800 {
+    @apply text-blue-800;
+  }
+
+  .border-primary-200 {
+    @apply border-primary-200;
+  }
+
+  .border-primary-300 {
+    @apply border-primary-300;
+  }
+
+  .border-warning-300 {
+    @apply border-yellow-300;
+  }
+
+  .border-error-600 {
+    @apply border-red-600;
+  }
+
+  .bg-primary-50 {
+    @apply bg-primary-50;
+  }
+
+  .bg-warning-50 {
+    @apply bg-yellow-50;
+  }
+
+  .bg-error-50 {
+    @apply bg-red-50;
+  }
+
+  .hover\:bg-error-50:hover {
+    @apply hover:bg-red-50;
+  }
+
 /* Animations */
 @keyframes fadeIn {
   from { 
@@ -226,6 +490,17 @@ body {
   to { 
     opacity: 1; 
     transform: translateY(0); 
+  }
+}
+
+@keyframes scaleIn {
+  from { 
+    opacity: 0; 
+    transform: scale(0.95); 
+  }
+  to { 
+    opacity: 1; 
+    transform: scale(1); 
   }
 }
 
