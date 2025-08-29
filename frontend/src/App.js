@@ -6,7 +6,7 @@ import Dashboard from "./components/Dashboard";
 import TelegramSetup from "./components/TelegramSetup";
 import MessageManager from "./components/MessageManager";
 import GroupManager from "./components/GroupManager";
-import BlacklistManager from "./components/BlacklistManager";
+
 import AutomationSettings from "./components/AutomationSettings";
 import Sidebar from "./components/Sidebar";
 
