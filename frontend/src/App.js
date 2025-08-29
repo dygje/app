@@ -165,7 +165,7 @@ function App() {
               </div>
 
               {/* Connection Status - Always Visible */}
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center">
                 {/* Connection Status */}
                 <div className="flex items-center space-x-2 bg-green-50 px-3 py-1.5 rounded-lg border border-green-200">
                   <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
@@ -177,14 +177,6 @@ function App() {
                     )}
                   </span>
                 </div>
-                
-                <button 
-                  className="btn-ghost p-2"
-                  title="Refresh Status"
-                  onClick={checkTelegramStatus}
-                >
-                  <span className="material-icons icon">refresh</span>
-                </button>
               </div>
             </div>
           </header>
