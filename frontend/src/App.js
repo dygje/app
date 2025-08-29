@@ -50,9 +50,24 @@ function App() {
   };
 
   const handleLogout = async () => {
-    setIsAuthenticated(false);
-    setTelegramConfig(null);
-    setCurrentPage('dashboard');
+    try {
+      // Call backend logout endpoint
+      await axios.post('/telegram/logout');
+      
+      // Reset local state
+      setIsAuthenticated(false);
+      setTelegramConfig(null);
+      setCurrentPage('dashboard');
+      
+      console.log('Successfully logged out');
+    } catch (error) {
+      console.error('Logout error:', error);
+      
+      // Even if backend fails, clear local state for better UX
+      setIsAuthenticated(false);
+      setTelegramConfig(null);
+      setCurrentPage('dashboard');
+    }
   };
 
   if (loading) {
