@@ -345,24 +345,24 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                 </div>
 
                 {/* Help Card */}
-                <div className="admin-card bg-blue-900 border-blue-700">
+                <div className="card bg-primary-50 border border-primary-200">
                   <div className="p-4">
                     <div className="flex items-start space-x-3">
-                      <span className="material-icons text-blue-400 text-lg mt-0.5">help</span>
+                      <span className="material-icons text-primary-600 text-lg mt-0.5">help</span>
                       <div>
-                        <h4 className="text-sm font-semibold text-blue-200 mb-1">
+                        <h4 className="text-sm font-semibold text-primary-800 mb-1">
                           Need API Credentials?
                         </h4>
-                        <p className="text-sm text-blue-300 mb-2">
+                        <p className="text-sm text-primary-700 mb-2">
                           Get your API ID and Hash from my.telegram.org
                         </p>
                         <a 
                           href="https://my.telegram.org" 
                           target="_blank" 
                           rel="noopener noreferrer"
-                          className="text-sm text-blue-400 hover:text-blue-300 underline"
+                          className="text-sm text-primary-600 hover:text-primary-700 underline font-medium"
                         >
-                          Visit Telegram API
+                          Visit Telegram API →
                         </a>
                       </div>
                     </div>
