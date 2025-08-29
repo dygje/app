@@ -32,6 +32,11 @@ function App() {
       if (response.data.authenticated) {
         const configResponse = await axios.get('/telegram/config');
         setTelegramConfig(configResponse.data);
+        
+        // Set user profile from status response
+        if (response.data.user_profile) {
+          setUserProfile(response.data.user_profile);
+        }
       }
     } catch (error) {
       console.error('Failed to check Telegram status:', error);
