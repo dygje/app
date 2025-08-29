@@ -48,7 +48,7 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, userProfile, onL
   };
 
   return (
-    <aside className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
+    <aside className={`sidebar ${isOpen ? 'open' : 'closed'} ${isOpen ? '' : 'md:translate-x-0'}`}>
       
       {/* App Header */}
       <div className="p-6 border-b border-gray-200">
