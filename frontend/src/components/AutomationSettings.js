@@ -87,7 +87,6 @@ const AutomationSettings = ({ telegramConfig, onConfigUpdate }) => {
     }
 
     try {
-      // In real implementation, you might want to clear session
       await axios.put('/telegram/config', {
         api_id: telegramConfig.api_id,
         api_hash: telegramConfig.api_hash,
@@ -115,11 +114,20 @@ const AutomationSettings = ({ telegramConfig, onConfigUpdate }) => {
 
   if (loading) {
     return (
-      <div className="p-4 md:p-6">
-        <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded w-1/4 mb-6"></div>
-          <div className="space-y-4">
-            <div className="bg-gray-200 h-64 rounded-lg"></div>
+      <div className="space-y-6">
+        <div className="material-fade-in">
+          <div className="mb-6">
+            <div className="h-8 bg-surface-200 rounded-md w-48 mb-2 animate-pulse"></div>
+            <div className="h-4 bg-surface-100 rounded w-64 animate-pulse"></div>
+          </div>
+          
+          <div className="material-card-filled p-6 animate-pulse">
+            <div className="h-6 bg-surface-200 rounded w-1/3 mb-4"></div>
+            <div className="space-y-4">
+              <div className="h-12 bg-surface-100 rounded"></div>
+              <div className="h-12 bg-surface-100 rounded"></div>
+              <div className="h-10 bg-surface-200 rounded w-1/2"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -127,53 +135,61 @@ const AutomationSettings = ({ telegramConfig, onConfigUpdate }) => {
   }
 
   return (
-    <div className="p-4 md:p-6 fade-in">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Settings</h1>
-        <p className="text-gray-600">Configure automation system and Telegram account</p>
+    <div className="space-y-8 material-fade-in">
+      {/* Material Design Header */}
+      <div>
+        <h1 className="text-headline-medium text-surface-900 font-normal mb-2">Settings</h1>
+        <p className="text-body-large text-surface-600">Configure automation system and Telegram account</p>
       </div>
 
-      {/* Tabs */}
-      <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg mb-6 w-fit">
+      {/* Material Design Tabs */}
+      <div className="flex space-x-2">
         <button
           onClick={() => setActiveTab('automation')}
-          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+          className={`material-button-text px-6 py-3 rounded-full ${
             activeTab === 'automation' 
-              ? 'bg-white text-gray-900 shadow' 
-              : 'text-gray-500 hover:text-gray-700'
+              ? 'bg-primary-100 text-primary-700' 
+              : 'text-surface-600'
           }`}
         >
-          ⚙️ Automation
+          <span className="material-icons mr-2">settings</span>
+          Automation
         </button>
         <button
           onClick={() => setActiveTab('telegram')}
-          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+          className={`material-button-text px-6 py-3 rounded-full ${
             activeTab === 'telegram' 
-              ? 'bg-white text-gray-900 shadow' 
-              : 'text-gray-500 hover:text-gray-700'
+              ? 'bg-primary-100 text-primary-700' 
+              : 'text-surface-600'
           }`}
         >
-          📱 Telegram
+          <span className="material-icons mr-2">chat</span>
+          Telegram
         </button>
       </div>
 
       {/* Automation Settings Tab */}
       {activeTab === 'automation' && automationConfig && (
         <div className="space-y-6">
-          <div className="bg-white rounded-lg shadow-md p-4 md:p-6 card-shadow">
-            <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-4">
-              Automation Configuration
-            </h3>
+          <div className="material-card-elevated p-6">
+            <div className="flex items-center space-x-3 mb-6">
+              <div className="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
+                <span className="material-icons text-primary-700 text-lg">tune</span>
+              </div>
+              <h2 className="text-title-large font-medium text-surface-900">
+                Automation Configuration
+              </h2>
+            </div>
             
             <form onSubmit={handleAutomationUpdate} className="space-y-6">
-              <div className="space-y-4">
+              <div className="space-y-6">
+                {/* Message Delay Settings */}
                 <div>
-                  <label className="form-label">
-                    Message Delay (seconds)
-                  </label>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
+                  <h3 className="text-title-medium font-medium text-surface-900 mb-3">
+                    Message Delay Settings
+                  </h3>
+                  <div className="material-grid material-grid-cols-2">
+                    <div className="material-textfield">
                       <input
                         type="number"
                         min="1"
@@ -183,12 +199,15 @@ const AutomationSettings = ({ telegramConfig, onConfigUpdate }) => {
                           ...automationConfig,
                           message_delay_min: parseInt(e.target.value)
                         })}
-                        className="form-input"
-                        placeholder="Min"
+                        className="material-textfield-input peer"
+                        placeholder=" "
                       />
-                      <p className="text-xs text-gray-500 mt-1">Minimum</p>
+                      <label className="material-textfield-label">
+                        Minimum Delay (seconds)
+                      </label>
                     </div>
-                    <div>
+                    
+                    <div className="material-textfield">
                       <input
                         type="number"
                         min="1"
@@ -198,23 +217,26 @@ const AutomationSettings = ({ telegramConfig, onConfigUpdate }) => {
                           ...automationConfig,
                           message_delay_max: parseInt(e.target.value)
                         })}
-                        className="form-input"
-                        placeholder="Max"
+                        className="material-textfield-input peer"
+                        placeholder=" "
                       />
-                      <p className="text-xs text-gray-500 mt-1">Maximum</p>
+                      <label className="material-textfield-label">
+                        Maximum Delay (seconds)
+                      </label>
                     </div>
                   </div>
-                  <p className="text-xs text-gray-500 mt-2">
+                  <p className="text-body-small text-surface-600 mt-2">
                     Random delay between {automationConfig.message_delay_min} - {automationConfig.message_delay_max} seconds
                   </p>
                 </div>
 
+                {/* Cycle Delay Settings */}
                 <div>
-                  <label className="form-label">
-                    Cycle Delay (hours)
-                  </label>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
+                  <h3 className="text-title-medium font-medium text-surface-900 mb-3">
+                    Cycle Delay Settings
+                  </h3>
+                  <div className="material-grid material-grid-cols-2">
+                    <div className="material-textfield">
                       <input
                         type="number"
                         min="0.1"
@@ -225,12 +247,15 @@ const AutomationSettings = ({ telegramConfig, onConfigUpdate }) => {
                           ...automationConfig,
                           cycle_delay_min: parseFloat(e.target.value)
                         })}
-                        className="form-input"
-                        placeholder="Min"
+                        className="material-textfield-input peer"
+                        placeholder=" "
                       />
-                      <p className="text-xs text-gray-500 mt-1">Minimum</p>
+                      <label className="material-textfield-label">
+                        Minimum Delay (hours)
+                      </label>
                     </div>
-                    <div>
+                    
+                    <div className="material-textfield">
                       <input
                         type="number"
                         min="0.1"
@@ -241,28 +266,30 @@ const AutomationSettings = ({ telegramConfig, onConfigUpdate }) => {
                           ...automationConfig,
                           cycle_delay_max: parseFloat(e.target.value)
                         })}
-                        className="form-input"
-                        placeholder="Max"
+                        className="material-textfield-input peer"
+                        placeholder=" "
                       />
-                      <p className="text-xs text-gray-500 mt-1">Maximum</p>
+                      <label className="material-textfield-label">
+                        Maximum Delay (hours)
+                      </label>
                     </div>
                   </div>
-                  <p className="text-xs text-gray-500 mt-2">
+                  <p className="text-body-small text-surface-600 mt-2">
                     Random delay {formatTimeRange(automationConfig.cycle_delay_min, automationConfig.cycle_delay_max, 'hours')}
                   </p>
                 </div>
 
-                {/* Blacklist Auto Cleanup - Always Active (Info Only) */}
-                <div className="border border-blue-200 bg-blue-50 rounded-lg p-4">
-                  <div className="flex items-center space-x-3">
-                    <div className="flex-shrink-0">
-                      <span className="text-blue-600 text-xl">ℹ️</span>
+                {/* Auto Cleanup Info */}
+                <div className="material-card-outlined border-primary-300 bg-primary-50 p-4 rounded-lg">
+                  <div className="flex items-start space-x-4">
+                    <div className="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span className="material-icons text-primary-700 text-lg">info</span>
                     </div>
                     <div>
-                      <h4 className="text-sm font-medium text-blue-900 mb-1">
+                      <h4 className="text-title-small font-medium text-primary-800 mb-2">
                         Auto Cleanup Blacklist
                       </h4>
-                      <p className="text-sm text-blue-700">
+                      <p className="text-body-medium text-primary-700">
                         Automatic blacklist cleanup is always enabled to maintain system performance. 
                         Temporarily blocked groups will be automatically removed after expiration.
                       </p>
@@ -274,9 +301,10 @@ const AutomationSettings = ({ telegramConfig, onConfigUpdate }) => {
               <button
                 type="submit"
                 disabled={actionLoading}
-                className={`btn btn-primary w-full ${actionLoading ? 'loading' : ''}`}
+                className={`material-button-filled w-full ${actionLoading ? 'material-loading' : ''}`}
               >
-                {actionLoading && <div className="spinner"></div>}
+                {actionLoading && <div className="material-spinner mr-3" />}
+                <span className="material-icons mr-2">save</span>
                 {actionLoading ? 'Saving...' : 'Save Automation Settings'}
               </button>
             </form>
@@ -288,49 +316,57 @@ const AutomationSettings = ({ telegramConfig, onConfigUpdate }) => {
       {activeTab === 'telegram' && (
         <div className="space-y-6">
           {/* Current Configuration */}
-          <div className="bg-white rounded-lg shadow-md p-4 md:p-6 card-shadow">
-            <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-4">
-              Current Telegram Configuration
-            </h3>
+          <div className="material-card-elevated p-6">
+            <div className="flex items-center space-x-3 mb-6">
+              <div className="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
+                <span className="material-icons text-primary-700 text-lg">chat</span>
+              </div>
+              <h2 className="text-title-large font-medium text-surface-900">
+                Current Telegram Configuration
+              </h2>
+            </div>
             
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="form-label">API ID</label>
-                  <div className="form-input bg-gray-50">
+            <div className="space-y-6">
+              <div className="material-grid material-grid-cols-2">
+                <div className="material-card-outlined p-4 rounded-lg">
+                  <h4 className="text-title-small font-medium text-surface-900 mb-2">API ID</h4>
+                  <p className="text-body-medium text-surface-600">
                     {telegramSettings.api_id || 'Not configured'}
-                  </div>
+                  </p>
                 </div>
-                <div>
-                  <label className="form-label">Phone Number</label>
-                  <div className="form-input bg-gray-50">
+                
+                <div className="material-card-outlined p-4 rounded-lg">
+                  <h4 className="text-title-small font-medium text-surface-900 mb-2">Phone Number</h4>
+                  <p className="text-body-medium text-surface-600">
                     {telegramSettings.phone_number || 'Not configured'}
-                  </div>
+                  </p>
                 </div>
               </div>
 
-              <div>
-                <label className="form-label">Authentication Status</label>
-                <div className="flex items-center space-x-2">
-                  <span className={`status-dot ${telegramConfig?.is_authenticated ? 'status-online' : 'status-offline'}`}></span>
-                  <span className="text-sm text-gray-600">
+              <div className="material-card-outlined p-4 rounded-lg">
+                <h4 className="text-title-small font-medium text-surface-900 mb-3">Authentication Status</h4>
+                <div className="flex items-center space-x-3">
+                  <div className={`material-status-${telegramConfig?.is_authenticated ? 'online' : 'offline'}`}></div>
+                  <span className="text-body-medium text-surface-700">
                     {telegramConfig?.is_authenticated ? 'Authenticated' : 'Not authenticated'}
                   </span>
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 pt-4">
+              <div className="flex flex-col sm:flex-row gap-3">
                 <button
                   onClick={() => setShowTelegramModal(true)}
-                  className="btn btn-primary flex-1"
+                  className="material-button-filled flex-1"
                 >
+                  <span className="material-icons mr-2">edit</span>
                   Update Configuration
                 </button>
                 {telegramConfig?.is_authenticated && (
                   <button
                     onClick={handleLogout}
-                    className="btn btn-danger flex-1"
+                    className="material-button-outlined border-error-600 text-error-600 hover:bg-error-50 flex-1"
                   >
+                    <span className="material-icons mr-2">logout</span>
                     Logout from Telegram
                   </button>
                 )}
@@ -339,47 +375,73 @@ const AutomationSettings = ({ telegramConfig, onConfigUpdate }) => {
           </div>
 
           {/* Help Section */}
-          <div className="bg-white rounded-lg shadow-md p-4 md:p-6 card-shadow">
-            <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-4">
-              How to Get Telegram API Credentials
-            </h3>
+          <div className="material-card-elevated p-6">
+            <div className="flex items-center space-x-3 mb-6">
+              <div className="w-8 h-8 bg-secondary-100 rounded-full flex items-center justify-center">
+                <span className="material-icons text-secondary-700 text-lg">help</span>
+              </div>
+              <h2 className="text-title-large font-medium text-surface-900">
+                How to Get Telegram API Credentials
+              </h2>
+            </div>
             
-            <div className="space-y-3 text-sm text-gray-600">
-              <div className="flex items-start space-x-3">
-                <span className="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-semibold">1</span>
-                <p>
-                  Visit <a href="https://my.telegram.org" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">my.telegram.org</a> and login with your phone number
-                </p>
-              </div>
-              <div className="flex items-start space-x-3">
-                <span className="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-semibold">2</span>
-                <p>Click on "API development tools" and create a new application</p>
-              </div>
-              <div className="flex items-start space-x-3">
-                <span className="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-semibold">3</span>
-                <p>Copy your API ID and API Hash from the created application</p>
-              </div>
-              <div className="flex items-start space-x-3">
-                <span className="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-semibold">4</span>
-                <p>Use the same phone number that's associated with your Telegram account</p>
-              </div>
+            <div className="space-y-4">
+              {[
+                {
+                  step: 1,
+                  text: 'Visit my.telegram.org and login with your phone number',
+                  link: 'https://my.telegram.org'
+                },
+                {
+                  step: 2,
+                  text: 'Click on "API development tools" and create a new application'
+                },
+                {
+                  step: 3,
+                  text: 'Copy your API ID and API Hash from the created application'
+                },
+                {
+                  step: 4,
+                  text: 'Use the same phone number that\'s associated with your Telegram account'
+                }
+              ].map((item) => (
+                <div key={item.step} className="flex items-start space-x-4">
+                  <div className="w-6 h-6 bg-secondary-100 text-secondary-700 rounded-full flex items-center justify-center text-label-small font-medium flex-shrink-0">
+                    {item.step}
+                  </div>
+                  <p className="text-body-medium text-surface-700">
+                    {item.link ? (
+                      <>Visit <a href={item.link} target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:underline">{item.link}</a> and login with your phone number</>
+                    ) : (
+                      item.text
+                    )}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       )}
 
-      {/* Update Telegram Configuration Modal */}
+      {/* Material Design Telegram Modal */}
       {showTelegramModal && (
-        <div className="fixed inset-0 modal-backdrop flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                Update Telegram Configuration
-              </h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 material-dialog-backdrop">
+          <div className="material-dialog w-full max-w-md material-scale-in">
+            <div className="px-6 py-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-title-large font-medium text-surface-900">
+                  Update Telegram Configuration
+                </h2>
+                <button
+                  onClick={() => setShowTelegramModal(false)}
+                  className="material-button-text p-2 -mr-2"
+                >
+                  <span className="material-icons">close</span>
+                </button>
+              </div>
               
-              <form onSubmit={handleTelegramUpdate} className="space-y-4">
-                <div>
-                  <label className="form-label">API ID</label>
+              <form onSubmit={handleTelegramUpdate} className="space-y-6">
+                <div className="material-textfield">
                   <input
                     type="text"
                     value={telegramSettings.api_id}
@@ -387,14 +449,16 @@ const AutomationSettings = ({ telegramConfig, onConfigUpdate }) => {
                       ...telegramSettings,
                       api_id: e.target.value
                     })}
-                    className="form-input"
-                    placeholder="123456"
+                    className="material-textfield-input peer"
+                    placeholder=" "
                     required
                   />
+                  <label className="material-textfield-label">
+                    API ID
+                  </label>
                 </div>
 
-                <div>
-                  <label className="form-label">API Hash</label>
+                <div className="material-textfield">
                   <input
                     type="text"
                     value={telegramSettings.api_hash}
@@ -402,18 +466,20 @@ const AutomationSettings = ({ telegramConfig, onConfigUpdate }) => {
                       ...telegramSettings,
                       api_hash: e.target.value
                     })}
-                    className="form-input"
-                    placeholder="Enter new API Hash or leave unchanged"
+                    className="material-textfield-input peer"
+                    placeholder=" "
                   />
+                  <label className="material-textfield-label">
+                    API Hash
+                  </label>
                   {telegramSettings.api_hash === '***HIDDEN***' && (
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-body-small text-surface-500 mt-1">
                       Leave empty to keep current API Hash
                     </p>
                   )}
                 </div>
 
-                <div>
-                  <label className="form-label">Phone Number</label>
+                <div className="material-textfield">
                   <input
                     type="tel"
                     value={telegramSettings.phone_number}
@@ -421,32 +487,39 @@ const AutomationSettings = ({ telegramConfig, onConfigUpdate }) => {
                       ...telegramSettings,
                       phone_number: e.target.value
                     })}
-                    className="form-input"
-                    placeholder="+1234567890"
+                    className="material-textfield-input peer"
+                    placeholder=" "
                     required
                   />
+                  <label className="material-textfield-label">
+                    Phone Number
+                  </label>
                 </div>
 
-                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
-                  <p className="text-xs text-yellow-700">
-                    ⚠️ Changing these settings will require re-authentication with Telegram
-                  </p>
+                <div className="material-card-outlined border-warning-300 bg-warning-50 p-4 rounded-lg">
+                  <div className="flex items-start space-x-3">
+                    <span className="material-icons text-warning-700 text-lg">warning</span>
+                    <p className="text-body-small text-warning-700">
+                      Changing these settings will require re-authentication with Telegram
+                    </p>
+                  </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 pt-4">
+                <div className="flex items-center justify-end space-x-3">
                   <button
                     type="button"
                     onClick={() => setShowTelegramModal(false)}
-                    className="btn btn-outline flex-1"
+                    className="material-button-outlined"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={actionLoading}
-                    className={`btn btn-primary flex-1 ${actionLoading ? 'loading' : ''}`}
+                    className={`material-button-filled ${actionLoading ? 'material-loading' : ''}`}
                   >
-                    {actionLoading && <div className="spinner"></div>}
+                    {actionLoading && <div className="material-spinner mr-2" />}
+                    <span className="material-icons mr-2">save</span>
                     {actionLoading ? 'Updating...' : 'Update & Re-authenticate'}
                   </button>
                 </div>
