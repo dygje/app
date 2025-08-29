@@ -11,7 +11,7 @@ from datetime import datetime
 import uuid
 
 # Configuration
-BASE_URL = "https://nav-ui-repair.preview.emergentagent.com/api"
+BASE_URL = "https://ui-navigation-fix-1.preview.emergentagent.com/api"
 TIMEOUT = 30
 
 class BackendTester:
