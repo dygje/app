@@ -98,7 +98,7 @@ function App() {
   if (!isAuthenticated) {
     return (
       <BrowserRouter>
-        <div className="app-container">
+        <div className="min-h-screen bg-surface-50">
           <TelegramSetup onAuthSuccess={handleAuthSuccess} />
         </div>
       </BrowserRouter>
