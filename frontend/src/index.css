@@ -25,20 +25,22 @@
 
   /* Sidebar */
   .sidebar {
-    @apply fixed left-0 top-0 h-full w-64 bg-white border-r border-gray-200 z-40 transform transition-transform duration-300 ease-in-out shadow-lg;
-    transform: translateX(-100%); /* Default: hidden */
+    @apply fixed left-0 top-0 h-full w-64 bg-white border-r border-gray-200 z-40 transform transition-transform duration-300 ease-in-out overflow-y-auto;
+    transform: translateX(-100%); /* Default: hidden on mobile */
   }
 
-  /* When sidebar is open */
+  /* When sidebar is open on mobile */
   .sidebar.open {
     transform: translateX(0); /* Show sidebar */
+    @apply shadow-2xl;
   }
 
   /* Desktop: Always visible */
   @media (min-width: 1024px) {
     .sidebar {
       transform: translateX(0) !important; /* Always visible on desktop */
-      shadow: none;
+      @apply shadow-sm;
+      position: fixed;
     }
     
     .main-content {
@@ -54,10 +56,12 @@
     
     .sidebar.closed {
       transform: translateX(-100%);
+      @apply shadow-none;
     }
     
     .sidebar.open {
       transform: translateX(0);
+      @apply shadow-2xl;
     }
   }
 
