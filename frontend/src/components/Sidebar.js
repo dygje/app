@@ -5,18 +5,12 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, userProfile, onL
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Debug logging
-  console.log('Sidebar render - isOpen:', isOpen);
-
   // Close sidebar when route changes on mobile
   useEffect(() => {
-    // Only close on route change, not on initial load
-    // And only if sidebar was actually open
     if (window.innerWidth < 1024 && isOpen) {  
-      console.log('Route changed, closing sidebar on mobile');
       onClose();
     }
-  }, [location.pathname]);
+  }, [location.pathname, isOpen, onClose]);
 
   const menuItems = [
     {
@@ -49,7 +43,7 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, userProfile, onL
     setCurrentPage(item.id);
     navigate(item.path);
     // Close sidebar on mobile after menu click
-    if (window.innerWidth < 1024) {  // Changed from 768 to 1024
+    if (window.innerWidth < 1024) {
       onClose();
     }
   };
