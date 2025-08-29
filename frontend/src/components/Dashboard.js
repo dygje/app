@@ -66,7 +66,7 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
 
   const handleNavigate = (page, path) => {
     setCurrentPage(page);
-    window.history.pushState(null, null, path);
+    navigate(path); // Use React Router navigate instead of pushState
   };
 
   const formatTime = (hours) => {
