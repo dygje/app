@@ -389,15 +389,20 @@ async def send_auth_code():
         sent_code = await client.send_code_request(config.phone_number)
         logging.info(f"SMS code sent successfully, phone_code_hash: {sent_code.phone_code_hash[:10]}...")
         
-        # Store phone_code_hash for later use with very extended timeout
+        # Get session string to persist for verify-code endpoint
+        session_string = client.session.save()
+        logging.info(f"Session string saved for continuity: {session_string[:20]}...")
+        
+        # Store phone_code_hash AND session_string for later use
         current_time = datetime.utcnow()
-        logging.info(f"Storing temp_auth for phone: {config.phone_number}")
+        logging.info(f"Storing temp_auth with session for phone: {config.phone_number}")
         
         result = await db.temp_auth.replace_one(
             {"phone_number": config.phone_number},
             {
                 "phone_number": config.phone_number,
                 "phone_code_hash": sent_code.phone_code_hash,
+                "session_string": session_string,  # Critical: store session for continuity
                 "created_at": current_time,
                 "expires_at": current_time + timedelta(minutes=30)  # Very extended timeout - 30 minutes
             },
