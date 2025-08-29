@@ -35,12 +35,10 @@ const Dashboard = ({ telegramConfig, setCurrentPage }) => {
       // Calculate stats
       const messages = messagesRes.data;
       const groups = groupsRes.data;
-      const blacklist = blacklistRes.data;
       
       setStats({
         totalMessages: messages.length,
         totalGroups: groups.length,
-        blacklistedGroups: blacklist.length,
         messagesActive: messages.filter(m => m.is_active).length
       });
 
