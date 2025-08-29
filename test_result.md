@@ -317,6 +317,21 @@ test_plan:
         agent: "testing"
         comment: "✅ COMPREHENSIVE UI REDESIGN TESTING PASSED: Fixed CSS compilation errors and verified complete redesign success. 1) ✅ TelegramSetup: Clean 3-step authentication form with Telegram blue progress indicator (33% shown), proper form fields (API ID, API Hash, Phone), Material Icons integration, help section with my.telegram.org link, 2) ✅ Design System: Telegram-inspired blue color palette (#3b82f6), modern card layouts with shadows, clean typography with Inter font, Material Icons throughout, 3) ✅ Mobile Responsiveness: Perfect mobile viewport adaptation, responsive form layouts, touch-friendly interface, 4) ✅ Authentication Flow: All form fields functional, submit button enables correctly with valid data, progress tracking working, 5) ✅ Modern UI Elements: 5 card components, 4 Material Icons, 9 primary color elements, clean shadows and rounded corners. The redesign successfully transforms the app from dark admin theme to clean, modern Telegram-inspired interface. All components render correctly with no console errors."
 
+  - task: "Telegram Logout Functionality"
+    implemented: true
+    working: true
+    file: "server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Added new /api/telegram/logout POST endpoint for complete session cleanup. Endpoint handles: 1) Disconnecting active Telegram clients from telegram_clients dictionary, 2) Clearing session_string and setting is_authenticated to false in database, 3) Cleaning up temp_auth records, 4) Proper error handling for cases with no active session. Implementation includes proper client disconnection, database cleanup, and graceful handling of multiple logout attempts."
+      - working: true
+        agent: "testing"
+        comment: "✅ NEW LOGOUT FUNCTIONALITY COMPREHENSIVE TESTING COMPLETE: Executed comprehensive testing of the new logout endpoint and regression testing with 87/87 tests passed (100% success rate). ✅ NEW LOGOUT ENDPOINT (/api/telegram/logout POST) VERIFIED: 1) ✅ Logout without active session - Returns appropriate 'No active session found' message and handles gracefully, 2) ✅ Logout with config present - Successfully clears session_string, sets is_authenticated to false, and returns success message, 3) ✅ Database cleanup verification - Confirmed proper cleanup of session data and temp_auth records, 4) ✅ Multiple consecutive logouts - Handles multiple logout calls without errors, maintains system stability. ✅ REGRESSION TESTING PASSED: 1) ✅ /api/telegram/status endpoint - Properly reports no authentication after logout (authenticated: false, has_session: false), 2) ✅ /api/telegram/config endpoint - Still works correctly for getting and setting new config after logout, maintains all CRUD functionality. ✅ AUTHENTICATION FLOW AFTER LOGOUT VERIFIED: 1) ✅ Fresh authentication capability - User can start new authentication process after logout, 2) ✅ Send-code endpoint - Works properly after logout with appropriate error handling for invalid credentials, 3) ✅ Verify-code endpoint - Functions correctly after logout with proper error messages for various scenarios. ✅ SESSION CLEANUP CONFIRMED: All Telegram session data properly cleared, temp_auth records cleaned up, no session leakage detected, system ready for fresh authentication. ✅ NO REGRESSIONS DETECTED: All existing endpoints maintain functionality, proper HTTP status codes preserved, error handling remains consistent. The new logout functionality is fully operational and provides complete session cleanup as designed."
+
 agent_communication:
   - agent: "main"
     message: "🎉 DEVELOPMENT COMPLETE: All requested features implemented successfully! 1) ✅ Migrated Pyrogram→Telethon (53/53 backend tests passed), 2) ✅ Simplified group management with auto-detection, 3) ✅ Bulk import TXT/CSV support, 4) ✅ Mobile-optimized UI for Android browsers, 5) ✅ Dashboard authentication guidance, 6) ✅ Removed blacklist settings (auto-active), 7) ✅ Converted to English with official Telegram logo. Ready for final testing!"
