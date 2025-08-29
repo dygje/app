@@ -786,7 +786,7 @@ class TelegramAutomationAPITester:
             else:
                 print(f"   Response message: {message}")
         
-        # Test 2: Verify status after logout (should show not authenticated)
+        # Test 2: Verify status after logout (should show not authenticated and no user_profile)
         print("\n🔍 Testing status endpoint after logout...")
         success, status_response = self.run_test(
             "Get Status After Logout", "GET", "/telegram/status", 200
@@ -795,10 +795,11 @@ class TelegramAutomationAPITester:
         if success and status_response:
             authenticated = status_response.get('authenticated', True)
             has_session = status_response.get('has_session', True)
-            if not authenticated and not has_session:
-                print("✅ Status correctly shows no authentication after logout")
+            user_profile = status_response.get('user_profile')
+            if not authenticated and not has_session and user_profile is None:
+                print("✅ Status correctly shows no authentication and no user_profile after logout")
             else:
-                print(f"   Authentication status: {authenticated}, Has session: {has_session}")
+                print(f"   Authentication status: {authenticated}, Has session: {has_session}, User profile: {user_profile}")
         
         # Test 3: Test config endpoint still works after logout
         print("\n🔍 Testing config endpoint functionality after logout...")
