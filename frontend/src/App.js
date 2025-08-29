@@ -108,7 +108,7 @@ function App() {
   // Main application with clean layout
   return (
     <BrowserRouter>
-      <div className="app-container">
+      <div className="min-h-screen bg-surface-50">
         {/* Sidebar Navigation */}
         <Sidebar 
           currentPage={currentPage} 
@@ -130,38 +130,36 @@ function App() {
         
         {/* Main Content Area */}
         <div className="main-content">
-          {/* Header with Connection Status */}
-          <header className="header">
+          {/* Header with Connection Status - Material Design */}
+          <header className="bg-white border-b border-surface-200 px-4 sm:px-6 py-4 sticky top-0 z-30">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 {/* Mobile Menu Button - Enhanced */}
                 <button
                   onClick={() => {
-                    console.log('Hamburger clicked. Current sidebarOpen:', sidebarOpen);
                     setSidebarOpen(!sidebarOpen);
-                    console.log('Setting sidebarOpen to:', !sidebarOpen);
                   }}
-                  className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors flex items-center justify-center relative z-50"
+                  className="lg:hidden material-button-text p-2 rounded-xl"
                   aria-label="Toggle menu"
                   style={{ 
                     minWidth: '44px', 
                     minHeight: '44px'
                   }}
                 >
-                  <span className="material-icons text-xl text-gray-700">
+                  <span className="material-icons text-xl text-surface-700">
                     {sidebarOpen ? 'close' : 'menu'}
                   </span>
                 </button>
                 
                 {/* Page Title */}
                 <div>
-                  <h1 className="text-xl font-semibold text-gray-900">
+                  <h1 className="text-title-large font-medium text-surface-900">
                     {currentPage === 'dashboard' && 'Dashboard'}
                     {currentPage === 'messages' && 'Message Templates'}
                     {currentPage === 'groups' && 'Group Management'}
                     {currentPage === 'settings' && 'Settings'}
                   </h1>
-                  <p className="text-sm text-gray-500 hidden sm:block">
+                  <p className="text-body-small text-surface-500 hidden sm:block">
                     Telegram Automation System
                   </p>
                 </div>
@@ -170,15 +168,17 @@ function App() {
               {/* Connection Status - Always Visible */}
               <div className="flex items-center">
                 {/* Connection Status */}
-                <div className="flex items-center space-x-2 bg-green-50 px-3 py-1.5 rounded-lg border border-green-200">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="text-sm font-medium text-green-700">
-                    {userProfile ? (
-                      userProfile.username ? `@${userProfile.username}` : userProfile.first_name
-                    ) : (
-                      'Connected'
-                    )}
-                  </span>
+                <div className="material-card-outlined bg-success-50 border-success-200 px-4 py-2 rounded-xl">
+                  <div className="flex items-center space-x-2">
+                    <div className="material-status-online animate-pulse"></div>
+                    <span className="text-body-medium font-medium text-success-800">
+                      {userProfile ? (
+                        userProfile.username ? `@${userProfile.username}` : userProfile.first_name
+                      ) : (
+                        'Connected'
+                      )}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
