@@ -601,10 +601,16 @@ async def verify_2fa_password(two_fa_auth: TwoFactorAuth):
         signed_in = await client.sign_in(password=two_fa_auth.password)
         logging.info(f"2FA authentication successful!")
         
-        # Get session string and save
+        # Fetch user profile information
+        user_profile = await fetch_user_profile(client)
+        logging.info(f"Fetched user profile: {user_profile.first_name} (@{user_profile.username})")
+        
+        # Get session string and save with user profile
         session_string = client.session.save()
         config.session_string = session_string
         config.is_authenticated = True
+        config.user_profile = user_profile
+        config.updated_at = datetime.utcnow()
         await save_telegram_config(config)
         
         await client.disconnect()
