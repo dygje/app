@@ -452,9 +452,7 @@ body {
     @apply border-red-600;
   }
 
-  .bg-primary-50 {
-    @apply bg-primary-50;
-  }
+
 
   .bg-warning-50 {
     @apply bg-yellow-50;
