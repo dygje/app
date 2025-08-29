@@ -173,7 +173,7 @@ body {
   }
 
   .status-online {
-    @apply status-badge bg-success-100 text-success-800;
+    @apply status-badge bg-green-100 text-green-800;
   }
 
   .status-offline {
