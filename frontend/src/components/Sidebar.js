@@ -38,10 +38,8 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, userProfile, onL
   const handleMenuClick = (item) => {
     setCurrentPage(item.id);
     navigate(item.path);
-    // Close sidebar on mobile after menu click
-    if (window.innerWidth < 1024) {
-      onClose();
-    }
+    // Only close sidebar on mobile when user explicitly wants it
+    // Removed automatic close to prevent sidebar closing immediately after click
   };
 
   return (
