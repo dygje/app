@@ -10,10 +10,13 @@ const Sidebar = ({ currentPage, setCurrentPage, telegramConfig, userProfile, onL
 
   // Close sidebar when route changes on mobile
   useEffect(() => {
-    if (window.innerWidth < 1024) {  // Changed from 768 to 1024 to match CSS
+    // Only close on route change, not on initial load
+    // And only if sidebar was actually open
+    if (window.innerWidth < 1024 && isOpen) {  
+      console.log('Route changed, closing sidebar on mobile');
       onClose();
     }
-  }, [location.pathname, onClose]);
+  }, [location.pathname]);
 
   const menuItems = [
     {
