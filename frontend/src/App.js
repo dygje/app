@@ -116,11 +116,14 @@ function App() {
           onClose={() => setSidebarOpen(false)}
         />
         
-        {/* Mobile Backdrop */}
+        {/* Mobile Backdrop - Enhanced */}
         {sidebarOpen && (
           <div 
             className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
-            onClick={() => setSidebarOpen(false)}
+            onClick={() => {
+              console.log('Backdrop clicked, closing sidebar');
+              setSidebarOpen(false);
+            }}
           />
         )}
         
