@@ -185,10 +185,7 @@ function App() {
                   path="/groups" 
                   element={<GroupManager />} 
                 />
-                <Route 
-                  path="/blacklist" 
-                  element={<BlacklistManager />} 
-                />
+
                 <Route 
                   path="/settings" 
                   element={
