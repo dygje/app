@@ -341,7 +341,7 @@ const TelegramSetup = ({ onAuthSuccess }) => {
                 {/* Help Section */}
                 <div className="bg-gray-50 border border-gray-200 rounded-md p-3 mt-4">
                   <div className="flex items-start">
-                    <div className="text-blue-500 mr-2">💡</div>
+                    <div className="text-blue-500 mr-2">🔑</div>
                     <div>
                       <p className="text-xs font-medium text-gray-700 mb-1">
                         Need API Credentials?
