@@ -1,146 +1,146 @@
 {
-  "timestamp": "2025-08-29T10:08:08.082563",
+  "timestamp": "2025-08-29T10:08:37.894002",
   "total_tests": 23,
-  "passed_tests": 22,
-  "success_rate": "95.7%",
+  "passed_tests": 23,
+  "success_rate": "100.0%",
   "results": [
     {
       "test": "API Health Check",
       "status": true,
       "details": "Version: 2.0.0",
-      "timestamp": "2025-08-29T10:08:05.178952"
+      "timestamp": "2025-08-29T10:08:34.817674"
     },
     {
       "test": "Telegram Status Endpoint",
-      "status": false,
-      "details": "Missing fields: ['has_session']",
-      "timestamp": "2025-08-29T10:08:05.227901"
+      "status": true,
+      "details": "Auth: False",
+      "timestamp": "2025-08-29T10:08:34.827774"
     },
     {
       "test": "Telegram Config GET",
       "status": true,
       "details": "Config retrieved successfully",
-      "timestamp": "2025-08-29T10:08:05.239516"
+      "timestamp": "2025-08-29T10:08:34.877033"
     },
     {
       "test": "Telegram Config POST",
       "status": true,
       "details": "Config created/updated successfully",
-      "timestamp": "2025-08-29T10:08:05.293852"
+      "timestamp": "2025-08-29T10:08:34.888240"
     },
     {
       "test": "Groups POST (Create)",
       "status": true,
-      "details": "Group created with ID: 04480638-2fdd-4fa3-80cb-1df0b048ff7c",
-      "timestamp": "2025-08-29T10:08:05.302578"
+      "details": "Group created with ID: 379738d8-d26b-493f-804f-dd94ed4ac938",
+      "timestamp": "2025-08-29T10:08:34.900738"
     },
     {
       "test": "Groups GET (List)",
       "status": true,
       "details": "Retrieved 1 groups",
-      "timestamp": "2025-08-29T10:08:05.351375"
+      "timestamp": "2025-08-29T10:08:34.913918"
     },
     {
       "test": "Groups PUT (Update)",
       "status": true,
       "details": "Group updated successfully",
-      "timestamp": "2025-08-29T10:08:05.365182"
+      "timestamp": "2025-08-29T10:08:34.966251"
     },
     {
       "test": "Groups DELETE",
       "status": true,
       "details": "Group deleted successfully",
-      "timestamp": "2025-08-29T10:08:05.414511"
+      "timestamp": "2025-08-29T10:08:34.974457"
     },
     {
       "test": "Groups Bulk Import",
       "status": true,
       "details": "Created 4 groups from bulk import",
-      "timestamp": "2025-08-29T10:08:05.428869"
+      "timestamp": "2025-08-29T10:08:34.989580"
     },
     {
       "test": "Message Templates POST (Create)",
       "status": true,
-      "details": "Template created with ID: beaf3f37-e5c4-446d-9693-fd61cc4b4150",
-      "timestamp": "2025-08-29T10:08:05.548383"
+      "details": "Template created with ID: d45e9e42-6790-4a95-a2df-f72dd9078827",
+      "timestamp": "2025-08-29T10:08:35.113506"
     },
     {
       "test": "Message Templates GET (List)",
       "status": true,
       "details": "Retrieved 1 templates",
-      "timestamp": "2025-08-29T10:08:05.597478"
+      "timestamp": "2025-08-29T10:08:35.121403"
     },
     {
       "test": "Message Templates GET (Single)",
       "status": true,
       "details": "Template retrieved successfully",
-      "timestamp": "2025-08-29T10:08:05.605906"
+      "timestamp": "2025-08-29T10:08:35.129366"
     },
     {
       "test": "Message Templates PUT (Update)",
       "status": true,
       "details": "Template updated successfully",
-      "timestamp": "2025-08-29T10:08:05.615020"
+      "timestamp": "2025-08-29T10:08:35.180386"
     },
     {
       "test": "Message Templates DELETE",
       "status": true,
       "details": "Template deleted successfully",
-      "timestamp": "2025-08-29T10:08:05.662287"
+      "timestamp": "2025-08-29T10:08:35.188644"
     },
     {
       "test": "Automation Config GET",
       "status": true,
       "details": "Config retrieved, auto_cleanup: True",
-      "timestamp": "2025-08-29T10:08:05.671014"
+      "timestamp": "2025-08-29T10:08:35.196731"
     },
     {
       "test": "Automation Config PUT",
       "status": true,
       "details": "Config updated successfully, auto_cleanup preserved",
-      "timestamp": "2025-08-29T10:08:05.720517"
+      "timestamp": "2025-08-29T10:08:35.248399"
     },
     {
       "test": "Automation Status GET",
       "status": true,
       "details": "Running: False",
-      "timestamp": "2025-08-29T10:08:05.768602"
+      "timestamp": "2025-08-29T10:08:35.255678"
     },
     {
       "test": "Automation Start POST",
       "status": true,
       "details": "Endpoint exists and handles unauthenticated requests",
-      "timestamp": "2025-08-29T10:08:05.777752"
+      "timestamp": "2025-08-29T10:08:35.306299"
     },
     {
       "test": "Automation Stop POST",
       "status": true,
       "details": "Automation stopped successfully",
-      "timestamp": "2025-08-29T10:08:05.826578"
+      "timestamp": "2025-08-29T10:08:35.315459"
     },
     {
       "test": "Telegram Send-Code Endpoint",
       "status": true,
       "details": "Endpoint exists and handles requests",
-      "timestamp": "2025-08-29T10:08:08.016529"
+      "timestamp": "2025-08-29T10:08:37.826108"
     },
     {
       "test": "Telegram Verify-Code Endpoint",
       "status": true,
       "details": "Endpoint exists and handles requests",
-      "timestamp": "2025-08-29T10:08:08.025467"
+      "timestamp": "2025-08-29T10:08:37.835978"
     },
     {
       "test": "Telegram Profile Endpoint",
       "status": true,
       "details": "Endpoint exists and requires authentication",
-      "timestamp": "2025-08-29T10:08:08.032878"
+      "timestamp": "2025-08-29T10:08:37.843748"
     },
     {
       "test": "Telegram Logout Endpoint",
       "status": true,
       "details": "Endpoint works correctly",
-      "timestamp": "2025-08-29T10:08:08.082420"
+      "timestamp": "2025-08-29T10:08:37.893841"
     }
   ]
 }
