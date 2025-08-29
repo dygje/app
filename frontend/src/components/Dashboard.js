@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const Dashboard = ({ telegramConfig, setCurrentPage }) => {
+const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
   const [automationStatus, setAutomationStatus] = useState(null);
   const [automationConfig, setAutomationConfig] = useState(null);
   const [stats, setStats] = useState({
