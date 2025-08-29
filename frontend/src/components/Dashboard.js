@@ -66,7 +66,7 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
 
   const handleNavigate = (page, path) => {
     setCurrentPage(page);
-    navigate(path); // Use React Router navigate instead of pushState
+    navigate(path);
   };
 
   const formatTime = (hours) => {
@@ -77,13 +77,13 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
 
   if (loading) {
     return (
-      <div className="space-y-8 material-fade-in">
-        <div className="material-card-elevated p-6 animate-pulse">
-          <div className="h-8 bg-surface-200 rounded-md w-48 mb-2"></div>
-          <div className="h-4 bg-surface-100 rounded w-64 mb-6"></div>
-          <div className="material-grid material-grid-cols-2">
+      <div className="space-y-8 tg-fade-in">
+        <div className="tg-card-elevated p-6 animate-pulse">
+          <div className="h-8 bg-telegram-elevated rounded-md w-48 mb-2"></div>
+          <div className="h-4 bg-telegram-border rounded w-64 mb-6"></div>
+          <div className="tg-grid tg-grid-cols-2">
             {[1, 2].map((i) => (
-              <div key={i} className="h-32 bg-surface-100 rounded-lg"></div>
+              <div key={i} className="h-32 bg-telegram-elevated rounded-telegram"></div>
             ))}
           </div>
         </div>
@@ -92,26 +92,73 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
   }
 
   return (
-    <div className="space-y-8 material-fade-in">
-      {/* Material Design Header */}
+    <div className="space-y-8 tg-fade-in">
+      {/* Header */}
       <div>
-        <h1 className="text-headline-medium text-surface-900 font-normal mb-2">
+        <h1 className="tg-heading-1 mb-2">
           Dashboard
         </h1>
-        <p className="text-body-large text-surface-600">
+        <p className="tg-body-secondary">
           Monitor and control your Telegram automation system
         </p>
       </div>
 
-      {/* Main Dashboard Content */}
-      <div className="material-grid material-grid-cols-2">
-        {/* Quick Actions - Modern Material Design */}
-        <div className="material-card-elevated p-6">
-          <div className="flex items-center space-x-3 mb-6">
-            <div className="w-10 h-10 bg-primary-100 rounded-xl flex items-center justify-center">
-              <span className="material-icons text-primary-700 text-xl">bolt</span>
+      {/* Stats Overview */}
+      <div className="tg-grid tg-grid-cols-3">
+        <div className="tg-card p-6">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-telegram-blue bg-opacity-20 rounded-telegram flex items-center justify-center">
+              <span className="material-icons text-telegram-blue text-lg">groups</span>
             </div>
-            <h2 className="text-title-large font-medium text-surface-900">
+            <div>
+              <p className="tg-caption text-telegram-textMuted">Total Groups</p>
+              <p className="tg-heading-2 text-telegram-text">{stats.totalGroups}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="tg-card p-6">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-telegram-green bg-opacity-20 rounded-telegram flex items-center justify-center">
+              <span className="material-icons text-telegram-green text-lg">message</span>
+            </div>
+            <div>
+              <p className="tg-caption text-telegram-textMuted">Active Templates</p>
+              <p className="tg-heading-2 text-telegram-text">{stats.messagesActive}/{stats.totalMessages}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="tg-card p-6">
+          <div className="flex items-center space-x-3">
+            <div className={`w-10 h-10 rounded-telegram flex items-center justify-center ${
+              automationConfig?.is_active 
+                ? 'bg-telegram-green bg-opacity-20' 
+                : 'bg-telegram-textMuted bg-opacity-20'
+            }`}>
+              <span className={`material-icons text-lg ${
+                automationConfig?.is_active ? 'text-telegram-green' : 'text-telegram-textMuted'
+              }`}>
+                smart_toy
+              </span>
+            </div>
+            <div>
+              <p className="tg-caption text-telegram-textMuted">System Status</p>
+              <p className="tg-heading-3">{automationConfig?.is_active ? 'Running' : 'Stopped'}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Dashboard Content */}
+      <div className="tg-grid tg-grid-cols-2">
+        {/* Quick Actions */}
+        <div className="tg-card-elevated p-6">
+          <div className="flex items-center space-x-3 mb-6">
+            <div className="w-10 h-10 bg-telegram-blue bg-opacity-20 rounded-telegram flex items-center justify-center">
+              <span className="material-icons text-telegram-blue text-xl">bolt</span>
+            </div>
+            <h2 className="tg-heading-2">
               Quick Actions
             </h2>
           </div>
@@ -146,61 +193,61 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
               <button
                 key={action.id}
                 onClick={() => handleNavigate(action.id, action.path)}
-                className="w-full text-left p-4 rounded-xl border border-surface-200 hover:border-primary-300 hover:bg-primary-50 transition-all duration-200 group"
+                className="tg-card-interactive w-full text-left p-4 group"
               >
                 <div className="flex items-center space-x-4">
-                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center transition-colors ${
-                    action.color === 'blue' ? 'bg-blue-100 group-hover:bg-blue-200' :
-                    action.color === 'green' ? 'bg-green-100 group-hover:bg-green-200' : 
-                    'bg-surface-100 group-hover:bg-surface-200'
+                  <div className={`w-10 h-10 rounded-telegram flex items-center justify-center transition-colors ${
+                    action.color === 'blue' ? 'bg-telegram-blue bg-opacity-20 group-hover:bg-opacity-30' :
+                    action.color === 'green' ? 'bg-telegram-green bg-opacity-20 group-hover:bg-opacity-30' : 
+                    'bg-telegram-textMuted bg-opacity-20 group-hover:bg-opacity-30'
                   }`}>
                     <span className={`material-icons text-lg ${
-                      action.color === 'blue' ? 'text-blue-600' :
-                      action.color === 'green' ? 'text-green-600' : 'text-surface-600'
+                      action.color === 'blue' ? 'text-telegram-blue' :
+                      action.color === 'green' ? 'text-telegram-green' : 'text-telegram-textMuted'
                     }`}>{action.icon}</span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-title-small font-medium text-surface-900">{action.label}</p>
-                    <p className="text-body-small text-surface-600">{action.description}</p>
+                    <p className="tg-body font-medium">{action.label}</p>
+                    <p className="tg-caption">{action.description}</p>
                   </div>
-                  <span className="material-icons text-surface-400 group-hover:text-primary-600 text-lg">chevron_right</span>
+                  <span className="material-icons text-telegram-textMuted group-hover:text-telegram-blue text-lg">chevron_right</span>
                 </div>
               </button>
             ))}
           </div>
         </div>
 
-        {/* Automation Control - Material Design */}
-        <div className="material-card-elevated p-6">
+        {/* Automation Control */}
+        <div className="tg-card-elevated p-6">
           <div className="flex items-center space-x-3 mb-6">
-            <div className="w-10 h-10 bg-primary-100 rounded-xl flex items-center justify-center">
-              <span className="material-icons text-primary-700 text-xl">smart_toy</span>
+            <div className="w-10 h-10 bg-telegram-blue bg-opacity-20 rounded-telegram flex items-center justify-center">
+              <span className="material-icons text-telegram-blue text-xl">smart_toy</span>
             </div>
-            <h2 className="text-title-large font-medium text-surface-900">
+            <h2 className="tg-heading-2">
               Automation Control
             </h2>
           </div>
           
           <div className="space-y-6">
             {/* Current Status */}
-            <div className="material-card-outlined border-surface-200 bg-surface-50 p-4 rounded-xl">
+            <div className="tg-card p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                  <div className={`material-status-${automationConfig?.is_active ? 'online' : 'offline'}`}></div>
-                  <span className="text-body-medium font-medium text-surface-700">
+                  <div className={automationConfig?.is_active ? 'tg-status-online' : 'tg-status-offline'}></div>
+                  <span className="tg-body font-medium">
                     Status: {automationConfig?.is_active ? 'Running' : 'Stopped'}
                   </span>
                 </div>
                 <button
                   onClick={handleToggleAutomation}
                   disabled={actionLoading}
-                  className={`material-button-filled ${
+                  className={`${
                     automationConfig?.is_active 
-                      ? 'bg-error-600 hover:bg-error-700' 
-                      : 'bg-success-600 hover:bg-success-700'
-                  } ${actionLoading ? 'material-loading' : ''}`}
+                      ? 'fluent-btn-danger' 
+                      : 'fluent-btn-success'
+                  } ${actionLoading ? 'opacity-50' : ''}`}
                 >
-                  {actionLoading && <div className="material-spinner mr-2" />}
+                  {actionLoading && <div className="tg-spinner mr-2" />}
                   <span className="material-icons text-sm mr-2">
                     {automationConfig?.is_active ? 'stop' : 'play_arrow'}
                   </span>
@@ -212,25 +259,25 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
             {/* Configuration Summary */}
             {automationConfig && (
               <div className="space-y-4">
-                <h3 className="text-title-small font-medium text-surface-700">Current Configuration</h3>
+                <h3 className="tg-heading-3">Current Configuration</h3>
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between py-3 px-4 bg-surface-50 rounded-lg border border-surface-200">
-                    <span className="text-body-medium text-surface-600">Message Delay</span>
-                    <span className="text-body-medium font-medium text-surface-900">
+                  <div className="flex items-center justify-between py-3 px-4 tg-card">
+                    <span className="tg-body-secondary">Message Delay</span>
+                    <span className="tg-body font-medium">
                       {automationConfig.message_delay_min}-{automationConfig.message_delay_max}s
                     </span>
                   </div>
                   
-                  <div className="flex items-center justify-between py-3 px-4 bg-surface-50 rounded-lg border border-surface-200">
-                    <span className="text-body-medium text-surface-600">Cycle Delay</span>
-                    <span className="text-body-medium font-medium text-surface-900">
+                  <div className="flex items-center justify-between py-3 px-4 tg-card">
+                    <span className="tg-body-secondary">Cycle Delay</span>
+                    <span className="tg-body font-medium">
                       {formatTime(automationConfig.cycle_delay_min)} - {formatTime(automationConfig.cycle_delay_max)}
                     </span>
                   </div>
                   
-                  <div className="flex items-center justify-between py-3 px-4 bg-success-50 rounded-lg border border-success-200">
-                    <span className="text-body-medium text-success-600">Auto Cleanup</span>
-                    <span className="text-body-medium font-medium text-success-700">
+                  <div className="flex items-center justify-between py-3 px-4 tg-card border-telegram-green border-opacity-30 bg-telegram-green bg-opacity-10">
+                    <span className="tg-body-secondary text-telegram-green">Auto Cleanup</span>
+                    <span className="tg-body font-medium text-telegram-green">
                       Always Enabled
                     </span>
                   </div>
@@ -243,20 +290,20 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
 
       {/* Authentication Guide for Unauthenticated Users */}
       {(!telegramConfig?.is_authenticated) && (
-        <div className="material-card-elevated border-warning-200 bg-warning-50 p-6">
+        <div className="tg-card-elevated border-telegram-orange border-opacity-30 bg-telegram-orange bg-opacity-10 p-6">
           <div className="flex items-start space-x-4">
-            <div className="w-10 h-10 bg-warning-500 rounded-xl flex items-center justify-center flex-shrink-0">
+            <div className="w-10 h-10 bg-telegram-orange rounded-telegram flex items-center justify-center flex-shrink-0">
               <span className="material-icons text-white text-lg">warning</span>
             </div>
             <div className="flex-1">
-              <h3 className="text-title-medium font-medium text-warning-800 mb-3">
+              <h3 className="tg-heading-3 text-telegram-orange mb-3">
                 Complete Telegram Authentication
               </h3>
-              <div className="text-body-medium text-warning-700 mb-4">
+              <div className="tg-body-secondary text-telegram-orange mb-4">
                 <p className="mb-3">
                   To start using the automation system, complete your Telegram authentication:
                 </p>
-                <ol className="list-decimal ml-4 space-y-1 text-body-small">
+                <ol className="list-decimal ml-4 space-y-1 tg-caption">
                   <li>Navigate to Settings from the sidebar</li>
                   <li>Enter your Telegram API credentials</li>
                   <li>Verify your phone number with SMS code</li>
@@ -265,7 +312,7 @@ const Dashboard = ({ telegramConfig, userProfile, setCurrentPage }) => {
               </div>
               <button
                 onClick={() => handleNavigate('settings', '/settings')}
-                className="material-button-filled bg-warning-600 hover:bg-warning-700 text-white"
+                className="fluent-btn-primary bg-telegram-orange hover:bg-orange-600"
               >
                 <span className="material-icons mr-2 text-sm">settings</span>
                 Open Settings
