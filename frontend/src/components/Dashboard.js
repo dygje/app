@@ -263,37 +263,43 @@ const Dashboard = ({ telegramConfig, setCurrentPage }) => {
         </div>
 
         {/* Quick Actions */}
-        <div className="admin-card">
-          <div className="admin-card-header">
+        <div className="card">
+          <div className="card-header">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-gray-600 rounded-lg flex items-center justify-center">
-                <span className="material-icons text-white text-lg">bolt</span>
+              <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
+                <span className="material-icons text-gray-600 text-lg">bolt</span>
               </div>
-              <h3 className="text-lg font-semibold text-gray-100">
+              <h3 className="text-lg font-semibold text-gray-900">
                 Quick Actions
               </h3>
             </div>
           </div>
           
-          <div className="admin-card-content">
+          <div className="card-body">
             <div className="grid grid-cols-1 gap-3">
               {[
-                { id: 'messages', icon: 'message', label: 'Manage Messages', color: 'blue' },
-                { id: 'groups', icon: 'groups', label: 'Manage Groups', color: 'green' },
+                { id: 'messages', icon: 'message', label: 'Manage Messages', color: 'primary' },
+                { id: 'groups', icon: 'groups', label: 'Manage Groups', color: 'success' },
                 { id: 'settings', icon: 'settings', label: 'System Settings', color: 'gray' }
               ].map((action) => (
                 <button
                   key={action.id}
                   onClick={() => setCurrentPage(action.id)}
-                  className="btn-ghost text-left p-4 rounded-lg border border-gray-600 hover:border-gray-500 hover:bg-gray-700 transition-all"
+                  className="btn-outline text-left p-4 rounded-lg hover:bg-gray-50 transition-all"
                 >
                   <div className="flex items-center space-x-4">
-                    <div className={`w-10 h-10 bg-${action.color}-600 rounded-lg flex items-center justify-center`}>
-                      <span className="material-icons text-white">{action.icon}</span>
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                      action.color === 'primary' ? 'bg-primary-100' :
+                      action.color === 'success' ? 'bg-success-100' : 'bg-gray-100'
+                    }`}>
+                      <span className={`material-icons ${
+                        action.color === 'primary' ? 'text-primary-600' :
+                        action.color === 'success' ? 'text-success-600' : 'text-gray-600'
+                      }`}>{action.icon}</span>
                     </div>
                     <div>
-                      <p className="font-medium text-gray-200">{action.label}</p>
-                      <p className="text-sm text-gray-400">
+                      <p className="font-medium text-gray-900">{action.label}</p>
+                      <p className="text-sm text-gray-500">
                         {action.id === 'messages' && 'Create and manage templates'}
                         {action.id === 'groups' && 'Add target groups'}
                         {action.id === 'settings' && 'Configure automation'}
@@ -308,29 +314,29 @@ const Dashboard = ({ telegramConfig, setCurrentPage }) => {
       </div>
 
       {/* Connection Status */}
-      <div className="admin-card">
-        <div className="admin-card-header">
+      <div className="card">
+        <div className="card-header">
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
-              <span className="material-icons text-white text-lg">wifi</span>
+            <div className="w-8 h-8 bg-success-100 rounded-lg flex items-center justify-center">
+              <span className="material-icons text-success-600 text-lg">wifi</span>
             </div>
-            <h3 className="text-lg font-semibold text-gray-100">
+            <h3 className="text-lg font-semibold text-gray-900">
               Connection Status
             </h3>
           </div>
         </div>
         
-        <div className="admin-card-content">
+        <div className="card-body">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
-                <span className="material-icons text-white">telegram</span>
+              <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
+                <span className="material-icons text-primary-600">telegram</span>
               </div>
               <div>
-                <h4 className="text-sm font-semibold text-gray-200">Telegram API</h4>
+                <h4 className="text-sm font-semibold text-gray-700">Telegram API</h4>
                 <div className="flex items-center space-x-2 mt-1">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span className="text-sm text-green-400">
+                  <div className="w-2 h-2 bg-success-500 rounded-full"></div>
+                  <span className="text-sm text-success-600">
                     Connected as {telegramConfig?.phone_number}
                   </span>
                 </div>
@@ -338,14 +344,14 @@ const Dashboard = ({ telegramConfig, setCurrentPage }) => {
             </div>
             
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center">
-                <span className="material-icons text-white">storage</span>
+              <div className="w-12 h-12 bg-success-100 rounded-lg flex items-center justify-center">
+                <span className="material-icons text-success-600">storage</span>
               </div>
               <div>
-                <h4 className="text-sm font-semibold text-gray-200">Database</h4>
+                <h4 className="text-sm font-semibold text-gray-700">Database</h4>
                 <div className="flex items-center space-x-2 mt-1">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span className="text-sm text-green-400">
+                  <div className="w-2 h-2 bg-success-500 rounded-full"></div>
+                  <span className="text-sm text-success-600">
                     MongoDB Active
                   </span>
                 </div>
@@ -355,17 +361,17 @@ const Dashboard = ({ telegramConfig, setCurrentPage }) => {
 
           {/* Authentication Guide for Unauthenticated Users */}
           {(!telegramConfig?.is_authenticated) && (
-            <div className="mt-6 admin-card border-yellow-600 bg-yellow-900">
+            <div className="mt-6 card border border-warning-200 bg-warning-50">
               <div className="p-4">
                 <div className="flex items-start space-x-4">
-                  <div className="w-8 h-8 bg-yellow-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <div className="w-8 h-8 bg-warning-500 rounded-lg flex items-center justify-center flex-shrink-0">
                     <span className="material-icons text-white text-lg">warning</span>
                   </div>
                   <div className="flex-1">
-                    <h4 className="text-sm font-semibold text-yellow-200 mb-2">
+                    <h4 className="text-sm font-semibold text-warning-800 mb-2">
                       Complete Telegram Authentication
                     </h4>
-                    <div className="text-sm text-yellow-300 mb-4">
+                    <div className="text-sm text-warning-700 mb-4">
                       <p className="mb-3">
                         To start using the automation system, complete your Telegram authentication:
                       </p>
