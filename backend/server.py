@@ -636,8 +636,33 @@ async def get_telegram_status():
     return {
         "authenticated": config.is_authenticated,
         "phone_number": config.phone_number,
-        "has_session": bool(config.session_string)
+        "has_session": bool(config.session_string),
+        "user_profile": config.user_profile.dict() if config.user_profile else None
     }
+
+@api_router.get("/telegram/profile")
+async def get_user_profile():
+    """Get user profile information"""
+    config = await get_telegram_config()
+    if not config or not config.is_authenticated:
+        raise HTTPException(status_code=401, detail="User not authenticated")
+    
+    if not config.user_profile:
+        # Try to fetch profile from current session if available
+        try:
+            client_key = f"{config.api_id}_{config.phone_number}"
+            if client_key in telegram_clients:
+                client = telegram_clients[client_key]
+                user_profile = await fetch_user_profile(client)
+                config.user_profile = user_profile
+                await save_telegram_config(config)
+                return user_profile.dict()
+        except Exception as e:
+            logging.error(f"Failed to fetch user profile: {e}")
+        
+        return {"message": "User profile not available"}
+    
+    return config.user_profile.dict()
 
 @api_router.post("/telegram/logout")
 async def logout_telegram():
