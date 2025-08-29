@@ -6,105 +6,73 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Telegram-inspired color palette
-        primary: {
-          50: '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          300: '#93c5fd',
-          400: '#60a5fa',
-          500: '#3b82f6', // Main Telegram blue
-          600: '#2563eb',
-          700: '#1d4ed8',
-          800: '#1e40af',
-          900: '#1e3a8a',
+        // Telegram Dark Theme Color Palette
+        telegram: {
+          bg: '#0E1621',          // Main background
+          surface: '#17212B',     // Card/surface background  
+          elevated: '#1E2832',    // Elevated surface
+          border: '#2C3E50',      // Border color
+          blue: '#2AABEE',        // Telegram blue primary
+          blueHover: '#229ED9',   // Telegram blue hover
+          blueDark: '#1A87C7',    // Telegram blue dark
+          text: '#FFFFFF',        // Primary text
+          textSecondary: '#8B98A5', // Secondary text
+          textMuted: '#6C7883',   // Muted text
+          green: '#4DCD5E',       // Success/online
+          red: '#E74C3C',         // Error/danger
+          orange: '#F39C12',      // Warning
+          gray: '#34495E',        // Neutral gray
         },
-        gray: {
-          50: '#f9fafb',
-          100: '#f3f4f6',
-          200: '#e5e7eb',
-          300: '#d1d5db',
-          400: '#9ca3af',
-          500: '#6b7280',
-          600: '#4b5563',
-          700: '#374151',
-          800: '#1f2937',
-          900: '#111827',
-        },
-        success: {
-          50: '#f0fdf4',
-          100: '#dcfce7',
-          200: '#bbf7d0',
-          500: '#22c55e',
-          600: '#16a34a',
-          700: '#15803d',
-          800: '#166534',
-        },
-        warning: {
-          50: '#fffbeb',
-          100: '#fef3c7',
-          200: '#fde68a',
-          300: '#fcd34d',
-          500: '#f59e0b',
-          600: '#d97706',
-          700: '#b45309',
-          800: '#92400e',
-        },
-        danger: {
-          50: '#fef2f2',
-          100: '#fee2e2',
-          200: '#fecaca',
-          500: '#ef4444',
-          600: '#dc2626',
-        },
-        // Add standard color mappings
-        red: {
-          50: '#fef2f2',
-          100: '#fee2e2',
-          200: '#fecaca',
-          500: '#ef4444',
-          600: '#dc2626',
-        },
-        green: {
-          50: '#f0fdf4',
-          100: '#dcfce7',
-          200: '#bbf7d0',
-          500: '#22c55e',
-          600: '#16a34a',
-          700: '#15803d',
-          800: '#166534',
-        },
-        yellow: {
-          50: '#fffbeb',
-          100: '#fef3c7',
-          200: '#fde68a',
-          300: '#fcd34d',
-          500: '#f59e0b',
-          600: '#d97706',
-          700: '#b45309',
-          800: '#92400e',
-        },
-        blue: {
-          50: '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          500: '#3b82f6',
-          600: '#2563eb',
-          700: '#1d4ed8',
-          800: '#1e40af',
+        // Fluent UI inspired colors
+        fluent: {
+          accent: '#005A9E',
+          accentHover: '#004578',
+          neutral: {
+            10: '#F8F9FA',
+            20: '#F1F3F4',
+            30: '#EDEFF1',
+            40: '#E1E5E9',
+            50: '#D2D8DD',
+            60: '#C1C9D0',
+            70: '#A8B2BD',
+            80: '#8A9BA8',
+            90: '#69788A',
+            100: '#4C5F70',
+            110: '#3C4A5C',
+            120: '#2C3E50',
+            130: '#1E2832',
+            140: '#17212B',
+            150: '#0E1621',
+          }
         }
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: [
+          'SF Pro Display',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          'Segoe UI',
+          'Roboto',
+          'Inter',
+          'system-ui',
+          'sans-serif'
+        ],
       },
       borderRadius: {
-        'xl': '1rem',
-        '2xl': '1.5rem',
+        'telegram': '12px',
+        'fluent': '8px',
+        'fluent-lg': '12px',
       },
       boxShadow: {
-        'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)',
-        'medium': '0 4px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-        'large': '0 10px 40px -10px rgba(0, 0, 0, 0.15)',
+        'telegram': '0 1px 3px 0 rgba(0, 0, 0, 0.3)',
+        'telegram-hover': '0 2px 8px 0 rgba(0, 0, 0, 0.4)',
+        'fluent': '0 2px 4px rgba(0,0,0,0.14), 0 1px 2px rgba(0,0,0,0.12)',
+        'fluent-hover': '0 4px 8px rgba(0,0,0,0.16), 0 2px 4px rgba(0,0,0,0.14)',
+      },
+      animation: {
+        'fade-in': 'fadeIn 0.2s ease-out',
+        'slide-in': 'slideIn 0.3s ease-out',
+        'scale-in': 'scaleIn 0.2s ease-out',
       }
     },
   },

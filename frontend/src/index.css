@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 @tailwind base;
@@ -7,426 +7,229 @@
 
 @layer base {
   body {
-    @apply font-sans bg-gray-50 text-gray-900 antialiased;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    @apply bg-telegram-bg text-telegram-text antialiased;
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Inter', system-ui, sans-serif;
   }
 
   * {
     box-sizing: border-box;
   }
+
+  /* Custom scrollbar for dark theme */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-telegram-surface;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-telegram-border rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-fluent-neutral-90;
+  }
 }
 
 @layer components {
-  /* App Layout */
-  .app-container {
-    @apply min-h-screen bg-gray-50;
+  /* ========================================
+     TELEGRAM DARK THEME COMPONENTS
+     ======================================== */
+
+  /* Layout Components */
+  .tg-sidebar {
+    @apply fixed left-0 top-0 h-full w-80 bg-telegram-surface border-r border-telegram-border z-40 transform transition-transform duration-300 ease-out overflow-y-auto;
+    transform: translateX(-100%);
   }
 
-  /* Sidebar */
-  .sidebar {
-    @apply fixed left-0 top-0 h-full w-64 bg-white border-r border-gray-200 z-40 transform transition-transform duration-300 ease-in-out overflow-y-auto;
-    transform: translateX(-100%); /* Default: hidden on mobile */
+  .tg-sidebar.open {
+    transform: translateX(0);
+    @apply shadow-telegram-hover;
   }
 
-  /* When sidebar is open on mobile */
-  .sidebar.open {
-    transform: translateX(0); /* Show sidebar */
-    @apply shadow-2xl;
-  }
-
-  /* Desktop: Always visible */
   @media (min-width: 1024px) {
-    .sidebar {
-      transform: translateX(0) !important; /* Always visible on desktop */
-      @apply shadow-sm;
+    .tg-sidebar {
+      transform: translateX(0) !important;
+      @apply shadow-telegram;
       position: fixed;
     }
     
-    .main-content {
-      @apply ml-64;
+    .tg-main-content {
+      @apply ml-80;
     }
   }
 
-  /* Mobile & Tablet: Control via open/closed classes */
   @media (max-width: 1023px) {
-    .main-content {
+    .tg-main-content {
       @apply ml-0;
     }
     
-    .sidebar.closed {
+    .tg-sidebar.closed {
       transform: translateX(-100%);
-      @apply shadow-none;
     }
     
-    .sidebar.open {
+    .tg-sidebar.open {
       transform: translateX(0);
-      @apply shadow-2xl;
+      @apply shadow-fluent-hover;
     }
   }
 
-  .main-content {
-    @apply transition-all duration-300 ease-in-out min-h-screen;
+  .tg-main-content {
+    @apply transition-all duration-300 ease-out min-h-screen bg-telegram-bg;
   }
 
-  /* Header */
-  .header {
-    @apply bg-white border-b border-gray-200 px-4 sm:px-6 py-4 sticky top-0 z-30;
+  /* Card Components */
+  .tg-card {
+    @apply bg-telegram-surface rounded-telegram border border-telegram-border;
   }
 
-  /* Cards */
-  .card {
-    @apply bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-200;
+  .tg-card-elevated {
+    @apply bg-telegram-elevated rounded-telegram shadow-telegram;
   }
 
-  .card-header {
-    @apply px-4 sm:px-6 py-4 border-b border-gray-100;
+  .tg-card-interactive {
+    @apply tg-card hover:bg-telegram-elevated hover:shadow-telegram-hover transition-all duration-200 cursor-pointer;
   }
 
-  .card-body {
-    @apply p-4 sm:p-6;
+  /* Button Components - Fluent UI Inspired */
+  .fluent-btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-telegram-blue text-white font-medium text-sm rounded-fluent hover:bg-telegram-blueHover focus:outline-none focus:ring-2 focus:ring-telegram-blue focus:ring-opacity-50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
-  .card-footer {
-    @apply px-4 sm:px-6 py-4 border-t border-gray-100 bg-gray-50 rounded-b-xl;
+  .fluent-btn-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-telegram-elevated text-telegram-text font-medium text-sm rounded-fluent border border-telegram-border hover:bg-telegram-surface hover:border-telegram-blue focus:outline-none focus:ring-2 focus:ring-telegram-blue focus:ring-opacity-50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
-  /* Buttons */
-  .btn {
-    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  .fluent-btn-ghost {
+    @apply inline-flex items-center justify-center px-4 py-2 text-telegram-textSecondary font-medium text-sm rounded-fluent hover:bg-telegram-elevated hover:text-telegram-text focus:outline-none focus:ring-2 focus:ring-telegram-blue focus:ring-opacity-30 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
-  .btn-primary {
-    @apply btn bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 shadow-sm hover:shadow-md;
+  .fluent-btn-danger {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-telegram-red text-white font-medium text-sm rounded-fluent hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-telegram-red focus:ring-opacity-50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
-  .btn-secondary {
-    @apply btn bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500 shadow-sm hover:shadow-md;
+  .fluent-btn-success {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-telegram-green text-white font-medium text-sm rounded-fluent hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-telegram-green focus:ring-opacity-50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
-  .btn-outline {
-    @apply btn bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 focus:ring-blue-500 shadow-sm;
+  /* Input Components */
+  .fluent-input {
+    @apply w-full px-4 py-3 text-base text-telegram-text bg-telegram-elevated border border-telegram-border rounded-fluent focus:outline-none focus:ring-2 focus:ring-telegram-blue focus:border-telegram-blue transition-all duration-200 placeholder-telegram-textMuted;
   }
 
-  .btn-ghost {
-    @apply btn text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:ring-gray-500;
+  .fluent-textarea {
+    @apply fluent-input resize-vertical min-h-24;
   }
 
-  .btn-danger {
-    @apply btn bg-red-500 text-white hover:bg-red-600 focus:ring-red-500 shadow-sm hover:shadow-md;
+  /* Navigation Components */
+  .tg-nav-item {
+    @apply flex items-center space-x-4 px-6 py-4 text-telegram-textSecondary hover:text-telegram-text hover:bg-telegram-elevated transition-all duration-200 cursor-pointer;
   }
 
-  .btn-success {
-    @apply btn bg-green-500 text-white hover:bg-green-600 focus:ring-green-500 shadow-sm hover:shadow-md;
+  .tg-nav-item-active {
+    @apply tg-nav-item bg-telegram-blue bg-opacity-10 text-telegram-blue hover:text-telegram-blue;
   }
 
-  /* Quick Action Buttons - Compact Design with group support */
-  .btn-action {
-    @apply w-full text-left p-3 rounded-lg border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all duration-200;
+  /* Status Components */
+  .tg-status-online {
+    @apply w-2.5 h-2.5 bg-telegram-green rounded-full;
   }
 
-  .btn-action-content {
-    @apply flex items-center space-x-3;
+  .tg-status-offline {
+    @apply w-2.5 h-2.5 bg-telegram-textMuted rounded-full;
   }
 
-  .btn-action-icon {
-    @apply w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors;
+  .tg-status-pending {
+    @apply w-2.5 h-2.5 bg-telegram-orange rounded-full animate-pulse;
   }
 
-  .btn-action-text {
-    @apply flex-1 min-w-0;
+  /* Typography */
+  .tg-heading-1 {
+    @apply text-2xl font-semibold text-telegram-text;
   }
 
-  .btn-action-label {
-    @apply font-medium text-gray-900 text-sm;
+  .tg-heading-2 {
+    @apply text-xl font-semibold text-telegram-text;
   }
 
-  .btn-action-description {
-    @apply text-xs text-gray-500 mt-0.5;
+  .tg-heading-3 {
+    @apply text-lg font-medium text-telegram-text;
   }
 
-  /* Forms */
-  .form-group {
-    @apply space-y-2;
+  .tg-body {
+    @apply text-base text-telegram-text;
   }
 
-  .form-label {
-    @apply block text-sm font-medium text-gray-700;
+  .tg-body-secondary {
+    @apply text-base text-telegram-textSecondary;
   }
 
-  .form-input {
-    @apply block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors;
+  .tg-caption {
+    @apply text-sm text-telegram-textMuted;
   }
 
-  .form-textarea {
-    @apply form-input resize-vertical min-h-24;
+  /* Badge Components */
+  .tg-badge-success {
+    @apply inline-flex items-center px-3 py-1 rounded-fluent text-xs font-medium bg-telegram-green bg-opacity-20 text-telegram-green;
   }
 
-  .form-error {
-    @apply text-sm text-red-600;
+  .tg-badge-warning {
+    @apply inline-flex items-center px-3 py-1 rounded-fluent text-xs font-medium bg-telegram-orange bg-opacity-20 text-telegram-orange;
   }
 
-  /* Navigation */
-  .nav-item {
-    @apply flex items-center px-3 py-2 mx-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors cursor-pointer text-sm;
+  .tg-badge-danger {
+    @apply inline-flex items-center px-3 py-1 rounded-fluent text-xs font-medium bg-telegram-red bg-opacity-20 text-telegram-red;
   }
 
-  .nav-item-active {
-    @apply nav-item bg-blue-50 text-blue-700 hover:bg-blue-100 hover:text-blue-800;
+  .tg-badge-info {
+    @apply inline-flex items-center px-3 py-1 rounded-fluent text-xs font-medium bg-telegram-blue bg-opacity-20 text-telegram-blue;
   }
 
-  .nav-icon {
-    @apply w-5 h-5 mr-3 text-gray-500;
+  /* Grid System */
+  .tg-grid {
+    @apply grid gap-6;
   }
 
-  .nav-icon-active {
-    @apply nav-icon text-blue-600;
+  .tg-grid-cols-1 { @apply grid-cols-1; }
+  .tg-grid-cols-2 { @apply grid-cols-1 lg:grid-cols-2; }
+  .tg-grid-cols-3 { @apply grid-cols-1 md:grid-cols-2 xl:grid-cols-3; }
+  .tg-grid-cols-4 { @apply grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4; }
+
+  /* Modal Components */
+  .tg-modal-backdrop {
+    @apply fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4;
   }
 
-  /* Status */
-  .status-badge {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  .tg-modal {
+    @apply bg-telegram-surface rounded-fluent-lg shadow-fluent-hover max-w-md w-full border border-telegram-border overflow-hidden;
   }
 
-  .status-online {
-    @apply status-badge bg-green-100 text-green-800;
+  /* Loading Components */
+  .tg-spinner {
+    @apply w-5 h-5 border-2 border-telegram-textMuted border-t-telegram-blue rounded-full animate-spin;
   }
 
-  .status-offline {
-    @apply status-badge bg-gray-100 text-gray-800;
+  /* Animation Classes */
+  .tg-fade-in {
+    animation: fadeIn 0.2s ease-out;
   }
 
-  .status-pending {
-    @apply status-badge bg-yellow-100 text-yellow-800;
+  .tg-scale-in {
+    animation: scaleIn 0.2s ease-out;
   }
 
-  /* Utilities */
-  .loading-spinner {
-    @apply w-4 h-4 border-2 border-gray-300 border-t-blue-600 rounded-full animate-spin;
-  }
-
-  .icon-sm {
-    @apply w-4 h-4;
-  }
-
-  .icon {
-    @apply w-5 h-5;
-  }
-
-  .icon-lg {
-    @apply w-6 h-6;
-  }
-
-  /* ========================================
-     MATERIAL DESIGN SYSTEM
-     ======================================== */
-
-  /* Material Design Typography Scale */
-  .text-headline-large { @apply text-3xl font-normal; }
-  .text-headline-medium { @apply text-2xl font-normal; }
-  .text-title-large { @apply text-xl font-medium; }
-  .text-title-medium { @apply text-lg font-medium; }
-  .text-title-small { @apply text-base font-medium; }
-  .text-body-large { @apply text-base font-normal; }
-  .text-body-medium { @apply text-sm font-normal; }
-  .text-body-small { @apply text-xs font-normal; }
-  .text-label-large { @apply text-sm font-medium; }
-  .text-label-medium { @apply text-xs font-medium; }
-  .text-label-small { @apply text-xs font-medium; }
-
-  /* Material Design Cards */
-  .material-card-filled {
-    @apply bg-white rounded-xl border border-gray-100 shadow-sm;
-  }
-  
-  .material-card-elevated {
-    @apply bg-white rounded-xl shadow-md border border-gray-50;
-  }
-  
-  .material-card-outlined {
-    @apply bg-white rounded-xl border border-gray-200;
-  }
-
-  /* Material Design Buttons */
-  .material-button-filled {
-    @apply inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-medium text-sm rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
-  }
-  
-  .material-button-outlined {
-    @apply inline-flex items-center justify-center px-6 py-3 bg-white text-blue-600 font-medium text-sm rounded-lg border border-blue-600 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
-  }
-  
-  .material-button-text {
-    @apply inline-flex items-center justify-center px-4 py-2 bg-transparent text-blue-600 font-medium text-sm rounded-lg hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
-  }
-
-  /* Material Design Text Fields */
-  .material-textfield {
-    @apply relative;
-  }
-  
-  .material-textfield-input {
-    @apply w-full px-4 py-3 text-base text-gray-900 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 placeholder-transparent;
-  }
-  
-  .material-textfield-label {
-    @apply absolute left-4 top-3 text-gray-500 text-base transition-all duration-200 pointer-events-none;
-  }
-  
-  .material-textfield-input:focus ~ .material-textfield-label,
-  .material-textfield-input:not(:placeholder-shown) ~ .material-textfield-label {
-    @apply -translate-y-6 scale-75 text-blue-600 bg-white px-2 left-3;
-  }
-
-  /* Material Design Grids */
-  .material-grid {
-    @apply grid gap-4;
-  }
-  
-  .material-grid-cols-1 { @apply grid-cols-1; }
-  .material-grid-cols-2 { @apply grid-cols-1 md:grid-cols-2; }
-  .material-grid-cols-3 { @apply grid-cols-1 md:grid-cols-2 lg:grid-cols-3; }
-  .material-grid-cols-4 { @apply grid-cols-1 md:grid-cols-2 lg:grid-cols-4; }
-
-  /* Material Design Badges */
-  .material-badge-success {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800;
-  }
-  
-  .material-badge-warning {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800;
-  }
-  
-  .material-badge-error {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800;
-  }
-  
-  .material-badge-info {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800;
-  }
-
-  /* Material Design List Items */
-  .material-list-item {
-    @apply flex items-center justify-between p-4 hover:bg-gray-50 transition-colors duration-200;
-  }
-
-  /* Material Design Dialogs */
-  .material-dialog-backdrop {
-    @apply fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center;
-  }
-  
-  .material-dialog {
-    @apply bg-white rounded-xl shadow-xl max-w-md w-full mx-4 overflow-hidden;
-  }
-
-  /* Material Design FAB (Floating Action Button) */
-  .material-fab {
-    @apply fixed bottom-6 right-6 w-14 h-14 bg-blue-600 text-white rounded-full shadow-lg hover:shadow-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 flex items-center justify-center z-40;
-  }
-
-  /* Material Design Status Indicators */
-  .material-status-online {
-    @apply w-2 h-2 bg-green-500 rounded-full;
-  }
-  
-  .material-status-offline {
-    @apply w-2 h-2 bg-gray-400 rounded-full;
-  }
-  
-  .material-status-pending {
-    @apply w-2 h-2 bg-yellow-500 rounded-full animate-pulse;
-  }
-
-  /* Material Design Animations */
-  .material-fade-in {
-    animation: materialFadeIn 0.3s ease-out;
-  }
-  
-  .material-scale-in {
-    animation: materialScaleIn 0.2s ease-out;
-  }
-  
-  .material-loading {
-    @apply relative overflow-hidden;
-  }
-  
-  .material-spinner {
-    @apply w-4 h-4 border-2 border-gray-300 border-t-current rounded-full animate-spin;
+  .tg-slide-in {
+    animation: slideIn 0.3s ease-out;
   }
 }
 
-/* Color System */
-@layer utilities {
-  .shadow-soft {
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  }
-  
-  .shadow-medium {
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  }
-
-  /* Primary Colors - Blue (Telegram Blue) */
-  .text-primary-50 { @apply text-blue-50; }
-  .text-primary-100 { @apply text-blue-100; }
-  .text-primary-500 { @apply text-blue-500; }
-  .text-primary-600 { @apply text-blue-600; }
-  .text-primary-700 { @apply text-blue-700; }
-  .text-primary-800 { @apply text-blue-800; }
-  .text-primary-900 { @apply text-blue-900; }
-
-  .bg-primary-50 { @apply bg-blue-50; }
-  .bg-primary-100 { @apply bg-blue-100; }
-  .bg-primary-500 { @apply bg-blue-500; }
-  .bg-primary-600 { @apply bg-blue-600; }
-  .bg-primary-700 { @apply bg-blue-700; }
-
-  /* Success Colors */
-  .text-success-500 { @apply text-green-500; }
-  .text-success-600 { @apply text-green-600; }
-  .text-success-700 { @apply text-green-700; }
-  .text-success-800 { @apply text-green-800; }
-
-  .bg-success-50 { @apply bg-green-50; }
-  .bg-success-100 { @apply bg-green-100; }
-  .bg-success-500 { @apply bg-green-500; }
-  .bg-success-600 { @apply bg-green-600; }
-
-  /* Warning Colors */
-  .text-warning-700 { @apply text-yellow-700; }
-  .text-warning-800 { @apply text-yellow-800; }
-  .bg-warning-50 { @apply bg-yellow-50; }
-  .bg-warning-100 { @apply bg-yellow-100; }
-  .bg-warning-200 { @apply bg-yellow-200; }
-  .bg-warning-500 { @apply bg-yellow-500; }
-  .border-warning-200 { @apply border-yellow-200; }
-
-  /* Error/Danger Colors */
-  .text-danger-500 { @apply text-red-500; }
-  .text-danger-600 { @apply text-red-600; }
-  .text-danger-700 { @apply text-red-700; }
-  .bg-danger-50 { @apply bg-red-50; }
-  .bg-danger-100 { @apply bg-red-100; }
-  .bg-danger-500 { @apply bg-red-500; }
-  .bg-danger-600 { @apply bg-red-600; }
-  .ring-danger-500 { @apply ring-red-500; }
-  .focus\:ring-danger-500:focus { @apply ring-red-500; }
-
-  /* Surface Colors */
-  .bg-surface-50 { @apply bg-gray-50; }
-  .bg-surface-100 { @apply bg-gray-100; }
-  .bg-surface-200 { @apply bg-gray-200; }
-  .text-surface-500 { @apply text-gray-500; }
-  .text-surface-600 { @apply text-gray-600; }
-  .text-surface-700 { @apply text-gray-700; }
-  .text-surface-900 { @apply text-gray-900; }
-  .border-surface-200 { @apply border-gray-200; }
-  .border-surface-300 { @apply border-gray-300; }
-}
-
-/* Animations */
+/* Keyframe Animations */
 @keyframes fadeIn {
   from { 
     opacity: 0; 
-    transform: translateY(10px); 
+    transform: translateY(4px); 
   }
   to { 
     opacity: 1; 
@@ -437,7 +240,7 @@
 @keyframes scaleIn {
   from { 
     opacity: 0; 
-    transform: scale(0.95); 
+    transform: scale(0.96); 
   }
   to { 
     opacity: 1; 
@@ -447,47 +250,11 @@
 
 @keyframes slideIn {
   from { 
-    transform: translateX(-20px); 
+    transform: translateX(-12px); 
     opacity: 0; 
   }
   to { 
     transform: translateX(0); 
     opacity: 1; 
   }
-}
-
-/* Material Design Keyframes */
-@keyframes materialFadeIn {
-  from { 
-    opacity: 0; 
-    transform: translateY(8px); 
-  }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
-  }
-}
-
-@keyframes materialScaleIn {
-  from { 
-    opacity: 0; 
-    transform: scale(0.95); 
-  }
-  to { 
-    opacity: 1; 
-    transform: scale(1); 
-  }
-}
-
-.fade-in {
-  animation: fadeIn 0.3s ease-out;
-}
-
-.slide-in {
-  animation: slideIn 0.3s ease-out;
-}
-
-/* Focus Management */
-.focus-visible:focus {
-  @apply outline-none ring-2 ring-blue-500 ring-offset-2;
 }
