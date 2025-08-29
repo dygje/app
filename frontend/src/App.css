@@ -8,7 +8,7 @@
 }
 
 .notification.error {
-  @apply border-danger-200 bg-danger-50;
+  @apply border-red-200 bg-red-50;
 }
 
 .notification.info {
