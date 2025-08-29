@@ -4,7 +4,7 @@
 }
 
 .notification.success {
-  @apply border-success-200 bg-success-50;
+  @apply border-green-200 bg-green-50;
 }
 
 .notification.error {
